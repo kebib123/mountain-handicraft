@@ -28,8 +28,8 @@ class FrontController extends Controller
 
       $category=Category::orderBy('created_at','desc')->where('parent_id',0)->take(3)->get();
       $brand=Brand::orderBy('created_at','desc')->take(16)->get();
-      $product=Product::where('is_popular','popular')->orderBy('created_at','desc')->get();
-      $featured_category=Category::where('is_special',1)->orderBy('updated_at','desc')->take(1)->first();
+      $product=Product::where('is_popular','popular')->orderBy('created_at','desc')->limit(8)->get();
+      $featured_category=Category::where('is_special',1)->orderBy('updated_at','desc')->limit(5)->get();
        $featured_category2=Category::where('is_special',1)->orderBy('updated_at','desc')->skip(1)->first();
        $banner= BannerModel::all();
 
@@ -45,7 +45,7 @@ class FrontController extends Controller
            ->select(DB::raw('product_id'), DB::raw('count(*) as count'))
            ->groupBy('product_id')
            ->orderBy('count', 'desc')
-           ->take(5)
+           ->take(8)
            ->pluck('product_id');
 //       dd($result);
        $best=Product::wherein('id',$result)->get();

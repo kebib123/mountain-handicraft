@@ -118,7 +118,7 @@ class BannerController extends BackendController
 
         $data->title = $request->title;
         $data->caption = $request->caption;
-//        $data->content = $request->content;
+        $data->content = $request->content;
         $data->link = $request->link;
 
         $data->save();
