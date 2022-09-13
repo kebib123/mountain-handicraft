@@ -9,7 +9,7 @@
                <img
                   class="uk-image uk-text-emphasis"
                   alt=""
-                  src="assets/images/logo-footer.png"
+                  src="{{asset('images/logo-footer.png')}}"
                   width="200"></a>
                <ul class="uk-list">
                   <li>
@@ -28,32 +28,32 @@
                <ul class="uk-grid-small" uk-grid >
                   <li>
                      <div class="uk-box-shadow-small uk-payment-getway">
-                        <img src="assets/images/payments/esewa.svg" alt="">
+                        <img src="{{asset('images/payments/esewa.svg')}}" alt="">
                      </div>
                   </li>
                   <li>
                      <div class="uk-box-shadow-small uk-payment-getway">
-                        <img src="assets/images/payments/khalti.svg" alt="">
+                        <img src="{{asset('images/payments/khalti.svg')}}" alt="">
                      </div>
                   </li>
                   <li>
                      <div class="uk-box-shadow-small uk-payment-getway">
-                        <img src="assets/images/payments/visa.svg" alt="">
+                        <img src="{{asset('images/payments/visa.svg')}}" alt="">
                      </div>
                   </li>
                   <li>
                      <div class="uk-box-shadow-small uk-payment-getway">
-                        <img src="assets/images/payments/master-card.svg" alt="">
+                        <img src="{{asset('images/payments/master-card.svg')}}" alt="">
                      </div>
                   </li>
                   <li>
                      <div class="uk-box-shadow-small uk-payment-getway">
-                        <img src="assets/images/payments/american-express.svg" alt="">
+                        <img src="{{asset('images/payments/american-express.svg')}}" alt="">
                      </div>
                   </li>
                   <li>
                      <div class="uk-box-shadow-small uk-payment-getway">
-                        <img src="assets/images/payments/discover.svg" alt="">
+                        <img src="{{asset('images/payments/discover.svg')}}" alt="">
                      </div>
                   </li>
                </ul>
@@ -62,7 +62,7 @@
          <div class="uk-width-1-2 uk-width-1-3@s uk-width-expand@m">
             <ul class="uk-list">
                <li>
-                  <a href="about.php">About us</a>
+                  <a href="{{route('about')}}">About us</a>
                </li>
                <li>
                   <a href="blog.php">Blog</a>
@@ -71,7 +71,7 @@
                   <a href="contact.php">Contact Us</a>
                </li>
                <li>
-                  <a href="login.php">Login</a>
+                  <a href="{{route('login')}}">Login</a>
                </li>
             </ul>
          </div>
