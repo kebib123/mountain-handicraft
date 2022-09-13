@@ -304,6 +304,7 @@
                                     <!-- -->
                                     @foreach ($cat as $value)
                                     <li>
+
                                        <a href="{{route('product-list', $value->slug)}}">{{$value->name}}
                                        <span
                                           class="uk-margin-remove uk-align-right "
