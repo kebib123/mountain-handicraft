@@ -21,6 +21,7 @@ class CategoryController extends BackendController
         if ($request->isMethod('get')) {
             $category = $this->category->getCategories();
             $table = $this->category->getAll();
+            // dd($table->take(10));
             return view($this->backendcategoryPath . 'add_category', compact('category', 'table'));
         }
         if ($request->isMethod('post')) {
@@ -85,6 +86,11 @@ class CategoryController extends BackendController
 
     public function edit_category(Request $request)
     {
+        if ($request->isMethod('get')) {
+            $value = Category::where('id',$request->id)->first();
+             $category = $this->category->getCategories();
+            return view($this->backendcategoryPath . 'edit',compact('category','value'));
+        }
         if ($request->isMethod('post')) {
             $id = $request->id;
 
@@ -115,6 +121,13 @@ class CategoryController extends BackendController
 
         }
 
+    }
+    
+    public function index(Request $request)
+    {
+        $table = Category::all();
+        return view($this->backendcategoryPath . 'index', compact('table'));
+       
     }
 
 }

@@ -10,28 +10,28 @@
 <!-- ./wrapper -->
 <!-- REQUIRED SCRIPTS -->
 <!-- jQuery -->
-<script src="{{asset('js/jquery.min.js')}}"></script>
+<script src="{{asset('backend/js/jquery.min.js')}}"></script>
 <!-- Bootstrap -->
-<script src="{{asset('js/bootstrap.bundle.min.js')}}"></script>
+<script src="{{asset('backend/js/bootstrap.bundle.min.js')}}"></script>
 <!-- overlayScrollbars -->/
-<script src="{{asset('js/jquery.overlayScrollbars.min.js')}}"></script>
+<script src="{{asset('backend/js/jquery.overlayScrollbars.min.js')}}"></script>
 <!-- AdminLTE App -->
-<script src="{{asset('js/adminlte.js')}}"></script>
+<script src="{{asset('backend/js/adminlte.js')}}"></script>
 
 <!-- OPTIONAL SCRIPTS -->
-<script src="{{asset('js/demo.js')}}"></script>
+<script src="{{asset('backend/js/demo.js')}}"></script>
 
 <!-- PAGE PLUGINS -->
 <!-- jQuery Mapael -->
-<script src="{{asset('js/jquery.mousewheel.js')}}"></script>
-<script src="{{asset('js/raphael.min.js')}}"></script>
-<script src="{{asset('js/jquery.mapael.min.js')}}"></script>
-<script src="{{asset('js/usa_states.min.js')}}"></script>
+<script src="{{asset('backend/js/jquery.mousewheel.js')}}"></script>
+<script src="{{asset('backend/js/raphael.min.js')}}"></script>
+<script src="{{asset('backend/js/jquery.mapael.min.js')}}"></script>
+<script src="{{asset('backend/js/usa_states.min.js')}}"></script>
 <!-- ChartJS -->
-<script src="{{asset('js/Chart.min.js')}}"></script>
+<script src="{{asset('backend/js/Chart.min.js')}}"></script>
 
 <!-- PAGE SCRIPTS -->
-<script src="{{asset('js/dashboard2.js')}}"></script>
+<script src="{{asset('backend/js/dashboard2.js')}}"></script>
 
 <script src="https://cdn.ckeditor.com/ckeditor5/22.0.0/classic/ckeditor.js"></script>
 

@@ -159,17 +159,18 @@
                                 <!-- /.box-header -->
                                 <div class="box-body">
                                     <div class="form-group mb-none">
-                                        <select class="form-control" name="category[]" id="category"
+                                             <select class="form-control" name="category[]" id="category"
                                                 multiple="multiple">
-                                            @foreach($cat as $value)
-                                                <option
-                                                    @if(\Illuminate\Support\Facades\DB::table('product_categories')
-                                       ->where('product_id',$product->id)
-                                       ->where('category_id',$value->id)->get()->isNotEmpty()) selected @endif
-                                                value="{{$value->id}}">
-                                                    {{$value->name}}</option>
-                                                @include('backend.pages.category.category_dropdown',['category'=>$value])
+                                            @foreach($category as $row)
+                                            @foreach($product->categories as $value)
+                                              @if ($row->id == $value->pivot->category_id)
+                                            <option value="{{ $row->id }}" selected> {{ $row->name }}
+                                            </option>
+                                            @continue
+                                            @endif
                                             @endforeach
+                                            <option value="{{ $row->id }}">{{ $row->name }}</option>
+                                           @endforeach
                                         </select>
 
                                     </div>
@@ -699,6 +700,7 @@
                         });
                         if (data.status == 'success') {
                             toastr.success(data.message);
+                            location.reload();
                         }
                         $("#loading-image").hide();
                         // hideLoading();

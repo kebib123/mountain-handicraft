@@ -44,7 +44,7 @@ class CategoryRepository implements CategoryInterface
 
     public function selectChild($id)
     {
-        $categories = Category::where('parent_id', $id)->get();
+        $categories = Category::where('parent_id', $id)->get(); 
 
         $categories = $this->addRelation($categories);
 

@@ -34,6 +34,8 @@ Route::group(['namespace' => 'Front'], function () {
     Route::get('faq', 'FooterController@faq')->name('faq-page');
     Route::post('search-results', 'SearchController@search_results')->name('search-results');
     //cart details//
+    Route::get('/product-{slug?}', 'ProductController@product_details')->name('product-single');
+
     Route::get('/product-details/{slug?}', 'CategoryController@product_details')->name('product-details');
     Route::get('/category/{slug?}', 'CategoryController@product_list')->name('product-list');
     Route::get('/brand/{slug?}', 'CategoryController@brand_list')->name('brand-list');
@@ -102,7 +104,7 @@ Route::group(['namespace' => 'Auth'], function () {
     Route::get('/user/verify/{token}', 'RegisterController@verifyUser')->name('verify-user');
 
 });
-
+ 
 
 Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => ['auth', 'usercheck']], function () {
     Route::get('/dashboard', 'AdminController@dashboard')->name('dashboard');
@@ -115,11 +117,12 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => ['aut
     Route::group(['prefix' => 'category'], function () {
         Route::get('category/{id?}', 'CategoryController@add_category')->name('add-category');
         Route::post('category', 'CategoryController@add_category')->name('add-category');
+        Route::get('index', 'CategoryController@index')->name('category.index');
         Route::any('show-category', 'CategoryController@show_category')->name('show-category');
         Route::any('edit-category/{id?}', 'CategoryController@edit_category')->name('edit-category');
         Route::any('delete-category/{id}', 'CategoryController@delete_category')->name('delete-category');
         Route::any('update-category', 'CategoryController@update_category')->name('update-category');
-    });
+    }); 
 
     Route::group(['prefix' => 'product'], function () {
         Route::get('add-product', 'ProductController@add_product')->name('add-product');

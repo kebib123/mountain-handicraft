@@ -9,11 +9,11 @@
     <title>AdminLTE 3 | Dashboard 2</title>
 
     <!-- Font Awesome Icons -->
-    <link rel="stylesheet" href="{{asset('css/fontawesome-free/css/all.min.css')}}">
+    <link rel="stylesheet" href="{{asset('backend/css/fontawesome-free/css/all.min.css')}}">
     <!-- overlayScrollbars -->
-    <link rel="stylesheet" href="{{asset('css/OverlayScrollbars.min.css')}}">
+    <link rel="stylesheet" href="{{asset('backend/css/OverlayScrollbars.min.css')}}">
     <!-- Theme style -->
-    <link rel="stylesheet" href="{{asset('css/dist/css/adminlte.min.css')}}">
+    <link rel="stylesheet" href="{{asset('backend/css/dist/css/adminlte.min.css')}}">
 <!-Datatable css -->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css">
 

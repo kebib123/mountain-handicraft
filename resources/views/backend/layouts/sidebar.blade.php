@@ -81,6 +81,13 @@
                             </a>
                         </li>
 
+                         <li class="nav-item">
+                            <a href="{{route('category.index')}}" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>All Category</p>
+                            </a>
+                        </li>
+
                     </ul>
                 </li>
                 <li class="nav-item has-treeview">

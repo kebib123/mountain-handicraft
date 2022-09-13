@@ -66,7 +66,7 @@ class CategoryController extends FrontController
                 ->select('products.*');
 
         }
-        $products = $query->paginate(9);
+        $products = $query->paginate(8);
 
         if ($request->ajax()) {
             if ($request->slug) {

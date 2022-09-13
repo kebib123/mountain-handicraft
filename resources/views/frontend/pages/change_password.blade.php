@@ -87,7 +87,7 @@
                             <div class="form-group">
                                 <label for="account-pass">Old Password</label>
                                 <div class="password-toggle">
-                                    <input class="form-control" name="old_password" type="password" id="account-pass">
+                                    <input class="form-control" name="old_password" value="{{ Auth::user()->password }}" type="password" id="account-pass">
                                     <label class="password-toggle-btn">
                                         <input class="custom-control-input" type="checkbox"><i
                                             class="czi-eye password-toggle-indicator"></i><span class="sr-only">Show password</span>
@@ -99,8 +99,8 @@
                             <div class="form-group">
                                 <label for="account-pass">New Password</label>
                                 <div class="password-toggle">
-                                    <input class="form-control" name="new_password" type="password" id="account-pass">
-                                    <label class="password-toggle-btn">
+                                    <input class="form-control" name="new_password"  type="password" id="account-pass">
+                                    <label class="password-toggle-btn"> 
                                         <input class="custom-control-input" type="checkbox"><i
                                             class="czi-eye password-toggle-indicator"></i><span class="sr-only">Show password</span>
                                     </label>

@@ -12,6 +12,8 @@ use App\Repositories\Category\CategoryRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
+use App\Model\Category;
+
 
 class ProductController extends BackendController
 {
@@ -188,7 +190,8 @@ class ProductController extends BackendController
             $size = Size::all();
             $brand = Brand::all();
             $color = Color::all();
-            return view($this->backendproductPath . 'edit_product', compact('product', 'size', 'brand', 'color'));
+            $category=Category::all();
+            return view($this->backendproductPath . 'edit_product', compact('category','product', 'size', 'brand', 'color'));
         }
         if ($request->isMethod('post')) {
             if ($request->ajax()) {
@@ -207,8 +210,7 @@ class ProductController extends BackendController
                     ]);
                 }
                 $product = Product::findorfail($request->id);
-//                dd($product);
-                $product->product_name = $request->product_name;
+                $product->product_name = $request->product_name;      
                 $product->price = $request->price;
                 $product->discount_price = $request->selling_price;
                 $product->short_description = $request->short_description;
@@ -361,8 +363,12 @@ class ProductController extends BackendController
     public function delete($id)
     {
         $image = Image::findOrFail($id);
-        $filename = $image->image;
-        unlink(public_path() . '/images/products/' . $filename);
+         $filename = $image->image;
+         $deletePath = public_path('images/products/' . $filename);
+               if (file_exists($deletePath) && is_file($deletePath)) {
+                unlink($deletePath);
+            }
+        // unlink(public_path() . '/images/products/' . $filename);
         $image->delete();
         $images = Image::where('product_id', $image->product_id)->first()->update(['is_main' => 1]);
         return response()->json(['status' => 'success', 'message' => 'Image has been deleted successfully!']);
