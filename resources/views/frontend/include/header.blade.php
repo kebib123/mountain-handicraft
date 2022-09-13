@@ -80,7 +80,7 @@
                         </li>
                      </ul>
                      <a href="index.php" class="uk-navbar-item uk-logo">
-                     <img alt="Mountain Handi Craft" src="assets/images/logo.png" width="110">
+                     <img alt="Mountain Handi Craft" src="{{asset('images/logo.png')}}" width="110">
                      </a>
                   </div>
                   <div class="uk-navbar-right uk-margin-small-right">
@@ -91,7 +91,7 @@
                               </a>
                         </li>
                         <li>
-                           <a uk-tooltip="Login" href="login.php" uk-icon="icon:user;"></a>
+                           <a uk-tooltip="Login" href="{{route('login')}}" uk-icon="icon:user;"></a>
                         </li>
                         <li>
                            <a
@@ -172,7 +172,7 @@
                               </li>
                            </ul>
                            <a class="uk-navbar-item uk-logo " href="index.php">
-                           <img alt="Mountain Handi Craft" src="assets/images/logo.png" width="110">
+                           <img alt="Mountain Handi Craft" src="{{asset('images/logo.png')}}" width="110">
                            </a>
                         </div>
                         <div class="uk-navbar-right  uk-margin-small-right">
@@ -183,7 +183,7 @@
                               </a>
                         </li>
                            <li>
-                              <a uk-tooltip="Login" href="login.php" uk-icon="icon:user;"></a>
+                              <a uk-tooltip="Login" href="{{route('login')}}" uk-icon="icon:user;"></a>
                            </li>
                            <li>
                               <a
@@ -202,7 +202,7 @@
                            class="uk-navsidebar   uk-nav-parent-icon uk-nav-left uk-margin-auto-vertical"
                            uk-nav="multiple: false">
                            <li>
-                              <a href="index.php">Home</a>
+                              <a href="{{route('index')}}">Home</a>
                            </li>
                            <!-- -->
                            <li class="uk-parent">
@@ -304,7 +304,8 @@
                                     <!-- -->
                                     @foreach ($cat as $value)
                                     <li>
-                                       <a href="{{route('product-list',$value->slug)}}">{{$value->name}}
+
+                                       <a href="{{route('product-list', $value->slug)}}">{{$value->name}}
                                        <span
                                           class="uk-margin-remove uk-align-right "
                                           uk-icon="icon: chevron-right; ratio: 1;"></span></a>
@@ -335,13 +336,13 @@
                               <a href="blog.php">Blog</a>
                            </li>
                            <li>
-                              <a href="about.php">About Us</a>
+                              <a href="{{route('about')}}">About Us</a>
                            </li>
                         </ul>
                      </div>
                      <div class="uk-navbar-center">
-                        <a href="index.php" class="uk-navbar-item uk-logo">
-                        <img alt="Mountain Handi Craft" src="assets/images/logo.png" width="240">
+                        <a href="{{route('index')}}" class="uk-navbar-item uk-logo">
+                        <img alt="Mountain Handi Craft" src="{{asset('images/logo.png')}}" width="240">
                         </a>
                      </div>
                      <div class="uk-navbar-right">
@@ -356,7 +357,7 @@
                               </a>
                          </li>
                            <li>
-                              <a href="login.php" uk-tooltip="Login">
+                              <a href="{{route('login')}}" uk-tooltip="Login">
                               <i uk-icon="icon:user;"></i>
                               </a>
                            </li>

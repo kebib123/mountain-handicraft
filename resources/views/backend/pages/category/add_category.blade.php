@@ -33,10 +33,10 @@
                                         </select>
 
                                     </div>
-                                    <!--<div class="form-group">-->
-                                    <!--    <label for="formGroupExampleInput">Image:</label>-->
-                                    <!--    <input type="file" name="image" class="form-control" id="formGroupExampleInput">-->
-                                    <!--</div>-->
+                                    <div class="form-group">
+                                        <label for="formGroupExampleInput">Image:</label>
+                                        <input type="file" name="image" class="form-control" id="formGroupExampleInput">
+                                    </div>
 
                                     <div class="form-group special-link">
                                         <label for="name" class="control-label">Special:</label>
