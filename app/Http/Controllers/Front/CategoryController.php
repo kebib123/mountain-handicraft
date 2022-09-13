@@ -31,7 +31,7 @@ class CategoryController extends FrontController
         }else{
             $average=0;
         }
-
+ 
         return view($this->frontendPagePath . 'product-details', compact('product',  'count', 'fivestar', 'fourstar', 'threestar', 'twostar', 'onestar', 'average'));
     }
 
@@ -52,7 +52,7 @@ class CategoryController extends FrontController
                         $cat_id[] = $grandChild->id;
                     }
                 }
-                $cat_id[] = $child->id;
+                $cat_id[] = $child->id; 
             }
             if (isset($mai_id)) {
                 $cat_id = array_unique(array_merge($mai_id, $cat_id));
@@ -99,9 +99,9 @@ class CategoryController extends FrontController
                         ->select('products.*');
 
                 }
-//                $category_id = Category::where('slug', $request->slug)->first();
-//                $query = Product::join('product_categories', 'product_categories.product_id', '=', 'products.id')
-//                    ->where('product_categories.category_id', $category_id->id);
+               $category_id = Category::where('slug', $request->slug)->first();
+               $query = Product::join('product_categories', 'product_categories.product_id', '=', 'products.id')
+                   ->where('product_categories.category_id', $category_id->id);
 
                 if ($request->has('min_price') || $request->has('max_price')) {
                     $max_price = (int)$request->max_price;
@@ -115,8 +115,8 @@ class CategoryController extends FrontController
                 }
 
                 if ($request->has('value')) {
-                    if ($request->value == 'new') {
-                        $query->orderby('products.created_at', 'desc');
+                    if ($request->value == 'recent') {
+                        $query->orderby('products.updated_at', 'desc');
                     }
                     if ($request->value == 'low_to_high') {
                         $query->orderby('products.price', 'asc');
@@ -130,16 +130,15 @@ class CategoryController extends FrontController
                     if ($request->value == 'z_to_a') {
                         $query->orderby('products.product_name', 'desc');
                     }
-                    if ($request->value == 'popular') {
-                        $query->where('products.is_popular', '=', 'popular');
+                    if ($request->value == 'older') {
+                        $query->orderby('products.updated_at', 'asc');
                     }
                 }
-
                 $products = $query->get();
                 return view($this->frontendPagePath . 'filter/product_filter', compact('products'));
             }
 
-        }
+        } 
         $size = Size::all();
         $brand = Brand::all();
         $category_slug = $request->slug;
@@ -203,11 +202,7 @@ class CategoryController extends FrontController
             }
 
         }
-
-
         return view($this->frontendPagePath . 'brand_product_list', compact('brands', 'brand_slug', 'brand_products', 'size', 'brand'));
-
-
     }
 
     public function popular_products(Request $request)
