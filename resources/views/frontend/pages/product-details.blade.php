@@ -311,7 +311,7 @@
 
             });
         }
-
+ 
         $('#cart_btn').on('click', function (e) {
             $.ajaxSetup({
                 headers: {
@@ -332,7 +332,6 @@
                 processData: false,
 
                 success: function (data) {
-                    // console.log(data);
                     if (!data.errors) {
 
                         $('.mini-cart').replaceWith($('.mini-cart')).html(data);

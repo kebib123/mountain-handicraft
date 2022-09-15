@@ -1,5 +1,6 @@
    @if($products->isNotEmpty())
    @foreach($products->take(8) as $value) 
+ 
    <li>
       <div class="uk-product-list">
          <a href="{{route('product-single',$value->slug)}}" class="uk-inline-clip uk-transition-toggle">
@@ -8,12 +9,12 @@
                   <div class="uk-label f-10 bg-primary uk-magin">New</div>
                </div>
                <img src="{{asset('images/products/'.$value->images->where('is_main','=',1)->first()->image)}}" alt="Product">
-               <img src="{{asset('images/products/'.$value->images->where('is_main','=',1)->first()->image)}}" class="uk-position-cover uk-transition-scale-up" alt="Product">
-                  {{-- <div class="uk-hover-hide-show">
+               <img src="{{asset('images/products/'.$value->images->where('is_main','=',1)->first()->image)}}" class="uk-position-cover uk-transition-scale-up" alt="Product"> 
+                  <!-- {{-- <div class="uk-hover-hide-show">
                       <a  class="uk-addtocart uk-flex uk-flex-middle" onclick="UIkit.notification({message: '<span uk-icon=\'icon: cart\'></span> Added to cart <a  uk-toggle=\'target: #cart\'>Check </a>', pos: 'bottom-center', status: 'primary'})">
                            <span uk-icon="icon:cart;" class="uk-icon"></span> <span>Add to cart</span>
                      </a>
-                  </div> --}}
+                  </div> --}}    -->
             </figure>
          </a>
          <div class="uk-product-description">
@@ -31,7 +32,7 @@
          </div>
          
       </div>
-   </li>
+   </li> 
    @endforeach
    @endif
 

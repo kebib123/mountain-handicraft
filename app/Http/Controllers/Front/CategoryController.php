@@ -99,20 +99,6 @@ class CategoryController extends FrontController
                         ->select('products.*');
 
                 }
-               $category_id = Category::where('slug', $request->slug)->first();
-               $query = Product::join('product_categories', 'product_categories.product_id', '=', 'products.id')
-                   ->where('product_categories.category_id', $category_id->id);
-
-                if ($request->has('min_price') || $request->has('max_price')) {
-                    $max_price = (int)$request->max_price;
-                    $min_price = (int)$request->min_price;
-                    Auth::check() && Auth::user()->roles == 'wholeseller' ? $query->whereBetween('products.wholesale_price', [$min_price, $max_price]) : $query->whereBetween('products.price', [$min_price, $max_price]);
-//                    $query->whereBetween('products.price', [$min_price, $max_price]);
-                }
-                if ($request->has('brand')) {
-                    $brand = $request->brand;
-                    $query->join('brands', 'brands.id', '=', 'products.brand_id')->whereIn('brands.id', $brand);
-                }
 
                 if ($request->has('value')) {
                     if ($request->value == 'recent') {

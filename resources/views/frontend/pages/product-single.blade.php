@@ -26,7 +26,7 @@
                </li>
                 @foreach($product->images->where('is_main',0) as $key=>$img)
                <li class="uk-item uk-zoom-image">
-                  <img class="uk-image" uk-cover uk-img="target: !.uk-slideshow-items"  data-srcset="assets/images/products/p2.jpg">       
+                  <img class="uk-image" uk-cover uk-img="target: !.uk-slideshow-items"  data-srcset="{{asset('images/products/'.$img->image)}}">       
                </li>
                @endforeach
                 
@@ -60,29 +60,18 @@
          <ul class="uk-nav uk-thumbnav uk-flex-left uk-margin-small-top" uk-margin>
             <li uk-slideshow-item="0">
                <a href="#">
-               <img alt data-src="assets/images/products/p1.jpg" data-sizes="(min-width: 70px) 70px" width="70" height="70" uk-img>
+               <img alt data-src="{{asset('images/products/'.$product->images->where('is_main','=',1)->first()->image)}}" data-sizes="(min-width: 70px) 70px" width="70" height="70" uk-img>
                </a>
             </li>
-            <li uk-slideshow-item="1">
+            @php $i = 1; @endphp
+            @foreach($product->images->where('is_main',0) as $key=>$img)
+            <li uk-slideshow-item="{{$i}}">
                <a href="#">
-               <img alt data-src="assets/images/products/p2.jpg" data-sizes="(min-width: 70px) 70px" width="70" height="70" uk-img>
-               </a>                  
+               <img alt data-src="{{asset('images/products/'.$img->image)}}" data-sizes="(min-width: 70px) 70px" width="70" height="70" uk-img>
+               </a>
             </li>
-            <li uk-slideshow-item="2">
-               <a href="#">
-               <img alt data-src="assets/images/products/p3.jpg" data-sizes="(min-width: 70px) 70px" width="70" height="70" uk-img>
-               </a>                  
-            </li>
-            <li uk-slideshow-item="3">
-               <a href="#">
-               <img alt data-src="assets/images/products/p4.jpg" data-sizes="(min-width: 70px) 70px" width="70" height="70" uk-img>
-               </a>                  
-            </li>
-            <li uk-slideshow-item="4">
-               <a href="#">
-               <img alt data-src="assets/images/products/p5.jpg" data-sizes="(min-width: 70px) 70px" width="70" height="70" uk-img>
-               </a>                  
-            </li>
+            @php $i++; @endphp
+            @endforeach
          </ul>
       </div>
       <div class="uk-grid-item-match uk-width-expand@m">
@@ -94,61 +83,64 @@
             <div class="uk-margin">
                <div class="uk-h2 uk-margin-remove f-w-600 text-secondary">${{$product->discount_price}} <del class="uk-h4">$ {{$product->price}}</del></div>
             </div>
+            <form class="mb-grid-gutter" id="add_to_cart">
+            <input type="hidden" name="product_id" value="{{$product->id}}">
             <div class="uk-margin">
                <label class="uk-margin-remove f-w-600 f-12" for="colour">Select Colour:</label>
                <ul class="uk-color uk-nav uk-thumbnav uk-flex-left uk-margin-small-top" id="colour" uk-margin>
-                  <li uk-slideshow-item="0">
-                     <a href="#" uk-tooltip="Color Name Here">
-                        <div class="uk-product-color" style="background:#c72c65;">
+                  <input type="hidden" name="color" id="hidden-color">
+                  @if($product->size_variation==0)
+                  @foreach($product->colorstocks as $color)
+                  <li class="color-item">
+                     <a href="#" uk-tooltip="{{$color->title}}">
+                        <div class="uk-product-color" style="background:{{$color->title}};">
                         </div>
                      </a>
                   </li>
-                  <li uk-slideshow-item="1">
-                     <a href="#" uk-tooltip="Color Name Here">
-                        <div class="uk-product-color" style="background:#394071;">
+                  @endforeach
+                  @else
+                  @foreach($product->uniqueStockColor() as $stock)
+                  <li class="color-item">
+                     <a href="#" uk-tooltip="{{$stock->colors->title}}">
+                        <div class="uk-product-color " style="background:{{$stock->colors->title}};">
                         </div>
                      </a>
                   </li>
-                  <li uk-slideshow-item="2">
-                     <a href="#" uk-tooltip="Color Name Here">
-                        <div class="uk-product-color" style="background:#aec8df;">
-                        </div>
-                     </a>
-                  </li>
+                  @endforeach
+                  @endif
                </ul>
             </div>
             <div class="uk-margin">
                <div class="uk-grid-small uk-child-width-1-2 uk-child-width-1-3@m" uk-grid>
+                  @if($product->size_variation==1)
                   <div>
                      <label class="uk-margin-remove f-w-600 f-12 uk-display-block" for="size">Select Size:</label>
-                     <select name="size" id="size" class="uk-select  uk-margin-small-top">
-                        <option value="0" option-id="0">Choose an Option...</option>
-                        <option value="167" option-id="167">XS Chest 34"</option>
-                        <option value="168" option-id="168">S Chest 37"</option>
-                        <option value="169" option-id="169">M Chest 40"</option>
-                        <option value="170" option-id="170">L Chest 43"</option>
-                        <option value="238" option-id="238">XL Chest 46"</option>
-                        <option value="255" option-id="255">2XL Chest 49"</option>
-                        <option value="256" option-id="256">3XL Chest 52"</option>
+                     <select onchange="updateMax()" name="size" id="size" class="uk-select  uk-margin-small-top">
+                        <option value="0" option-id="{{$product->totalStock()}}">Choose an Option...</option>
+                        @foreach($product->stocks as $data)
+                        <option value="{{$data->size->title}}" option-id="{{$data->stock}}">{{$data->size->title}}</option>
+                        @endforeach
                      </select>
                      <a href="" class="f-w-600 f-12 uk-margin-small-top uk-display-block text-secondary" uk-toggle="target: #SizeGuide">Size Guide</a>
                   </div>
+                  @endif
                   <div>
                      <div>
                         <label class="uk-margin-remove f-w-600 f-12 uk-display-block" for="size">Qty:</label>
                         <div class="number-input  uk-margin-small-top">
-                           <button onclick="this.parentNode.querySelector('input[type=number]').stepDown()" class="minus"></button>
-                           <input class="quantity" min="0" name="quantity" value="1" type="number">
-                           <button onclick="this.parentNode.querySelector('input[type=number]').stepUp()" class="plus"></button>
+                           <button type="button" onclick="this.parentNode.querySelector('input[type=number]').stepDown()" class="minus"></button>
+                           <input class="quantity" id="quantity" min="1" max="{{$product->totalStock()}}" name="quantity" value="1" type="number">
+                           <button type="button" onclick="this.parentNode.querySelector('input[type=number]').stepUp()" class="plus"></button>
                         </div>
                      </div>
                   </div>
                </div>
+               </form>
                <div class="uk-margin-medium uk-padding bg-grey uk-border-rounded">
                   
                   <div class="uk-grid-small" uk-grid>
                      <div>
-                        <a class="uk-content uk-button uk-btn-primary uk-width-1-1" onclick="UIkit.notification({message: '<span uk-icon=\'icon: cart\'></span> Added to cart <a  uk-toggle=\'target: #cart\'>Check </a>', pos: 'bottom-center', status: 'primary'})">
+                        <a class="uk-content uk-button uk-btn-primary uk-width-1-1" id="cart_btn">
                         <span uk-icon="icon:cart;"></span> Add to Cart
                         </a>
                      </div>
@@ -170,32 +162,32 @@
                      <ul class="uk-grid-small" uk-grid>
                         <li>
                            <div class="uk-box-shadow-small uk-payment-getway">
-                              <img src="assets/images/payments/esewa.svg" alt="">
+                              <img src="{{asset('images/payments/esewa.svg')}}" alt="">
                            </div>
                         </li>
                         <li>
                            <div class="uk-box-shadow-small uk-payment-getway">
-                              <img src="assets/images/payments/khalti.svg" alt="">
+                              <img src="{{asset('images/payments/khalti.svg')}}" alt="">
                            </div>
                         </li>
                         <li>
                            <div class="uk-box-shadow-small uk-payment-getway">
-                              <img src="assets/images/payments/visa.svg" alt="">
+                              <img src="{{asset('images/payments/visa.svg')}}" alt="">
                            </div>
                         </li>
                         <li>
                            <div class="uk-box-shadow-small uk-payment-getway">
-                              <img src="assets/images/payments/master-card.svg" alt="">
+                              <img src="{{asset('images/payments/master-card.svg')}}" alt="">
                            </div>
                         </li>
                         <li>
                            <div class="uk-box-shadow-small uk-payment-getway">
-                              <img src="assets/images/payments/american-express.svg" alt="">
+                              <img src="{{asset('images/payments/american-express.svg')}}" alt="">
                            </div>
                         </li>
                         <li>
                            <div class="uk-box-shadow-small uk-payment-getway">
-                              <img src="assets/images/payments/discover.svg" alt="">
+                              <img src="{{asset('images/payments/discover.svg')}}" alt="">
                            </div>
                         </li>
                      </ul>
@@ -481,7 +473,42 @@
          <h2 class="uk-h3 f-w-600 uk-text-uppercase uk-text-center uk-margin-remove">Related Products</h2>
          <div class="uk-divider-small uk-text-center"></div>
       </div>
-      {{-- <?php include('include/product-list.php');?> --}}
+      <ul class="uk-child-width-1-2 uk-child-width-1-4@m  uk-grid-small" uk-height-match="target: .uk-product-list" uk-grid="uk-grid">
+      @foreach($related_products->take(8) as $data)
+         <li>
+            <div class="uk-product-list">
+               <a href="shop-single.php" class="uk-inline-clip uk-transition-toggle">
+                  <figure class="uk-product-img">
+                     <div class="uk-position-top uk-position-z-index uk-padding-small">
+                        <div class="uk-label f-10 bg-primary uk-magin">New</div>
+                     </div>
+                     <img src="{{asset('images/products/'.$data->get_main_image($data->id))}}" alt="Product">
+                     <img src="{{asset('images/products/'.$data->get_main_image($data->id))}}" class="uk-position-cover uk-transition-scale-up" alt="Product">
+                        <div class="uk-hover-hide-show">
+                           <a  class="uk-addtocart uk-flex uk-flex-middle" onclick="UIkit.notification({message: '<span uk-icon=\'icon: cart\'></span> Added to cart <a  uk-toggle=\'target: #cart\'>Check </a>', pos: 'bottom-center', status: 'primary'})">
+                                 <span uk-icon="icon:cart;" class="uk-icon"></span> <span>Add to cart</span>
+                           </a>
+                        </div>
+                  </figure>
+               </a>
+               <div class="uk-product-description">
+                  <div class="uk-grid-small uk-flex uk-flex-middle uk-text-center" uk-grid>
+                     <div class="uk-width-1-1">
+                        <h5 class="uk-margin-remove"><a href="{{route('product-single', $data->slug)}}">{{$data->product_name}} </a></h5>
+                     </div>
+                     <div class="uk-width-expand">
+                        <div>
+                           <h5 class="uk-margin-remove text-primary">${{$data->price}} <del class="f-12">${{$data->discount_price}}</del></h5>
+                        </div>
+                     </div>
+                  
+                  </div>
+               </div>
+               
+            </div>
+         </li>
+         @endforeach
+</ul>
    </div>
 </section>
 <!-- end related products -->
@@ -807,3 +834,69 @@
 <!-- Quotation popup -->
 
 @stop
+
+@push('scripts')
+    <script>
+        $("#size").change(function() {
+            var stockSize = $(this).children(":selected").attr("option-id");
+            $("#quantity").attr("max",stockSize);
+
+            if($("#quantity").val() > parseInt(stockSize)){
+               $("#quantity").val(stockSize);
+            }
+
+         });
+
+         $(".color-item a").click(function(event){
+            event.preventDefault();
+            $(this).addClass("uk-active");
+            let selectedColor = $(this).attr("uk-tooltip");
+            $("#hidden-color").val(selectedColor);
+         });
+
+         $('#cart_btn').on('click', function (e) {
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            e.preventDefault();
+
+            let myform = document.getElementById('add_to_cart');
+            let formData = new FormData(myform);
+
+            $.ajax({
+                type: 'POST',
+                url: '{{route('cart-add')}}',
+                data: formData,
+                contentType: false,
+                cache: false,
+                processData: false,
+
+                success: function (data) {
+                    // console.log(data);
+                    if (!data.errors) {
+
+                        $('.mini-cart').replaceWith($('.mini-cart')).html(data);
+                        toastr.success('Item added to cart');
+                        // alert({{Gloudemans\Shoppingcart\Facades\Cart::count();}});
+                        // $(".uk-cart-count").replaceWith($(".uk-cart-count")).html("c");
+
+                    }
+                    jQuery.each(data.errors, function (key, value) {
+
+                        toastr.error(value);
+                        // hideLoading();
+
+                    })
+                },
+                error: function (a) {//if an error occurs
+                    // hideLoading();
+                    alert("An error occured while uploading data.\n error code : " + a.statusText);
+                }
+            });
+
+
+        });
+    </script>
+@endpush 

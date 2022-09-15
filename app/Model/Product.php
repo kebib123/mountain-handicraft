@@ -79,4 +79,16 @@ class Product extends Model
         return $this->hasMany(Wishlist::class,'product_id');
     }
 
+    public function uniqueStockColor(){
+        return Stock::where('product_id', $this->id)->select('color_id')->distinct()->get();
+    }
+
+    public function totalStock(){
+        if($this->size_variation==1){
+            return $this->stocks()->sum('stock');
+        }else{
+            return $this->colorstocks()->sum('stock');
+        }
+    }
+
 }

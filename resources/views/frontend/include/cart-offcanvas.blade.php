@@ -218,7 +218,7 @@
                         </tbody>
                     </table>
                 </div>
-                        <a href="cart.php" class="uk-button uk-btn-secondary uk-width-1-1 uk-margin-small-bottom">Expand Cart</a>
+                        <a href="{{route('cart-item')}}" class="uk-button uk-btn-secondary uk-width-1-1 uk-margin-small-bottom">Expand Cart</a>
                         <a href="checkout-if-loggedin.php" class="uk-button uk-btn-primary uk-width-1-1">Checkout</a> 
                     </div>
                 </div>

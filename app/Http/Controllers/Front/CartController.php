@@ -47,10 +47,9 @@ class CartController extends FrontController
 //                    $product->colorstocks ? $product->colorstocks->pivot->stock : '',
                 ],
         ]);
-       $cart= Cart::content();
-        return view($this->frontendPagePath . 'filter/cart_mini', compact('cart'));
+        return view($this->frontendPagePath . 'filter/cart_mini');
 
-        return response()->json(['status' => 'success', 'message' => 'Successfully added to Cart ', 'cart' => Cart::content()]);
+       // return response()->json(['status' => 'success', 'message' => 'Successfully added to Cart ', 'cart' => Cart::content()]);
     }
     private function cartCheck($request){
         dd($request);
@@ -65,9 +64,18 @@ class CartController extends FrontController
 
     public function cart_remove(Request $request)
     {
-        $rowId = $request->id;
+        $rowId = $request->get("id");
         Cart::remove($rowId);
-        return back()->with('success', 'Item removed from cart');
+        
+        //return view($this->frontendPagePath . 'filter/cart_mini');
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Successfully removed from Cart ',
+            'count' => Cart::count(),
+            'subTotal'=>Cart::subtotal(),
+        ]);
+        // return back()->with('success', 'Item removed from cart');
     }
 
     public function cart_update(Request $request)
@@ -78,9 +86,14 @@ class CartController extends FrontController
             for ($i = 0; $i < count($quantity); $i++) {
                 Cart::update($id[$i], $quantity[$i]);
             }
-            return back()->with('success', 'Cart updated successfully');
+            return response()->json([
+                'status' => 'success', 
+                'message' => 'Successfully updated Cart ', 
+                'count'=>Cart::count(),
+                'subTotal'=>Cart::subtotal(),
+            ]);
         }else{
-            return back()->with('error','Cart is empty');
+            return response()->json(['status' => 'errors', 'message' => 'Error in updating cart']);
         }
     }
 
