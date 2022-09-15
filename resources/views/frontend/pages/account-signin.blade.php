@@ -30,7 +30,7 @@
                         </div>
                         <div class="uk-width-1-1">
                           <button type="submit" class="uk-button uk-btn-primary  uk-width-1-1">Login</button>
-                          <div class="uk-margin-top uk-display-block uk-text-center f-14">Don't have account yet <a href="signup.php" class="text-secondary"> Sign Up</a></div>
+                          <div class="uk-margin-top uk-display-block uk-text-center f-14">Don't have account yet <a href="{{route('register')}}" class="text-secondary"> Sign Up</a></div>
                         </div>
                </form>
                 </div>

@@ -160,7 +160,9 @@
 <!-- end video modal-->
 <script src="{{ asset('js/app.js') }}" type="text/javascript"></script>
 <script type='text/javascript' src='https://platform-api.sharethis.com/js/sharethis.js#property=62f3982499484600199e46ca&product=sop' async='async'></script> 
- <!-- search popup -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
+<!-- search popup -->
 <div id="search" class="uk-flex-center uk-overflow-hidden" uk-modal="uk-modal">
     <div class="uk-modal-dialog  uk-margin-auto-vertical">
         <button class="uk-modal-close-outside" type="button" uk-close="uk-close"></button>
@@ -197,5 +199,6 @@
             </div>
         </div>
         <!-- end search popup -->
+
 </body>
 </html>

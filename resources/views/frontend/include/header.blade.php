@@ -9,10 +9,13 @@
       <meta property="og:description" content="woolen jackets are made by 100% New Zealand wool with super cool pixie normal hood ." />
       <meta property="og:site_name" content="Ocean Blue Cashmere Color shawl (MHCS10)" />
       <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="csrf-token" content="{{ csrf_token() }}">
       <link rel="stylesheet" type="text/css" href="{{ asset('css/app.css') }}"/>
       <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
       <meta name="google-translate-customization" content="e6d13f48b4352bb5-f08d3373b31c17a6-g7407ad622769509b-12">
       </meta>
+      <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.css">
+
    </head>
    <body>
       <header>
@@ -100,7 +103,7 @@
                               uk-tooltip="Cart"
                               uk-toggle="target: #cart"
                               uk-icon="icon:cart;">
-                              <div class="uk-cart-count">5</div>
+                              <div class="uk-cart-count">9</div>
                            </a>
                         </li>
                      </ul>
@@ -361,14 +364,13 @@
                               <i uk-icon="icon:user;"></i>
                               </a>
                            </li>
-                           <li>
+                           <li class="mini-cart">
                               <a
                                  class="uk-position-relative"
-                                 href="#"
+                                 href="{{route('cart-item')}}"
                                  uk-tooltip="Cart"
-                                 uk-toggle="target: #cart"
                                  uk-icon="icon:cart;">
-                                 <div class="uk-cart-count">5</div>
+                                 <div class="uk-cart-count">{{Gloudemans\Shoppingcart\Facades\Cart::count()}}</div>
                               </a>
                            </li>
                         </ul>
@@ -378,5 +380,4 @@
             </div>
          </div>
          <!-- end main nav -->
-         @include('frontend.include.cart-offcanvas')
       </header>
