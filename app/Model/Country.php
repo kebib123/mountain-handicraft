@@ -21,6 +21,6 @@ class Country extends Model
 
     public function city()
     {
-        return $this->hasOne('App\Model\City');
+        return $this->hasMany('App\Model\City');
     }
 }

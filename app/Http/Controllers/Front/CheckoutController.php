@@ -27,8 +27,22 @@ class CheckoutController extends Controller
         $this->middleware('auth');
     }
 
+    // Function to get cities using ajax, when country field changes
+    public function get_city($slug){
+        $country = Country::where('slug', $slug)
+                   ->first();
+        return $country->city;
+    }
+
+    public function get_shipping_price($city){
+
+        return Shipping::where('shipping_location', $city)
+                        ->first();
+    }
+
     public function checkout_address(Request $request)
     {
+        //dd($request->all);
         if ($request->isMethod('get')) {
             $cartItem = Cart::content();
             $countries = Country::all();
@@ -36,12 +50,15 @@ class CheckoutController extends Controller
             $sub = Cart::subtotal();
             $total = preg_replace("/[^0-9.]/", "", $sub);
             $final = (int)$total;
-            return view('frontend/pages/checkout/checkout-details', compact('cartItem', 'countries', 'shipping', 'final'));
+            $user = Auth::user();
+
+            return view('frontend/pages/checkout/checkout-details', compact('user', 'cartItem', 'countries', 'shipping', 'final'));
         }
         if ($request->isMethod('post')) {
 //            dd((new \Gloudemans\Shoppingcart\Cart)->instance(Auth::user()->id));
 //            dd(Cart::content());
 //            dd($request->all());
+            dd($request->all);
             $validator = Validator::make($request->all(), [
                 'first_name' => 'required',
                 'last_name' => 'required',
@@ -59,13 +76,14 @@ class CheckoutController extends Controller
                 ], 406);
             }
             $data['subtotal'] = $request->subtotal;
-            $data['tax'] = $request->tax;
-            $data['grand_total'] = $request->subtotal + $request->tax + $request->shipping;
+            $data['tax'] = 0;
+            $data['grand_total'] = $request->subtotal + $request->shipping;
 //            $data['discount'] = 0;
             $data['user_id'] = $request->user_id;
             $data['shipping_id'] = $request->shipping_id;
             $data['order_track'] = 'OT' . $request->user_id . '-' . time();
             $data['status']=0;
+            $data['order_note'] = $request->order_note;
             $order = Order::create($data);
 
             $order_id = $order->id;
