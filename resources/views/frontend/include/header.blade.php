@@ -99,11 +99,11 @@
                         <li>
                            <a
                               class="uk-position-relative"
-                              href="#"
+                              href="{{route('cart-item')}}"
                               uk-tooltip="Cart"
                               uk-toggle="target: #cart"
                               uk-icon="icon:cart;">
-                              <div class="uk-cart-count">9</div>
+                              <div class="uk-cart-count">{{Gloudemans\Shoppingcart\Facades\Cart::count()}}</div>
                            </a>
                         </li>
                      </ul>
@@ -174,7 +174,7 @@
                                  <a class="uk-navbar-toggle uk-modal-close text-black" uk-icon="icon:close;"></a>
                               </li>
                            </ul>
-                           <a class="uk-navbar-item uk-logo " href="index.php">
+                           <a class="uk-navbar-item uk-logo " href="{{route('index')}}">
                            <img alt="Mountain Handi Craft" src="{{asset('images/logo.png')}}" width="110">
                            </a>
                         </div>

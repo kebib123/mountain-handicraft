@@ -9,8 +9,10 @@
       <meta property="og:description" content="woolen jackets are made by 100% New Zealand wool with super cool pixie normal hood ." />
       <meta property="og:site_name" content="Ocean Blue Cashmere Color shawl (MHCS10)" />
       <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="csrf-token" content="{{ csrf_token() }}">
       <link rel="stylesheet" type="text/css" href="{{ asset('css/app.css') }}"/>
       <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+      <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.css">
    </head>
    <body>
       <header>
@@ -78,7 +80,7 @@
                         </li>
                      </ul>
                      <a href="index.php" class="uk-navbar-item uk-logo">
-                     <img alt="Mountain Handi Craft" src="assets/images/logo.png" width="110">
+                     <img alt="Mountain Handi Craft" src="{{asset('images/logo.png')}}" width="110">
                      </a>
                   </div>
                   <div class="uk-navbar-right uk-margin-small-right">
@@ -89,16 +91,16 @@
                               </a>
                         </li>
                         <li>
-                           <a uk-tooltip="Johnny Deep" href="dashboard.php" uk-icon="icon:user;"></a>
+                           <a uk-tooltip="{{Auth::user()->first_name}}" href="dashboard.php" uk-icon="icon:user;">{{Auth::user()->first_name}}</a>
                         </li>
                         <li>
                            <a
                               class="uk-position-relative"
-                              href="#"
+                              href="{{route('cart-item')}}"
                               uk-tooltip="Cart"
                               uk-toggle="target: #cart"
                               uk-icon="icon:cart;">
-                              <div class="uk-cart-count">5</div>
+                              <div class="uk-cart-count">{{Gloudemans\Shoppingcart\Facades\Cart::count()}}</div>
                            </a>
                         </li>
                      </ul>
@@ -169,8 +171,8 @@
                                  <a class="uk-navbar-toggle uk-modal-close text-black" uk-icon="icon:close;"></a>
                               </li>
                            </ul>
-                           <a class="uk-navbar-item uk-logo " href="index.php">
-                           <img alt="Mountain Handi Craft" src="assets/images/logo.png" width="110">
+                           <a class="uk-navbar-item uk-logo " href="{{route('index')}}">
+                           <img alt="Mountain Handi Craft" src="{{asset('images/logo.png')}}" width="110">
                            </a>
                         </div>
                         <div class="uk-navbar-right  uk-margin-small-right">
@@ -181,7 +183,7 @@
                               </a>
                         </li>
                            <li>
-                              <a uk-tooltip="Login" href="login.php" uk-icon="icon:user;"></a>
+                              <a uk-tooltip="Login" href="login.php" uk-icon="icon:user;">{{Auth::user()->first_name}}</a>
                            </li>
                            <li>
                               <a
@@ -200,7 +202,7 @@
                            class="uk-navsidebar   uk-nav-parent-icon uk-nav-left uk-margin-auto-vertical"
                            uk-nav="multiple: false">
                            <li>
-                              <a href="index.php">Home</a>
+                              <a href="{{route('index')}}">Home</a>
                            </li>
                            <!-- -->
                            <li class="uk-parent">
@@ -301,408 +303,30 @@
                               <div class="uk-navbar-dropdown uk-margin-remove">
                                  <ul class="uk-nav uk-navbar-dropdown-nav uk-margin-remove">
                                     <!-- -->
+                                    @foreach ($cat as $value)
                                     <li>
-                                       <a href="shop-list.php">Cashmere Product
+
+                                       <a href="{{route('product-list', $value->slug)}}">{{$value->name}}
                                        <span
                                           class="uk-margin-remove uk-align-right "
                                           uk-icon="icon: chevron-right; ratio: 1;"></span></a>
-                                       <div
-                                          uk-dropdown="pos: right-top; offset: 25; delay-hide: 200;"
+                                             @if($value->subCategory->isNotEmpty())
+                                          <div
+                                          uk-dropdown="pos: right-top; offset: 0; delay-hide: 200;"
                                           class="uk-dropdown bg-grey">
                                           <ul class="uk-nav uk-dropdown-nav uk-margin-remove">
-                                             <li>
-                                                <a href="shop-list.php">Cashmere Sweater</a>
+                                             @foreach($value->subCategory as $child)
+                                                <li>
+                                                <a href="{{route('product-list',$child->slug)}}">{{$child->name}}</a>
                                              </li>
-                                             <li>
-                                                <a href="shop-list.php">Cashmere Poncho</a>
-                                             </li>
-                                             <li>
-                                                <a href="shop-list.php">Cashmere Blanket</a>
-                                             </li>
-                                             <li>
-                                                <a href="shop-list.php">Cashmere Outer</a>
-                                             </li>
-                                             <li>
-                                                <a href="shop-list.php">Cashmere Scarf</a>
-                                             </li>
-                                             <li>
-                                                <a href="shop-list.php">Cashmere Accessories</a>
-                                             </li>
+                                             @endforeach
+                                            
+                                       
                                           </ul>
                                        </div>
+                                        @endif
                                     </li>
-                                    <!-- -->
-                                    <!-- -->
-                                    <li>
-                                       <a href="shop-list.php">Cashmere Shawl
-                                       <span
-                                          class="uk-margin-remove uk-align-right "
-                                          uk-icon="icon: chevron-right; ratio: 1;"></span></a>
-                                       <div
-                                          uk-dropdown="pos: right-top; offset: 25; delay-hide: 200;"
-                                          class="uk-dropdown  bg-grey">
-                                          <ul class="uk-nav uk-dropdown-nav uk-margin-remove">
-                                             <li>
-                                                <a href="shop-list.php">Embroidery Shawl</a>
-                                             </li>
-                                             <li>
-                                                <a href="shop-list.php">Cashmere Double Shed Color Shawl</a>
-                                             </li>
-                                             <li>
-                                                <a href="shop-list.php">Cashmere Natural Border Shawl</a>
-                                             </li>
-                                             <li>
-                                                <a href="shop-list.php">Cashmere Natural Thick Shawl</a>
-                                             </li>
-                                             <li>
-                                                <a href="shop-list.php">Fine Wool Shawl</a>
-                                             </li>
-                                             <li>
-                                                <a href="shop-list.php">Kaju Pashmina Shawl</a>
-                                             </li>
-                                             <li>
-                                                <a href="shop-list.php">Cashmere Ring Shawl</a>
-                                             </li>
-                                             <li>
-                                                <a href="shop-list.php">Cashmere Natural Shawl</a>
-                                             </li>
-                                             <li>
-                                                <a href="shop-list.php">Color Shawl</a>
-                                             </li>
-                                          </ul>
-                                       </div>
-                                    </li>
-                                    <!-- -->
-                                    <!-- -->
-                                    <li>
-                                       <a href="shop-list.php">Yak Wool Product
-                                       <span
-                                          class="uk-margin-remove uk-align-right "
-                                          uk-icon="icon: chevron-right; ratio: 1;"></span></a>
-                                       <div
-                                          uk-dropdown="pos: right-top; offset: 25; delay-hide: 200;"
-                                          class="uk-dropdown  bg-grey">
-                                          <ul class="uk-nav uk-dropdown-nav uk-margin-remove">
-                                             <li>
-                                                <a href="shop-list.php">Yak Wool Dhaka Blanket</a>
-                                             </li>
-                                             <li>
-                                                <a href="shop-list.php">Yak Wool Shawl</a>
-                                             </li>
-                                             <li>
-                                                <a href="shop-list.php">Yak Wool Poncho</a>
-                                             </li>
-                                          </ul>
-                                       </div>
-                                    </li>
-                                    <!-- -->
-                                    <!-- -->
-                                    <li>
-                                       <a href="shop-list.php">Prayer Beads
-                                       <span
-                                          class="uk-margin-remove uk-align-right "
-                                          uk-icon="icon: chevron-right; ratio: 1;"></span></a>
-                                       <div
-                                          uk-dropdown="pos: right-top; offset: 25; delay-hide: 200;"
-                                          class="uk-dropdown  bg-grey">
-                                          <ul class="uk-nav uk-dropdown-nav uk-margin-remove">
-                                             <li>
-                                                <a href="shop-list.php">Prayer Mala</a>
-                                             </li>
-                                             <li>
-                                                <a href="shop-list.php">Bracelets</a>
-                                             </li>
-                                             <li>
-                                                <a href="shop-list.php">Pendants</a>
-                                             </li>
-                                          </ul>
-                                       </div>
-                                    </li>
-                                    <!-- -->
-                                    <!-- -->
-                                    <li>
-                                       <a href="shop-list.php">Singing bowl
-                                       <span
-                                          class="uk-margin-remove uk-align-right "
-                                          uk-icon="icon: chevron-right; ratio: 1;"></span></a>
-                                       <div
-                                          uk-dropdown="pos: right-top; offset: 25; delay-hide: 200;"
-                                          class="uk-dropdown  bg-grey">
-                                          <ul class="uk-nav uk-dropdown-nav uk-margin-remove">
-                                             <li>
-                                                <a href="shop-list.php">Handmade Singing Bowl</a>
-                                             </li>
-                                             <li>
-                                                <a href="shop-list.php">Machinemade Singing Bowl</a>
-                                             </li>
-                                          </ul>
-                                       </div>
-                                    </li>
-                                    <!-- -->
-                                    <!-- -->
-                                    <li>
-                                       <a href="shop-list.php">Cotton Product
-                                       <span
-                                          class="uk-margin-remove uk-align-right "
-                                          uk-icon="icon: chevron-right; ratio: 1;"></span></a>
-                                       <div
-                                          uk-dropdown="pos: right-top; offset: 25; delay-hide: 200;"
-                                          class="uk-dropdown  bg-grey">
-                                          <ul class="uk-nav uk-dropdown-nav uk-margin-remove">
-                                             <li>
-                                                <a href="shop-list.php">Cotton Jackets</a>
-                                             </li>
-                                             <li>
-                                                <a href="shop-list.php">Cotton Trousers</a>
-                                             </li>
-                                             <li>
-                                                <a href="shop-list.php">Cotton Dress</a>
-                                             </li>
-                                             <li>
-                                                <a href="shop-list.php">Cotton Tops</a>
-                                             </li>
-                                             <li>
-                                                <a href="shop-list.php">Cotton Kurta</a>
-                                             </li>
-                                          </ul>
-                                       </div>
-                                    </li>
-                                    <!-- -->
-                                    <!-- -->
-                                    <li>
-                                       <a href="shop-list.php">Jewellery
-                                       <span
-                                          class="uk-margin-remove uk-align-right "
-                                          uk-icon="icon: chevron-right; ratio: 1;"></span></a>
-                                       <div
-                                          uk-dropdown="pos: right-top; offset: 25; delay-hide: 200;"
-                                          class="uk-dropdown  bg-grey">
-                                          <ul class="uk-nav uk-dropdown-nav uk-margin-remove">
-                                             <li>
-                                                <a href="shop-list.php">Necklace</a>
-                                             </li>
-                                             <li>
-                                                <a href="shop-list.php">Finger Ring</a>
-                                             </li>
-                                             <li>
-                                                <a href="shop-list.php">Ear Ring</a>
-                                             </li>
-                                             <li>
-                                                <a href="shop-list.php">Bracelet</a>
-                                                </a>
-                                             </li>
-                                             <li>
-                                                <a href="shop-list.php">Pendant</a>
-                                             </li>
-                                          </ul>
-                                       </div>
-                                    </li>
-                                    <!-- -->
-                                    <!-- -->
-                                    <li>
-                                       <a href="shop-list.php">Hemp Product
-                                       <span
-                                          class="uk-margin-remove uk-align-right "
-                                          uk-icon="icon: chevron-right; ratio: 1;"></span></a>
-                                       <div
-                                          uk-dropdown="pos: right-top; offset: 25; delay-hide: 200;"
-                                          class="uk-dropdown  bg-grey">
-                                          <ul class="uk-nav uk-dropdown-nav uk-margin-remove">
-                                             <li>
-                                                <a href="shop-list.php">Hemp Bagpack
-                                                </a>
-                                             </li>
-                                             <li>
-                                                <a href="shop-list.php">Hemp Kids Bagpack
-                                                </a>
-                                             </li>
-                                             <li>
-                                                <a href="shop-list.php">Hemp Fanny Bag
-                                                </a>
-                                             </li>
-                                             <li>
-                                                <a href="shop-list.php">Hemp Purse
-                                                </a>
-                                             </li>
-                                             <li>
-                                                <a href="shop-list.php">Hemp Hat
-                                                </a>
-                                             </li>
-                                             <li>
-                                                <a href="shop-list.php">Hemp Slipper
-                                                </a>
-                                             </li>
-                                             <li>
-                                                <a href="shop-list.php">Handmade Dream Catcher
-                                                </a>
-                                             </li>
-                                             <li>
-                                                <a href="shop-list.php">Hemp Passport Bag
-                                                </a>
-                                             </li>
-                                          </ul>
-                                       </div>
-                                    </li>
-                                    <!-- -->
-                                    <!-- -->
-                                    <li>
-                                       <a href="shop-list.php">Cotton Bag
-                                       <span
-                                          class="uk-margin-remove uk-align-right "
-                                          uk-icon="icon: chevron-right; ratio: 1;"></span></a>
-                                       <div
-                                          uk-dropdown="pos: right-top; offset: 25; delay-hide: 200;"
-                                          class="uk-dropdown  bg-grey">
-                                          <ul class="uk-nav uk-dropdown-nav uk-margin-remove">
-                                             <li>
-                                                <a href="shop-list.php">Cotton File Bag
-                                                </a>
-                                             </li>
-                                             <li>
-                                                <a href="shop-list.php">Cotton Passport Bag
-                                                </a>
-                                             </li>
-                                             <li>
-                                                <a href="shop-list.php">Cotton Z-Pad Bag
-                                                </a>
-                                             </li>
-                                             <li>
-                                                <a href="shop-list.php">Cotton Bagpack
-                                                </a>
-                                             </li>
-                                             <li>
-                                                <a href="shop-list.php">Cotton Fanny Bag
-                                                </a>
-                                             </li>
-                                             <li>
-                                                <a href="shop-list.php">Cotton Purse
-                                                </a>
-                                             </li>
-                                          </ul>
-                                       </div>
-                                    </li>
-                                    <!-- -->
-                                    <!-- -->
-                                    <li>
-                                       <a href="shop-list.php">Felt Product
-                                       <span
-                                          class="uk-margin-remove uk-align-right "
-                                          uk-icon="icon: chevron-right; ratio: 1;"></span></a>
-                                       <div
-                                          uk-dropdown="pos: right-top; offset: 25; delay-hide: 200;"
-                                          class="uk-dropdown  bg-grey">
-                                          <ul class="uk-nav uk-dropdown-nav uk-margin-remove">
-                                             <li>
-                                                <a href="shop-list.php">Bag
-                                                </a>
-                                             </li>
-                                             <li>
-                                                <a href="shop-list.php">Decorative Items
-                                                </a>
-                                             </li>
-                                             <li>
-                                                <a href="shop-list.php">Shoes
-                                                </a>
-                                             </li>
-                                             <li>
-                                                <a href="shop-list.php">Hats
-                                                </a>
-                                             </li>
-                                             <li>
-                                                <a href="shop-list.php">Coaster
-                                                </a>
-                                             </li>
-                                             <li>
-                                                <a href="shop-list.php">Purse
-                                                </a>
-                                             </li>
-                                          </ul>
-                                       </div>
-                                    </li>
-                                    <!-- -->
-                                    <!-- -->
-                                    <li>
-                                       <a href="shop-list.php">Ritual Product
-                                       <span
-                                          class="uk-margin-remove uk-align-right "
-                                          uk-icon="icon: chevron-right; ratio: 1;"></span></a>
-                                       <div
-                                          uk-dropdown="pos: right-top; offset: 25; delay-hide: 200;"
-                                          class="uk-dropdown  bg-grey">
-                                          <ul class="uk-nav uk-dropdown-nav uk-margin-remove">
-                                             <li>
-                                                <a href="shop-list.php">Statue
-                                                </a>
-                                             </li>
-                                             <li>
-                                                <a href="shop-list.php">Incense
-                                                </a>
-                                             </li>
-                                             <li>
-                                                <a href="shop-list.php">Bell
-                                                </a>
-                                             </li>
-                                             <li>
-                                                <a href="shop-list.php">Gong
-                                                </a>
-                                             </li>
-                                             <li>
-                                                <a href="shop-list.php">Pray Wheel
-                                                </a>
-                                             </li>
-                                             <li>
-                                                <a href="shop-list.php">Dorje
-                                                </a>
-                                             </li>
-                                             <li>
-                                                <a href="shop-list.php">Bajra
-                                                </a>
-                                             </li>
-                                          </ul>
-                                       </div>
-                                    </li>
-                                    <!-- -->
-                                    <!-- -->
-                                    <li>
-                                       <a href="shop-list.php">Woolen Products
-                                       <span
-                                          class="uk-margin-remove uk-align-right "
-                                          uk-icon="icon: chevron-right; ratio: 1;"></span></a>
-                                       <div
-                                          uk-dropdown="pos: right-top; offset: 25; delay-hide: 200;"
-                                          class="uk-dropdown  bg-grey">
-                                          <ul class="uk-nav uk-dropdown-nav uk-margin-remove">
-                                             <li>
-                                                <a href="shop-list.php">Woolen Jackets
-                                                </a>
-                                             </li>
-                                             <li>
-                                                <a href="shop-list.php">Woolen Hats
-                                                </a>
-                                             </li>
-                                             <li>
-                                                <a href="shop-list.php">Woolen Gloves
-                                                </a>
-                                             </li>
-                                             <li>
-                                                <a href="shop-list.php">Woolen Handwarmer
-                                                </a>
-                                             </li>
-                                             <li>
-                                                <a href="shop-list.php">Woolen Poncho
-                                                </a>
-                                             </li>
-                                             <li>
-                                                <a href="shop-list.php">Woolen Shoes
-                                                </a>
-                                             </li>
-                                             <li>
-                                                <a href="shop-list.php">Woolen Headband
-                                                </a>
-                                             </li>
-                                          </ul>
-                                       </div>
-                                    </li>
+                                        @endforeach
                                     <!-- -->
                                  </ul>
                               </div>
@@ -711,13 +335,13 @@
                               <a href="blog.php">Blog</a>
                            </li>
                            <li>
-                              <a href="about.php">About Us</a>
+                              <a href="{{route('about')}}">About Us</a>
                            </li>
                         </ul>
                      </div>
                      <div class="uk-navbar-center">
-                        <a href="index.php" class="uk-navbar-item uk-logo">
-                        <img alt="Mountain Handi Craft" src="assets/images/logo.png" width="240">
+                        <a href="{{route('index')}}" class="uk-navbar-item uk-logo">
+                        <img alt="Mountain Handi Craft" src="{{asset('images/logo.png')}}" width="240">
                         </a>
                      </div>
                      <div class="uk-navbar-right">
@@ -732,16 +356,20 @@
                               </a>
                          </li>
                            <li>
-                              <a  href="dashboard.php" uk-tooltip="Johnny Deep"  uk-icon="icon:user;"></a>
+                              <a href="#" uk-tooltip="{{Auth::user()->first_name}}">{{Auth::user()->first_name}}<span class="" uk-icon="icon: chevron-down; ratio: 1;"></span></a>
+                              <div class="uk-navbar-dropdown uk-margin-remove">
+                                 <ul class="uk-nav uk-navbar-dropdown-nav uk-margin-remove">
+                                    <li><a href="{{route('logout')}}">Logout</li>
+                                 </ul>
+                              </div>
                            </li>
-                           <li>
+                           <li class="mini-cart">
                               <a
                                  class="uk-position-relative"
-                                 href="#"
+                                 href="{{route('cart-item')}}"
                                  uk-tooltip="Cart"
-                                 uk-toggle="target: #cart"
                                  uk-icon="icon:cart;">
-                                 <div class="uk-cart-count">5</div>
+                                 <div class="uk-cart-count">{{Gloudemans\Shoppingcart\Facades\Cart::count()}}</div>
                               </a>
                            </li>
                         </ul>
@@ -750,6 +378,4 @@
                </div>
             </div>
          </div>
-         <!-- end main nav -->
-         <?php include('include/cart-offcanvas.php');?>
       </header>

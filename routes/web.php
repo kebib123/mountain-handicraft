@@ -66,6 +66,9 @@ Route::group(['namespace' => 'Front'], function () {
     Route::get('/checkout-complete', 'CheckoutController@checkout_complete')->name('checkout-complete');
     Route::get('/track-form', 'CheckoutController@track_form')->name('track-form');
     Route::get('/track-order', 'CheckoutController@track_order')->name('track-order');
+    // Get city when country changes
+    Route::get('/getcity/{slug?}', 'CheckoutController@get_city')->name('get-city');
+    Route::get('/getshippingprice/{city?}', 'CheckoutController@get_shipping_price')->name('get-shipping-price');
 
     Route::get('stripe', 'PaymentController@stripe');
     Route::post('stripe', 'PaymentController@stripePost')->name('stripe.post');

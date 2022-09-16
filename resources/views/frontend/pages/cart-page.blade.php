@@ -99,7 +99,7 @@
                      </ul>
                     </div>   
                     <div class="uk-summary-footer">  
-                    <a href="checkout.php" class="uk-button uk-btn-primary uk-width-1-1">Proceed to Checkout</a>
+                    <a href="{{route('checkout-address')}}" class="uk-button uk-btn-primary uk-width-1-1">Proceed to Checkout</a>
                     </div>                                    
                 </div>
             </div>
