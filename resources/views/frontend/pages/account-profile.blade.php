@@ -1,173 +1,140 @@
 @extends('frontend.include.master')
 @section('content')
-    <!-- Page Title-->
-    <div class="page-title-overlap bg-dark pt-4">
-        <div class="container d-lg-flex justify-content-between py-2 py-lg-3">
-            <div class="order-lg-2 mb-3 mb-lg-0 pt-lg-2">
-                <nav aria-label="breadcrumb">
-                    <ol class="breadcrumb breadcrumb-light flex-lg-nowrap justify-content-center justify-content-lg-start">
-                        <li class="breadcrumb-item"><a class="text-nowrap" href="{{route('index')}}"><i class="czi-home"></i>Home</a></li>
-                        <li class="breadcrumb-item text-nowrap"><a href="#">Account</a>
-                        </li>
-                        <li class="breadcrumb-item text-nowrap active" aria-current="page">Profile info</li>
-                    </ol>
-                </nav>
+<!-- MobileMenu -->
+<div class="bg-primary  uk-hidden@m">
+   <div class="uk-container">
+      <nav class="uk-navbar uk-padding-small " uk-navbar>
+         <div class="uk-navbar-left">
+            <a class="text-white" uk-navbar-toggle-icon uk-toggle href="#DashboardMenu"></a> 
+         </div>
+         <div class="uk-navbar-center">
+            <h5 class="text-white uk-margin-remove">Profile</h5>
+         </div>
+      </nav>
+   </div> 
+</div>   
+<!-- MobileMenu -->
+<!-- section -->
+<section class="uk-section bg-white">
+   <div class="uk-container">
+      <div uk-grid class="uk-grid-large">
+         <div class="uk-width-1-4@m uk-visible@m">
+            <ul class="uk-dasboard-nav">
+               <li class="uk-nav-header text-black">Navigation</li>
+               <li><a href="{{ route('user-dashboard') }}" class="active"><span class="material-icons-outlined uk-margin-small-right">dashboard</span> Dashboard</a></li>
+               <li><a href="{{ route('user-orders') }}"><span class="material-icons-outlined uk-margin-small-right">view_list</span>Orders</a></li>
+               <li><a href="{{ route('user-profile') }}"><span class="material-icons-outlined uk-margin-small-right">person</span>Profile</a></li>
+               {{-- <li><a href="addresses.php"><span class="material-icons-outlined uk-margin-small-right">assignment</span>Addresses</a></li> --}}
+               <li class="uk-nav-header text-black">More</li>
+               <li><a href="{{ route('logout') }}"><span class="material-icons-outlined uk-margin-small-right">logout</span>Logout</a></li>
+            </ul>
+         </div>
+         <div class="uk-width-expand@m">
+            <div class="uk-margin-top">
+               <h1 class="uk-h3 uk-margin-small uk-visible@m">Profile</h1>
+               <div>
+              
+               </div>
+               <div class="uk-overflow-auto">
+               <table class="uk-table uk-table-small uk-table-striped">
+               <tbody>
+                  <tr>
+                     <td>First Name</td>
+                      <td>{{ $user->first_name }}</td>
+                  </tr>
+                  <tr>
+                     <td>Last Name</td>
+                      <td>{{ $user->last_name }}</td>
+                  </tr>
+                  <tr>
+                     <td>Contact Number</td>
+                      <td>{{ $user->phone }}</td>
+                  </tr>
+                  <tr>
+                     <td>Email Address</td>
+                      <td>{{ $user->email }}</td>
+                  </tr>
+                  
+               </tbody>
+            </table>
+               </div>
+               <div class=" uk-align-right uk-margin-small-top uk-margon-remove-bottom">
+               <button  href="#edit-profile" uk-toggle class="uk-button uk-btn-black uk-flex uk-flex-middle">
+                <span class="material-icons-outlined uk-margin-small-right">mode_edit</span>Edit</a>
+               </div>
             </div>
-            <div class="order-lg-1 pr-lg-4 text-center text-lg-left">
-                <h1 class="h3 text-light mb-0">Profile info</h1>
+         </div>
+      </div>
+   </div>
+</section>
+<!-- section -->
+<!-- offcanvas -->
+<div id="DashboardMenu" uk-offcanvas="mode: reveal; overlay: true;">
+   <div class="uk-offcanvas-bar uk-box-shadow-medium">
+      <div>
+         <div class="uk-flex uk-flex-middle uk-position-relative  uk-margin-large-bottom">
+            <div class="uk-icon-button bg-secondary text-white uk-margin-small-right">
+               <span class="material-icons-outlined">perm_identity</span>
             </div>
-        </div>
-    </div>
-    <!-- Page Content-->
-    <div class="container pb-5 mb-2 mb-md-3">
-        <div class="row">
-            <!-- Sidebar-->
-            <aside class="col-lg-4 pt-4 pt-lg-0">
-                <div class="cz-sidebar-static rounded-lg box-shadow-lg px-0 pb-0 mb-5 mb-lg-0">
-                    <div class="px-4 mb-4">
-                        <div class="media align-items-center">
-                            <div class="img-thumbnail rounded-circle position-relative" style="width: 6.375rem;"><img class="rounded-circle" src="{{asset('images/user.png')}}" alt="User Image"></div>
-                            <div class="media-body pl-3">
-                                <h3 class="font-size-base mb-0">{{\Illuminate\Support\Facades\Auth::user()->first_name}} {{\Illuminate\Support\Facades\Auth::user()->last_name}}</h3><span class="text-accent font-size-sm">{{\Illuminate\Support\Facades\Auth::user()->email}}</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="bg-secondary px-4 py-3">
-                        <h3 class="font-size-sm mb-0 text-muted">Dashboard</h3>
-                    </div>
-                    <ul class="list-unstyled mb-0">
-                        <li class="border-bottom mb-0"><a class="nav-link-style d-flex align-items-center px-4 py-3" href="{{route('user-orders')}}"><i class="czi-bag opacity-60 mr-2"></i>Orders<span class="font-size-sm text-muted ml-auto">{{count($order)}}</span></a></li>
-                        <li class="border-bottom mb-0"><a class="nav-link-style d-flex align-items-center px-4 py-3" href="{{route('wishlist')}}"><i class="czi-heart opacity-60 mr-2"></i>Wishlist<span class="font-size-sm text-muted ml-auto">{{count($wishlist)}}</span></a></li>
-                        {{--              <li class="mb-0"><a class="nav-link-style d-flex align-items-center px-4 py-3" href="account-tickets.php"><i class="czi-help opacity-60 mr-2"></i>Support tickets<span class="font-size-sm text-muted ml-auto">1</span></a></li>--}}
-                    </ul>
-                    <div class="bg-secondary px-4 py-3">
-                        <h3 class="font-size-sm mb-0 text-muted">Account settings</h3>
-                    </div>
-                    <ul class="list-unstyled mb-0">
-                        <li class="border-bottom mb-0"><a class="nav-link-style d-flex align-items-center px-4 py-3" href="{{route('user-profile')}}"><i class="czi-user opacity-60 mr-2"></i>Profile info</a></li>
-                        <li class="border-bottom mb-0"><a class="nav-link-style d-flex align-items-center px-4 py-3 active" href="{{route('user-address')}}"><i class="czi-location opacity-60 mr-2"></i>Addresses</a></li>
-                        <li class="border-bottom mb-0"><a class="nav-link-style d-flex align-items-center px-4 py-3" href="{{route('change-password')}}"><i class="czi-security-check opacity-60 mr-2"></i>Update password</a></li>
+            <div class="">
+               <h1 class="uk-h5 f-w-600 text-primary uk-margin-remove">{{ $user->first_name }}{{ $user->last_name }}</h1>
+               <h2 class="uk-h6 uk-margin-remove">{{ $user->email }}</h2>
+            </div>
+         </div>
+      </div>
+      <div>
+         <ul class="uk-dasboard-nav">
+             <li class="uk-nav-header text-black">Navigation</li>
+               <li><a href="{{ route('user-dashboard') }}" class="active"><span class="material-icons-outlined uk-margin-small-right">dashboard</span> Dashboard</a></li>
+               <li><a href="{{ route('user-orders') }}"><span class="material-icons-outlined uk-margin-small-right">view_list</span>Orders</a></li>
+               <li><a href="{{ route('user-profile') }}"><span class="material-icons-outlined uk-margin-small-right">person</span>Profile</a></li>
+               {{-- <li><a href="addresses.php"><span class="material-icons-outlined uk-margin-small-right">assignment</span>Addresses</a></li> --}}
+               <li class="uk-nav-header text-black">More</li>
+               <li><a href="{{ route('logout') }}"><span class="material-icons-outlined uk-margin-small-right">logout</span>Logout</a></li>
 
-                        {{--              <li class="mb-0"><a class="nav-link-style d-flex align-items-center px-4 py-3" href="account-payment.php"><i class="czi-card opacity-60 mr-2"></i>Payment methods</a></li>--}}
-                        <li class="d-lg-none border-top mb-0"><a class="nav-link-style d-flex align-items-center px-4 py-3" href="{{route('logout')}}"><i class="czi-sign-out opacity-60 mr-2"></i>Sign out</a></li>
-                    </ul>
-                </div>
-            </aside>
-            <!-- Content  -->
-            <section class="col-lg-8">
-                <!-- Toolbar-->
-                <div class="d-none d-lg-flex justify-content-between align-items-center pt-lg-3 pb-4 pb-lg-5 mb-lg-3">
-                    <h6 class="font-size-base text-light mb-0">Update you profile details below:</h6><a class="btn btn-primary btn-sm" href="{{route('logout')}}"><i class="czi-sign-out mr-2"></i>Sign out</a>
-                </div>
-                <!-- Profile form-->
-                <form action="{{route('user-profile')}}" method="post">
-                    @csrf
-                    <input type="hidden" name="user_id" value="{{\Illuminate\Support\Facades\Auth::user()->id}}">
-                    {{--            <div class="bg-secondary rounded-lg p-4 mb-4">--}}
-                    {{--              <div class="media align-items-center"><img src="img/shop/account/avatar.jpg" width="90" alt="Susan Gardner">--}}
-                    {{--                <div class="media-body pl-3">--}}
-                    {{--                  <button class="btn btn-light btn-shadow btn-sm mb-2" type="button"><i class="czi-loading mr-2"></i>Change avatar</button>--}}
-                    {{--                  <div class="p mb-0 font-size-ms text-muted">Upload JPG, GIF or PNG image. 300 x 300 required.</div>--}}
-                    {{--                </div>--}}
-                    {{--              </div>--}}
-                    {{--            </div>--}}
-                    @if(\Illuminate\Support\Facades\Auth::user() != null)
-                        <div class="row">
-                            <div class="col-sm-6">
-                                <div class="form-group">
-                                    <label for="account-fn">First Name</label>
-                                    <input class="form-control" type="text" id="account-fn" name="first_name" value="{{\Illuminate\Support\Facades\Auth::user()->first_name}}">
-                                </div>
-                            </div>
-                            <div class="col-sm-6">
-                                <div class="form-group">
-                                    <label for="account-ln">Last Name</label>
-                                    <input class="form-control" type="text" name="last_name" id="account-ln" value="{{\Illuminate\Support\Facades\Auth::user()->last_name}}">
-                                </div>
-                            </div>
-                            <div class="col-sm-6">
-                                <div class="form-group">
-                                    <label for="account-email">Email Address</label>
-                                    <input class="form-control" type="email" name="email" id="account-email" value="{{\Illuminate\Support\Facades\Auth::user()->email}}">
-                                </div>
-                            </div>
-                            <div class="col-sm-6">
-                                <div class="form-group">
-                                    <label for="account-phone">Phone Number</label>
-                                    <input class="form-control" type="text" name="phone" id="account-phone" value="{{\Illuminate\Support\Facades\Auth::user()->phone}}" required>
-                                </div>
-                            </div>
-
-                            <div class="col-12">
-                                <hr class="mt-2 mb-3">
-                                <div class="d-flex flex-wrap justify-content-between align-items-center">
-                                    <!--<div class="custom-control custom-checkbox d-block">-->
-                                    <!--    <input class="custom-control-input" type="checkbox" id="subscribe_me" checked>-->
-                                    <!--    <label class="custom-control-label" for="subscribe_me">Subscribe me to Newsletter</label>-->
-                                    <!--</div>-->
-                                    <button class="btn btn-primary mt-3 mt-sm-0" type="submit">Update profile</button>
-                                </div>
-                            </div>
-                        </div>
-                    @else
-                        <div class="row">
-                            <div class="col-sm-6">
-                                <div class="form-group">
-                                    <label for="account-fn">First Name</label>
-                                    <input class="form-control" type="text" id="account-fn" name="first_name">
-                                </div>
-                            </div>
-                            <div class="col-sm-6">
-                                <div class="form-group">
-                                    <label for="account-ln">Last Name</label>
-                                    <input class="form-control" type="text" id="account-ln" name="last_name">
-                                </div>
-                            </div>
-                            <div class="col-sm-6">
-                                <div class="form-group">
-                                    <label for="account-email">Email Address</label>
-                                    <input class="form-control" type="email" id="account-email" name="email">
-                                </div>
-                            </div>
-                            <div class="col-sm-6">
-                                <div class="form-group">
-                                    <label for="account-phone">Phone Number</label>
-                                    <input class="form-control" type="text" id="account-phone" name="phone" required>
-                                </div>
-                            </div>
-
-                            <div class="col-12">
-                                <hr class="mt-2 mb-3">
-                                <div class="d-flex flex-wrap justify-content-between align-items-center">
-                                    <div class="custom-control custom-checkbox d-block">
-                                        <input class="custom-control-input" type="checkbox" id="subscribe_me" checked>
-                                        <label class="custom-control-label" for="subscribe_me">Subscribe me to Newsletter</label>
-                                    </div>
-                                    <button class="btn btn-primary mt-3 mt-sm-0" type="submit">Update profile</button>
-                                </div>
-                            </div>
-                        </div>
-
-                    @endif
-                </form>
-            </section>
-        </div>
-    </div>
-
-
-
-    <!-- Toolbar for handheld devices-->
-    <div class="cz-handheld-toolbar">
-        <div class="d-table table-fixed w-100"><a class="d-table-cell cz-handheld-toolbar-item"
-                                                  href="{{route('wishlist')}}"><span class="cz-handheld-toolbar-icon"><i
-                        class="czi-heart"></i></span><span class="cz-handheld-toolbar-label">Wishlist</span></a><a
-                class="d-table-cell cz-handheld-toolbar-item" href="#navbarCollapse" data-toggle="collapse"
-                onclick="window.scrollTo(0, 0)"><span class="cz-handheld-toolbar-icon"><i
-                        class="czi-menu"></i></span><span class="cz-handheld-toolbar-label">Menu</span></a><a
-                class="d-table-cell cz-handheld-toolbar-item" href="{{route('cart-item')}}"><span
-                    class="cz-handheld-toolbar-icon"><i class="czi-cart"></i><span
-                        class="badge badge-primary badge-pill ml-1">{{\Gloudemans\Shoppingcart\Facades\Cart::count()}}</span></span><span
-                    class="cz-handheld-toolbar-label">{{\Gloudemans\Shoppingcart\Facades\Cart::subtotal()}}</span></a>
-        </div>
-    </div>
+         </ul>
+      </div>
+   </div>
+</div>
+<!-- offcanvas -->
+<!-- all order -->
+<div id="edit-profile" uk-modal>
+   <div class="uk-modal-dialog">  
+      <div class="uk-modal-header uk-flex uk-flex-between uk-flex-middle">
+         <h4 class="uk-margin-remove">Update Profile</h4>
+         <button class="uk-modal-close" type="button" uk-close></button>
+      </div>
+      <div class="uk-modal-body uk-padding" uk-overflow-auto>
+      <form class="uk-grid-medium" uk-grid method="post" action="{{ route('user-profile') }}">
+         <input type="hidden" name="user_id" value="{{ $user->id }}">
+            @csrf   
+                  <div class="uk-width-1-2@m">
+                     <label class="uk-margin-small-bottom uk-display-block" for="fname">First Name <span class="uk-text-danger">*</span></label>
+                     <input class="uk-input" name="first_name" type="text" value="{{ $user->first_name }}" id="fname"> 
+                  </div>
+                  <div class="uk-width-1-2@m">
+                     <label class="uk-margin-small-bottom uk-display-block" for="lname">Last Name <span class="uk-text-danger">*</span></label>
+                     <input class="uk-input" name="last_name" type="text" value="{{ $user->last_name }}" id="lname"> 
+                  </div>
+                  <div class="uk-width-1-1">
+                    <p class="f-w-600">Login Information</p>
+                  </div>
+                  <div class="uk-width-1-1">
+                     <label class="uk-margin-small-bottom uk-display-block" for="Email">Email Address <span class="uk-text-danger">*</span></label>
+                     <input class="uk-input" name="email" type="text" value="{{ $user->email }}" id="Email"> 
+                  </div>
+                  <div class="uk-width-1-1">
+                     <label class="uk-margin-small-bottom uk-display-block" for="phone">Contact Number <span class="uk-text-danger">*</span></label>
+                     <input class="uk-input" name="phone" type="number" value="{{ $user->phone }}" id="phone"> 
+                  </div>
+              
+                    <div class="uk-modal-footer uk-flex uk-flex-center">
+        <button type="submit" class="uk-button uk-btn-primary">Update</button>
+      </div>
+               </form>
+      </div>
+     
+   </div>
+</div>
+<!-- end order -->
 @endsection

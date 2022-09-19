@@ -76,6 +76,7 @@ Route::group(['namespace' => 'Front'], function () {
     Route::get('/payment-method','PaymentController@payment_method')->name('payment.method');
     Route::post('/payment-method','PaymentController@payment_method')->name('payment.method');
     //user dashboard
+    Route::get('/account-dashboard', 'UserController@user_dashboard')->name('user-dashboard');  
     Route::get('/account-address', 'UserController@address')->name('user-address');
     Route::get('/order-details-modal/{id?}', 'UserController@order_details')->name('order-detail-modal');
     Route::post('/account-address', 'UserController@address')->name('user-address');

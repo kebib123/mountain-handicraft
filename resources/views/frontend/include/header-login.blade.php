@@ -345,7 +345,7 @@
                         </a>
                      </div>
                      <div class="uk-navbar-right">
-                        <ul class="uk-navbar-nav">
+                        <ul class="uk-navbar-nav">   
                            
                            <li>
                               <a href="contact.php">Contact Us</a>
@@ -356,7 +356,7 @@
                               </a>
                          </li>
                            <li>
-                              <a href="#" uk-tooltip="{{Auth::user()->first_name}}">{{Auth::user()->first_name}}<span class="" uk-icon="icon: chevron-down; ratio: 1;"></span></a>
+                           <a href="{{ route('user-dashboard')}}" uk-tooltip="{{Auth::user()->first_name}}">{{Auth::user()->first_name}}<span class="" uk-icon="icon: chevron-down; ratio: 1;"></span></a>
                               <div class="uk-navbar-dropdown uk-margin-remove">
                                  <ul class="uk-nav uk-navbar-dropdown-nav uk-margin-remove">
                                     <li><a href="{{route('logout')}}">Logout</li>

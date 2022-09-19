@@ -320,7 +320,7 @@
                                              @foreach($value->subCategory as $child)
                                                 <li>
                                                 <a href="{{route('product-list',$child->slug)}}">{{$child->name}}</a>
-                                             </li>
+                                              </li>
                                              @endforeach
                                             
                                        
@@ -364,7 +364,7 @@
                               <i uk-icon="icon:user;"></i>
                               </a>
                            </li>
-                           <li class="mini-cart">
+                           <li class="mini-cart"> 
                               <a
                                  class="uk-position-relative"
                                  href="{{route('cart-item')}}"

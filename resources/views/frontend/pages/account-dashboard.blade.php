@@ -1,5 +1,6 @@
 @extends('frontend.include.master')
 @section('content')
+
 <!-- MobileMenu -->
 <div class="bg-primary  uk-hidden@m">
    <div class="uk-container">
@@ -8,7 +9,7 @@
             <a class="text-white" uk-navbar-toggle-icon uk-toggle href="#DashboardMenu"></a> 
          </div>
          <div class="uk-navbar-center">
-            <h5 class="text-white uk-margin-remove">Orders</h5>
+            <h5 class="text-white uk-margin-remove">Dashboard</h5>
          </div>
       </nav>
    </div>
@@ -20,61 +21,33 @@
       <div uk-grid class="uk-grid-large">
          <div class="uk-width-1-4@m uk-visible@m">
             <ul class="uk-dasboard-nav">
-                <li class="uk-nav-header text-black">Navigation</li>
+               <li class="uk-nav-header text-black">Navigation</li>
                <li><a href="{{ route('user-dashboard') }}" class="active"><span class="material-icons-outlined uk-margin-small-right">dashboard</span> Dashboard</a></li>
                <li><a href="{{ route('user-orders') }}"><span class="material-icons-outlined uk-margin-small-right">view_list</span>Orders</a></li>
                <li><a href="{{ route('user-profile') }}"><span class="material-icons-outlined uk-margin-small-right">person</span>Profile</a></li>
                {{-- <li><a href="addresses.php"><span class="material-icons-outlined uk-margin-small-right">assignment</span>Addresses</a></li> --}}
                <li class="uk-nav-header text-black">More</li>
                <li><a href="{{ route('logout') }}"><span class="material-icons-outlined uk-margin-small-right">logout</span>Logout</a></li>
-            </ul>
+            </ul> 
          </div>
          <div class="uk-width-expand@m">
             <div class="uk-margin-top">
-               <h1 class="uk-h3 uk-margin-small uk-visible@m">Orders</h1>
-               <div class="uk-overflow-auto">
-                  <table class="uk-table uk-table-small uk-table-striped">
-                     <thead>
-                        <tr>
-                           <th>Order #</th>
-                           <th>Date Purchased</th>
-                           
-                           <th>Status</th>
-                           <th>Payment Method</th>
-                           <th>Total</th>
-                        </tr>
-                     </thead>
-                     <tbody>
-                                               @foreach($order as $value)
-
-                        <tr>
-                           <td><a href="#order-details_modal" class="order_id_value text-secondary" data-id="{{$value->id}}" uk-toggle>{{$value->order_track}}</a></td>
-                           <td>{{$value->created_at->format('d M Y')}}</td>
-                          
-                           <td>
-                              {{-- <span class="text-primary">In Progress</span> --}}
-                                   @if($value->status==0)
-                                        <span class="badge badge-danger">Pending</span>
-                                    @endif
-                                    @if(($value->status==1))
-                                        <span class="badge badge-success">Completed</span>
-                                    @endif
-                                    @if(($value->status==2))
-                                        <span class="badge badge-secondary">Cancel</span>
-                                    @endif
-                                    @if(($value->status==3))
-                                        <span class="badge badge-primary">Return</span>
-                                    @endif 
-                                    </td>
-                           <td>Cash on Delivery</td>
-                           <td>{{$value->grand_total}}</td>
-                        </tr>
-                                @endforeach
-
-                      
-                     </tbody>
-                  </table>
-               </div>
+                <h1 class="uk-h3 uk-margin-small uk-visible@m">Dashboard</h1>
+               <h1 class="uk-h4 uk-margin-remove">Welcome <span class="text-secondary">{{ $user->first_name }}</span></h1>
+               <p class="greeting">
+                  Hello
+                  <span class="text-dark font-weight-bold">{{ $user->first_name }} {{ $user->last_name }}</span>
+                  (not
+                  <span class="text-dark font-weight-bold">{{ $user->first_name }} {{ $user->last_name }}</span>?
+                  <a href="{{ route('logout') }}" class="text-primary">Log out</a>)
+               </p>
+               <p class="mb-4">
+                  From your account dashboard you can view your 
+                  <a href="orders.php" class="text-primary">recent orders</a>,
+                  <a href="profile.php" class="text-primary">profile</a>, 
+                  <a href="addresses.php" class="text-primary">addresses</a>,
+                  and edit your password and account details.
+               </p>
             </div>
          </div>
       </div>
@@ -97,7 +70,7 @@
       </div>
       <div>
          <ul class="uk-dasboard-nav">
-               <li class="uk-nav-header text-white">Navigation</li>
+            <li class="uk-nav-header text-white">Navigation</li>
             <li><a href="{{ route('user-dashboard') }}" class="active"><span class="material-icons-outlined uk-margin-small-right">dashboard</span> Dashboard</a></li>
             <li><a href="{{ route('user-orders') }}"><span class="material-icons-outlined uk-margin-small-right">view_list</span> Orders</a></li>
             <li><a href="{{ route('user-profile') }}"><span class="material-icons-outlined uk-margin-small-right">person</span>Profile</a></li>
@@ -109,27 +82,5 @@
    </div>
 </div>
 <!-- offcanvas -->
-<!-- all order -->
-<div id="order-details_modal" uk-modal class="modal">
-  
 
-</div>
-
-@endsection
-
-@push('scripts')
-
-    <script>
-        $(document).ready(function () {
-            var $modal = $('#order-details_modal');
-
-            $('.order_id_value').click(function (e) {
-                var id = $(this).attr('data-id');
-                var tempEditUrl = "{{route('order-detail-modal',':id')}}";
-                tempEditUrl = tempEditUrl.replace(':id', id);
-                $modal.load(tempEditUrl);
-            });
-        });
-
-    </script>
-@endpush
+@stop
