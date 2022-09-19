@@ -178,8 +178,8 @@
                 <tr>
                     <td class="email-masthead">
 
-                        <img src="https://demo3.lakhetech.com/img/logo.png" style="max-height: 40px" alt="company logo">
-                        <a class="email-masthead_name">Smarthome</a>
+                        <img src="{{asset('images/logo.png')}}" style="max-height: 40px" alt="company logo">
+                        <a class="email-masthead_name">Mountain Handicraft</a>
                     </td>
                 </tr>
                 <!-- Email Body -->
@@ -204,7 +204,7 @@
                                             </td>
                                         </tr>
                                     </table>
-                                    <p>Thanks,<br>Smarthome Team</p>
+                                    <p>Thanks,<br>Mountain Handicraft Team</p>
                                     <!-- Sub copy -->
                                 </td>
                             </tr>
@@ -217,7 +217,7 @@
                             <tr>
                                 <td class="content-cell">
                                     <p class="sub center">
-                                       Smarthome
+                                       Mountain Handicraft
                                         <br>Kathmandu
                                     </p>
                                 </td>

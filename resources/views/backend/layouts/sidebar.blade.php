@@ -2,7 +2,7 @@
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
     <a href="{{url('/')}}" target="_blank" class="brand-link" style="background-color: #ffffff;">
-        <img src="{{asset('img/logo.png')}}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8;"><br>
+        <img src="{{asset('images/logo.png')}}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8;"><br>
         <!--<span class="brand-text font-weight-light"> {{ config('app.name') }}</span>-->
     </a>
 
@@ -210,6 +210,32 @@
                 </li>
 
                 <li class="nav-header">MISCELLANEOUS</li>
+
+                <li class="nav-item has-treeview">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fa fa-area-chart"></i>
+                        <p>
+                            Blog
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{route('add-blog')}}" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Add Blog</p>
+                            </a>
+                        </li>
+
+                         <li class="nav-item">
+                            <a href="{{route('all-blogs')}}" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>All Blogs</p>
+                            </a>
+                        </li>
+
+                    </ul>
+                </li>
 
                 <li class="nav-item">
                     <a href="{{route('faq')}}" class="nav-link">

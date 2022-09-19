@@ -1,31 +1,32 @@
 @extends('frontend.include.master')
 @section('content')
-    <!-- Page Content-->
-    <div class="container pb-5 mb-sm-4">
-      <div class="pt-5">
-        <div class="card py-3 mt-sm-3">
-          <div class="card-body text-center">
-            <h2 class="h4 pb-3">Thank you for your order!</h2>
-            <p class="font-size-sm mb-2">Your order has been placed and will be processed as soon as possible.</p>
-            <p class="font-size-sm mb-2">Make sure you make note of your order number, which is <span class='font-weight-medium'>{{$order->order_track}}</span></p>
-            <p class="font-size-sm">You will be receiving an email shortly with confirmation of your order. <u>You can now:</u></p><a class="btn btn-secondary mt-3 mr-3" href="{{route('index')}}">Go back shopping</a><a class="btn btn-primary mt-3" href="{{route('track-order',['order_id'=>$order->id])}}"><i class="czi-location"></i>&nbsp;Track order</a>
-          </div>
+<!-- section -->
+<section class="uk-section-large uk-background-muted">
+    <div class="uk-container uk-container-small">
+        <div class="uk-padding-large bg-white uk-box-shadow-medium uk-border-rounded uk-text-center">
+            <!-- payment success -->
+            <div class="uk-payment">
+            <svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 130.2 130.2">
+                <circle class="path circle" fill="none" stroke="#73AF55" stroke-width="6" stroke-miterlimit="10" cx="65.1" cy="65.1" r="62.1"/>
+                <polyline class="path check" fill="none" stroke="#73AF55" stroke-width="6" stroke-linecap="round" stroke-miterlimit="10" points="100.2,40.2 51.5,88.8 29.8,67.5 "/>
+                </svg>
+                <h2 class="uk-margin-remove uk-h3">Your payment has been processed successfully</h2>
+            </div>
+             <!-- end payment success -->
+            <!-- payment payment denied -->
+             <!-- <div class="uk-payment">
+                <svg   svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 130.2 130.2">
+                <circle class="path circle" fill="none" stroke="#f00" stroke-width="6" stroke-miterlimit="10" cx="65.1" cy="65.1" r="62.1"/>
+                <line class="path line" fill="none" stroke="#f00" stroke-width="6" stroke-linecap="round" stroke-miterlimit="10" x1="34.4" y1="37.9" x2="95.8" y2="92.3"/>
+                <line class="path line" fill="none" stroke="#f00" stroke-width="6" stroke-linecap="round" stroke-miterlimit="10" x1="95.8" y1="38" x2="34.4" y2="92.2"/>
+                </svg> 
+                <h2 class="uk-margin-remove uk-h3">Your payment could not completed</h2>
+            </div> -->
+            <!-- end payment payment denied -->
+            <a href="{{route('index')}}" class="uk-flex uk-flex-middle uk-flex-center uk-margin-top text-primary"><span class="material-icons-outlined f-14 uk-margin-small-right">arrow_back_ios</span>Return to shipping</a>
+            <a href="{{route('track-order',['order_id'=>$order->id])}}" class="uk-flex uk-flex-middle uk-flex-center uk-margin-top text-primary"><span class="material-icons-outlined f-14 uk-margin-small-right">arrow_forward_ios</span>Track Your Order</a>
         </div>
-      </div>
     </div>
-    <!-- Footer-->
-     <!-- Toolbar for handheld devices-->
-    <div class="cz-handheld-toolbar">
-        <div class="d-table table-fixed w-100"><a class="d-table-cell cz-handheld-toolbar-item"
-                                                  href="{{route('wishlist')}}"><span class="cz-handheld-toolbar-icon"><i
-                        class="czi-heart"></i></span><span class="cz-handheld-toolbar-label">Wishlist</span></a><a
-                class="d-table-cell cz-handheld-toolbar-item" href="#navbarCollapse" data-toggle="collapse"
-                onclick="window.scrollTo(0, 0)"><span class="cz-handheld-toolbar-icon"><i
-                        class="czi-menu"></i></span><span class="cz-handheld-toolbar-label">Menu</span></a><a
-                class="d-table-cell cz-handheld-toolbar-item" href="{{route('cart-item')}}"><span
-                    class="cz-handheld-toolbar-icon"><i class="czi-cart"></i><span
-                        class="badge badge-primary badge-pill ml-1">{{\Gloudemans\Shoppingcart\Facades\Cart::count()}}</span></span><span
-                    class="cz-handheld-toolbar-label">{{\Gloudemans\Shoppingcart\Facades\Cart::subtotal()}}</span></a>
-        </div>
-    </div>
+</div> 
+</section>
 @endsection

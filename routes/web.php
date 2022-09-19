@@ -29,17 +29,22 @@ Route::group(['namespace' => 'Front'], function () {
     Route::get ( '/callback/{service}', 'SocialAuthController@callback' );
     //footer
     Route::get('about', 'FooterController@about')->name('about');
+    Route::get('contact', 'FooterController@contact')->name('contact');
     Route::get('refund-policy', 'FooterController@refund')->name('refund');
+    Route::get('terms-and-conditions', 'FooterController@terms')->name('terms');
     Route::get('privacy-policy', 'FooterController@privacy')->name('privacy');
     Route::get('faq', 'FooterController@faq')->name('faq-page');
     Route::post('search-results', 'SearchController@search_results')->name('search-results');
     //cart details//
     Route::get('/product-{slug?}', 'ProductController@product_details')->name('product-single');
+    Route::post('/product-search', 'ProductController@product_search')->name('product-search');
 
     Route::get('/product-details/{slug?}', 'CategoryController@product_details')->name('product-details');
+    Route::get('/product-stock/{id}/{color_id}/{size_id}', 'ProductController@product_stock')->name('product-stock');
     Route::get('/category/{slug?}', 'CategoryController@product_list')->name('product-list');
     Route::get('/brand/{slug?}', 'CategoryController@brand_list')->name('brand-list');
     Route::get('/popular-products', 'CategoryController@popular_products')->name('popular-products');
+    
     Route::post('/cart', 'CartController@add_cart')->name('cart-add');
     Route::get('/cart-filter', 'CartController@cart_filter')->name('cart-filter');
     Route::get('/cart-page', 'CartController@cart_item')->name('cart-item');
@@ -54,6 +59,10 @@ Route::group(['namespace' => 'Front'], function () {
     Route::post('search-results', 'SearchController@search_results')->name('search-results');
     //Product review
     Route::post('product-review', 'ReviewController@add_review')->name('add-review');
+
+    // Blog Routes
+    Route::get('blog-single/{slug}', 'FrontController@blog_single')->name('blog-single');
+    Route::get('blog-all', 'FrontController@blog_all')->name('blog-all');
 
 
 //checkout details//
@@ -195,6 +204,15 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => ['aut
         Route::post('setting-page', 'SettingController@setting_page')->name('setting-page');
         Route::get('faq', 'SettingController@faq')->name('faq');
         Route::post('faq', 'SettingController@faq')->name('faq');
+    });
+
+    Route::group(['prefix' => 'blog'], function () {
+        Route::get('/all-blogs', 'BlogController@all_blogs')->name('all-blogs');
+        Route::get('/add-blog', 'BlogController@add_blog')->name('add-blog');
+        Route::post('/add-blog', 'BlogController@add_blog')->name('add-blog');
+        Route::get('/delete-blog/{id}', 'BlogController@delete_blog')->name('delete-blog');
+        Route::any('edit-blog/{id?}', 'BlogController@edit_blog')->name('edit-blog');
+        //Route::post('/edit-blog', 'BlogController@edit_blog')->name('edit-blog');
     });
     //Subir Routes
     Route::resources([

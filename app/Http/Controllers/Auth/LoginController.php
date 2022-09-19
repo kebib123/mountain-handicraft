@@ -42,6 +42,7 @@ class LoginController extends Controller
 
     public function login_page(Request $request)
     {
+
         if ($request->isMethod('get'))
         {
             return view('frontend.pages.account-signin');

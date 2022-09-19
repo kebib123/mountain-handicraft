@@ -38,6 +38,16 @@
                                         <input type="file" name="image" class="form-control" id="formGroupExampleInput">
                                     </div>
 
+                                    <div class="form-group">
+                                        <label>SEO Keyword</label>
+                                        <textarea name="seo_keyword" id="keyword" class="form-control"></textarea>
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label>SEO Description</label>
+                                        <textarea name="seo_description" id="desc" rows="3" class="form-control"></textarea>
+                                    </div>
+
                                     <div class="form-group special-link">
                                         <label for="name" class="control-label">Special:</label>
                                         <select class="form-control" name="is_special" >

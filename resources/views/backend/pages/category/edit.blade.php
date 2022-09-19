@@ -57,6 +57,18 @@
                                   Choose if this is in home page </span>
                                     </div>
 
+                                    <div class="form-group">
+                                        <label>SEO Keyword</label>
+                                        <textarea name="seo_keyword" id="keyword" class="form-control">{{$value->seo_keyword}}</textarea>
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label>SEO Description</label>
+                                        <textarea name="seo_description"  id="desc" rows="3" class="form-control">{{$value->seo_description}}</textarea>
+                                    </div>
+
+
+
 
                                 </div>
                                 <!-- /.box-body -->

@@ -20,7 +20,7 @@ class SettingController extends BackendController
 
 //            dd($request->all());
             $inputs = $request->only(
-                'about','refund','privacy','twitter_link', 'googleplus_link', 'instagram_link', 'facebook_link', 'contact_no', 'address', 'website', 'email', 'site_title', 'site_description','regulation','recognition','price','link'
+                'about','refund','privacy','twitter_link', 'googleplus_link', 'instagram_link', 'facebook_link', 'contact_no', 'address', 'website', 'email', 'site_title', 'site_description','regulation','recognition','price','link', 'google_map', 'opening_hours', 'terms_and_conditions'
             );
 
             if ($request->hasfile('about_image_1')) {

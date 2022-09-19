@@ -78,7 +78,7 @@
                         <input
                             class="uk-input"
                             type="text"
-                            name="address1"
+                            name="address_1"
                             placeholder="For Example: House# 123, Street# 123, ABC Road"
                             id="Address">
                     </div>
@@ -87,9 +87,18 @@
                         <input
                             class="uk-input"
                             type="text"
-                            name="address2"
+                            name="address_2"
                             placeholder="For Example: House# 123, Street# 123, ABC Road"
                             id="Address">
+                    </div>
+                    <div class="uk-width-1-1@m">
+                        <label class="uk-margin-small-bottom uk-display-block" for="zipcode">Zipcode</label>
+                        <input
+                            class="uk-input"
+                            type="number"
+                            name="zip_code"
+                            placeholder="For Example: 44600"
+                            id="zip_code">
                     </div>
                     <div class="uk-width-1-1@m">
                         <label class="uk-margin-small-bottom uk-display-block" for="phone">Phone Number
@@ -108,6 +117,7 @@
                             class="uk-input"
                             type="email"
                             name="email"
+                            value="{{$user->email}}"
                             placeholder="Please enter your phone number"
                             id="Email">
                     </div>
@@ -131,10 +141,10 @@
                     </div>
 
                     <!-- Required hidden files -->
-                    <input type="hidden" id="subtotal" value="{{Gloudemans\Shoppingcart\Facades\Cart::subtotal()}}" name="subtotal">
+                    <input type="hidden" id="subtotal" value="{{$final}}" name="subtotal">
                     <input type="hidden" id="shipping" name="shipping">
                     <input type="hidden" id="shipping_id" name="shipping_id">
-                    <input type="hidden" id="user_id" name="{{Auth::user()->id}}">
+                    <input type="hidden" name="user_id" id="user_id" value="{{$user->id}}">
 
                 </div>
               
@@ -144,7 +154,7 @@
                     <span>All transactions are secure and encrypted.</span>
                 </div>
                     <ul uk-accordion="" class="uk-accordion-outline">
-                        <li>
+                        <!-- <li>
                             <div class="uk-accordion-title">
                                 <div class="uk-flex uk-flex-between">
                                     <div>
@@ -161,9 +171,6 @@
                                         <li>
                                             <img src="assets/images/payments/american-express.svg" alt="">
                                         </li>
-                                        <!-- <li>
-                                            <img src="assets/images/payments/discover.svg" alt="">
-                                        </li> -->
                                     </ul>
                                     </div>   
                                 </div> 
@@ -188,8 +195,8 @@
                                      </div>
                                </div>
                             </div>
-                        </li>
-                        <li>
+                        </li> -->
+                        <!-- <li>
                         <div class="uk-accordion-title">
                                 <div class="uk-flex uk-flex-between">
                                     <div>
@@ -212,8 +219,8 @@
                                 <p>After clicking “Complete order”, you will be redirected to You will be asked to login with Esewa.</p>
                                 <p>Total <strong class="emphasis">$314.71</strong></p>
                             </div>
-                        </li>
-                        <li>
+                        </li> -->
+                        <!-- <li>
                             
                             <div class="uk-accordion-title">
                                 <div class="uk-flex uk-flex-between">
@@ -236,7 +243,7 @@
                                 <p>After clicking “Complete order”, you will be redirected to You will be asked to login with Khalti.</p>
                                 <p>Total <strong class="emphasis">$314.71</strong></p>
                             </div>
-                        </li>
+                        </li> -->
                         <li>
                             <div class="uk-accordion-title">
                                 <div class="uk-flex uk-flex-between">
@@ -277,44 +284,31 @@
                     </div>
                     <div class="uk-summary-body">
                         <ul class="uk-calculation uk-margin-small-top uk-margin-small-bottom">
+                            @foreach($cartItem as $data)
                             <li class="uk-flex uk-flex-between uk-flex-middle">
                                 <div class="uk-flex uk-flex-between uk-flex-middle">
                                     <div class="uk-cart-img uk-margin-small-right">
                                         <a href="">
-                                            <img src="assets/images/products/1.jpg" alt="">
+                                            <img src="{{asset('images/products/'.$data->options->image)}}" alt="">
                                         </a>
                                     </div>
-                                    <div class="uk-margin-small-bottom">Cashmere Color Shawl (MHCS03)
-                                        <span class="uk-display-block  f-14">QTY : 1
-                                            <br>Orange / XL</span>
+                                    <div class="uk-margin-small-bottom">{{$data->name}}
+                                        <span class="uk-display-block  f-14">QTY : {{$data->qty}}
+                                            <br>{{$data->options->color}}</span>
                                     </div>
                                 </div>
                                 <div class="f-18">
-                                    $116
+                                    {{$data->price * $data->qty}}
                                 </div>
                             </li>
-                            <li class="uk-flex uk-flex-between uk-flex-middle">
-                                <div class="uk-flex uk-flex-between uk-flex-middle">
-                                    <div class="uk-cart-img uk-margin-small-right">
-                                        <a href="">
-                                            <img src="assets/images/products/2.jpg" alt="">
-                                        </a>
-                                    </div>
-                                    <div class="uk-margin-small-bottom">Cashmere Color shawl (MHCS10)
-                                        <span class="uk-display-block  f-14">QTY : 1
-                                            <br>Orange / XL</span>
-                                    </div>
-                                </div>
-                                <div class="f-18">
-                                    $116
-                                </div>
-                            </li>
+                            @endforeach
+                            
                             <li class="uk-flex uk-flex-between">
                                 <div>
                                     Subtotal
                                 </div>
                                 <div class="f-18">
-                                 {{Gloudemans\Shoppingcart\Facades\Cart::subtotal()}}
+                                 {{$final}}
                                 </div>
                             </li>
                             <li class="uk-flex uk-flex-between">
@@ -329,8 +323,8 @@
                                 <div class="uk-h4 uk-margin-remove">
                                     Total
                                 </div>
-                                <div class="uk-h4 uk-margin-remove" id="total" data-sub-total={{Gloudemans\Shoppingcart\Facades\Cart::subtotal()}}>
-                                {{Gloudemans\Shoppingcart\Facades\Cart::subtotal()}}
+                                <div class="uk-h4 uk-margin-remove" id="total" data-sub-total={{$final}}>
+                                {{$final}}
                                 </div>
                             </li>
                         </ul>
@@ -364,7 +358,7 @@
 
                   response.map(function(obj){
                     let htmlObj = `
-                      <option value="`+obj["id"]+`">`+obj["name"]+`</option>
+                      <option value="`+obj["name"]+`">`+obj["name"]+`</option>
                     `;
                     $("#city").append(htmlObj);
                   });
@@ -397,8 +391,8 @@
                 success: function (response) {
                   $("#shipping-cost").html(response.shipping_price);
                   $("#shipping").val(response.shipping_price);
-                  $("#shipping_id").val(response.shipping_id);
-                  let total = parseFloat($("#total").attr("data-sub-total").replace(',', ''))+parseFloat(response.shipping_price);
+                  $("#shipping_id").val(response.id);
+                  let total = parseFloat($("#total").attr("data-sub-total"))+parseFloat(response.shipping_price);
                   $("#total").html(total);
                 },
                 error: function (data) {//if an error occurs
