@@ -1,7 +1,7 @@
 @extends('frontend.include.master')
 @section('content')
 <!-- breadcrumb -->
-<section class="uk-section-xsmall">
+<section class="uk-section-xsmall"> 
    <div class="uk-container">
       <ul class="uk-breadcrumb">
          <li><a href="{{ route('index') }}">Home </a></li>
