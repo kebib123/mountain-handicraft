@@ -1,14 +1,10 @@
 @extends('frontend.include.master')
-
-@section('meta-keywords') {!! strip_tags($category->first()->seo_keyword) !!} @endsection
-@section('meta-description') {!! strip_tags($category->first()->seo_description) !!} @endsection
-
 @section('content')
 <section class="uk-section-xsmall">
    <div class="uk-container">
       <ul class="uk-breadcrumb">
-         <li><a href="shop-list.php">Cashmere Product </a></li>
-         <li><span>{{$category->first()->name}}</span></li>
+         <li><a href="#">Product Search </a></li>
+         <li><span></span></li>
       </ul>
    </div>
 </section>
@@ -22,7 +18,7 @@
             <div class="uk-padding">
                <div class="uk-grid">
                   <div class="uk-width-expand@m uk-width-1-2">
-                     <h3 class="f-w-600  uk-margin-remove"> {{$category->first()->name}} </h3>
+                     <h3 class="f-w-600  uk-margin-remove"> Search Results </h3>
                      <div class="uk-visible@m uk-margin-top">
                         <p>
                            Our luxurious women's pure cashmere cardigans are all crafted by us with comfort and style in mind. Effortless elegance and the highest quality yarn combine to make the perfect cashmere cardigan collection.
@@ -73,7 +69,7 @@
       <ul class="product_filter_result uk-child-width-1-2 uk-child-width-1-4@m  uk-grid-small" uk-height-match="target: .uk-product-list" uk-grid="uk-grid">
    <!--  -->
    @if($products->isNotEmpty())
-   @foreach($products->take(8) as $value) 
+   @foreach($products as $value) 
    <li>
       <div class="uk-product-list">
          <a href="{{route('product-single',$value->slug)}}" class="uk-inline-clip uk-transition-toggle">
@@ -111,11 +107,7 @@
    <!--  -->
 </ul>  
  
-       <div class="uk-margin-large-top">
-         <ul class="uk-pagination uk-flex-center uk-margin-remove" uk-margin>
-             {!! $products->links() !!}
-      </div>
-
+       
    </div>
 </section>
 <!-- end product list -->
@@ -129,10 +121,17 @@
             $('.item_sort').change(function (e) {
                 var val = $(this).find(':checked').val();
 
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+
                 $.ajax({
                     url: document.URL,
-                    type: 'get',
+                    type: 'post',
                     data: {
+                        key: '{{$key}}',
                         value: val,
                     },
                     success: function (result) {

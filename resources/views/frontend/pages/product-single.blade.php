@@ -1,4 +1,6 @@
 @extends('frontend.include.master')
+@section('meta-keywords') @if($product->seo){!! strip_tags($product->seo->seo_keyword) !!}@endif @endsection
+@section('meta-description') @if($product->seo){!! strip_tags($product->seo->seo_description) !!}@endif @endsection
 @section('content')
 <!-- breadcrumb -->
 <section class="uk-section-xsmall"> 
@@ -92,7 +94,7 @@
                   @if($product->size_variation==0)
                   @foreach($product->colorstocks as $color)
                   <li class="color-item">
-                     <a href="#" uk-tooltip="{{$color->title}}">
+                     <a href="#" data-color-stock="{{$product->totalStock($color->id)}}" uk-tooltip="{{$color->title}}">
                         <div class="uk-product-color" style="background:{{$color->title}};">
                         </div>
                      </a>
@@ -100,9 +102,11 @@
                   @endforeach
                   @else
                   @foreach($product->uniqueStockColor() as $stock)
-                  <li class="color-item">
-                     <a href="#" uk-tooltip="{{$stock->colors->title}}">
-                        <div class="uk-product-color " style="background:{{$stock->colors->title}};">
+                  <li class="color-item-variation">
+                     <a href="#"
+                      data-color-id="{{$stock->colors->id}}"
+                      uk-tooltip="{{$stock->colors->title}}">
+                        <div class="uk-product-color" style="background:{{$stock->colors->title}};">
                         </div>
                      </a>
                   </li>
@@ -115,10 +119,10 @@
                   @if($product->size_variation==1)
                   <div>
                      <label class="uk-margin-remove f-w-600 f-12 uk-display-block" for="size">Select Size:</label>
-                     <select onchange="updateMax()" name="size" id="size" class="uk-select  uk-margin-small-top">
+                     <select name="size" id="size" class="uk-select  uk-margin-small-top">
                         <option value="0" option-id="{{$product->totalStock()}}">Choose an Option...</option>
-                        @foreach($product->stocks as $data)
-                        <option value="{{$data->size->title}}" option-id="{{$data->stock}}">{{$data->size->title}}</option>
+                        @foreach($product->uniqueStockSize() as $data)
+                        <option value="{{$data->size->title}}" data-size-id="{{$data->size->id}}" data-size-stock="{{$product->totalStock(null, $data->size->id)}}">{{$data->size->title}}</option>
                         @endforeach
                      </select>
                      <a href="" class="f-w-600 f-12 uk-margin-small-top uk-display-block text-secondary" uk-toggle="target: #SizeGuide">Size Guide</a>
@@ -477,18 +481,18 @@
       @foreach($related_products->take(8) as $data)
          <li>
             <div class="uk-product-list">
-               <a href="shop-single.php" class="uk-inline-clip uk-transition-toggle">
+               <a href="{{route('product-single', $data->slug)}}" class="uk-inline-clip uk-transition-toggle">
                   <figure class="uk-product-img">
                      <div class="uk-position-top uk-position-z-index uk-padding-small">
                         <div class="uk-label f-10 bg-primary uk-magin">New</div>
                      </div>
                      <img src="{{asset('images/products/'.$data->get_main_image($data->id))}}" alt="Product">
                      <img src="{{asset('images/products/'.$data->get_main_image($data->id))}}" class="uk-position-cover uk-transition-scale-up" alt="Product">
-                        <div class="uk-hover-hide-show">
+                        <!-- <div class="uk-hover-hide-show">
                            <a  class="uk-addtocart uk-flex uk-flex-middle" onclick="UIkit.notification({message: '<span uk-icon=\'icon: cart\'></span> Added to cart <a  uk-toggle=\'target: #cart\'>Check </a>', pos: 'bottom-center', status: 'primary'})">
                                  <span uk-icon="icon:cart;" class="uk-icon"></span> <span>Add to cart</span>
                            </a>
-                        </div>
+                        </div> -->
                   </figure>
                </a>
                <div class="uk-product-description">
@@ -837,22 +841,99 @@
 
 @push('scripts')
     <script>
-        $("#size").change(function() {
-            var stockSize = $(this).children(":selected").attr("option-id");
-            $("#quantity").attr("max",stockSize);
 
-            if($("#quantity").val() > parseInt(stockSize)){
-               $("#quantity").val(stockSize);
-            }
+        let selectedColor = 0;
+        let selectedSize = 0;
+
+        
+
+        $("#size").change(function() {
+            /*let stockSize = $(this).children(":selected").attr("data-size-stock");
+            alert(stockSize);
+
+            $("#quantity").attr("max",stockSize);
+            selectedSize = $(this).children(":selected").attr("data-size-id");
+
+            stockSize = "{{$product->totalStock("+selectedColor+")}}";
+            alert(stockSize);
+
+            adjustVal(stockSize);*/
+
+            selectedSize = $(this).children(":selected").attr("data-size-id");
+            ajaxCall();
 
          });
 
+         $(".color-item-variation a").click(function(event){
+            
+            /*event.preventDefault();
+            $(this).addClass("uk-active");
+            let selectedColor = $(this).attr("uk-tooltip");
+            $("#hidden-color").val(selectedColor);
+            let maxStock = $(this).attr("data-color-stock");
+            selectedColor = $(this).attr("data-color-id");
+            alert(maxStock);
+            $("#quantity").attr("max",maxStock);
+            adjustVal(maxStock);*/
+            event.preventDefault()
+            $(this).addClass("uk-active");
+            let colorName = $(this).attr("uk-tooltip");
+            $("#hidden-color").val(colorName);
+
+            selectedColor = $(this).attr("data-color-id");
+            ajaxCall();
+
+         });
+
+         function ajaxCall(){
+            let productId = {{$product->id}};
+
+            $.ajax({
+                type: 'GET',
+                url: "/product-stock/{id}/{color_id}/{size_id}",
+                data:{id:productId, color_id:selectedColor, size_id:selectedSize},
+                success: function (data) {
+                    // console.log(data);
+                    if (!data.errors) {
+
+                     $("#quantity").attr("max", data);
+                     adjustVal(data);
+
+                    }
+                    jQuery.each(data.errors, function (key, value) {
+
+                        toastr.error(value);
+                        // hideLoading();
+
+                    })
+                },
+                error: function (a) {//if an error occurs
+                    // hideLoading();
+                    alert("An error occured while uploading data.\n error code : " + a.statusText);
+                }
+            });
+
+         }
+
+         function adjustVal(stockSize){
+            if($("#quantity").val() > parseInt(stockSize)){
+               $("#quantity").val(stockSize);
+            }
+         }
+
          $(".color-item a").click(function(event){
+            
             event.preventDefault();
             $(this).addClass("uk-active");
             let selectedColor = $(this).attr("uk-tooltip");
             $("#hidden-color").val(selectedColor);
+            let maxStock = $(this).attr("data-color-stock");
+            $("#quantity").attr("max",maxStock);
+            adjustVal(maxStock);
+
          });
+
+         
 
          $('#cart_btn').on('click', function (e) {
             $.ajaxSetup({

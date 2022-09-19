@@ -8,6 +8,7 @@ use App\Model\Brand;
 use App\Model\Category;
 use App\Model\OrderDetail;
 use App\Model\Product;
+use App\Model\Blog;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -32,6 +33,7 @@ class FrontController extends Controller
       $featured_category=Category::where('is_special',1)->orderBy('updated_at','desc')->limit(5)->get();
        $featured_category2=Category::where('is_special',1)->orderBy('updated_at','desc')->skip(1)->first();
        $banner= BannerModel::all();
+       $latest_blogs = Blog::orderBy('created_at', 'desc')->limit(3)->get();
 
 //       $id=OrderDetail::all()->pluck('product_id');
 //       dd($id->sortByDesc('occurrences'));
@@ -51,8 +53,21 @@ class FrontController extends Controller
        $best=Product::wherein('id',$result)->get();
        $new=Product::orderby('created_at','desc')->take(5)->get();
        $popular=Product::where('is_popular','popular')->orderBy('updated_at','desc')->take(5)->get();
-       return view('frontend.pages.index',compact('banner','popular','new','best','category','brand','product','featured_category','featured_category2'));
+       return view('frontend.pages.index',compact('banner','popular','new','best','category','brand','product','featured_category','featured_category2', 'latest_blogs'));
 
+  }
+
+  public function blog_single($slug){
+    $blog = Blog::where('slug', $slug)->first();
+    $related_blogs = Blog::orderBy('created_at', 'desc')->get();
+    $related_blogs = $related_blogs->except($blog->id);
+
+    return view('frontend.pages.blog-single', compact('blog', 'related_blogs'));
+  }
+
+  public function blog_all(){
+    $blogs = Blog::orderBy('created_at', 'DESC')->paginate(6);
+    return view('frontend.pages.blog-all', compact('blogs'));
   }
 
 }

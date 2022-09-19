@@ -1,8 +1,10 @@
 <!DOCTYPE html>
 <html lang="en-US">
    <head>
-      <title>Mountain Handicraft</title>
+      <title>{{getConfiguration('site_title')}}</title>
       <meta charset="utf-8">
+      <meta name="keywords" content="@yield('meta-keywords')">
+      <meta name="description" content="@yield('meta-description')">
       <meta property="og:title" content="Join the best company in the world!" />
       <meta property="og:url" content="https://cyberlinknepal.com/design/mountainhandicraft" />
       <meta property="og:image" content="{{ asset('images/products/p1.jpg') }}" />
@@ -12,8 +14,6 @@
       <meta name="csrf-token" content="{{ csrf_token() }}">
       <link rel="stylesheet" type="text/css" href="{{ asset('css/app.css') }}"/>
       <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
-      <meta name="google-translate-customization" content="e6d13f48b4352bb5-f08d3373b31c17a6-g7407ad622769509b-12">
-      </meta>
       <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.css">
 
    </head>
@@ -37,23 +37,17 @@
                            </select>
                         </div>
                         <div class="uk-visible@m">
-                           <div id="google_translate_element" class="uk-light"></div>
-                           <script type="text/javascript">
-                              function googleTranslateElementInit() {
-                              new google.translate.TranslateElement({pageLanguage: 'en',}, 'google_translate_element');
-                              }
-                           </script>
-                           <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+                           <div id="" class="uk-light"></div>
                         </div>
                      </div>
                   </div>
                   <div class="uk-navbar-right">
                      <ul uk-grid="uk-grid" class="uk-grid-small uk-social-media uk-light">
                         <li>
-                           <a href=""><i class="fab fa-facebook"></i></a>
+                           <a target="_blank" href="{{ getConfiguration('facebook_link') }}"><i class="fab fa-facebook"></i></a>
                         </li>
                         <li>
-                           <a href=""><i class="fab fa-instagram"></i></a>
+                           <a target="_blank" href="{{ getConfiguration('instagram_link') }}"><i class="fab fa-instagram"></i></a>
                         </li>
                         <li>
                            <a href=""><i class="fab fa-whatsapp"></i></a>
@@ -82,7 +76,7 @@
                            <a class="uk-navbar-toggle" uk-toggle="target: #mh-mobile" uk-icon="icon:menu;"></a>
                         </li>
                      </ul>
-                     <a href="index.php" class="uk-navbar-item uk-logo">
+                     <a href="{{route('index')}}" class="uk-navbar-item uk-logo">
                      <img alt="Mountain Handi Craft" src="{{asset('images/logo.png')}}" width="110">
                      </a>
                   </div>
@@ -96,12 +90,11 @@
                         <li>
                            <a uk-tooltip="Login" href="{{route('login')}}" uk-icon="icon:user;"></a>
                         </li>
-                        <li>
+                        <li class="mini-cart">
                            <a
                               class="uk-position-relative"
                               href="{{route('cart-item')}}"
                               uk-tooltip="Cart"
-                              uk-toggle="target: #cart"
                               uk-icon="icon:cart;">
                               <div class="uk-cart-count">{{Gloudemans\Shoppingcart\Facades\Cart::count()}}</div>
                            </a>
@@ -147,10 +140,10 @@
                               <div class="uk-navbar-right">
                                  <ul uk-grid="uk-grid" class="uk-grid-small uk-social-media uk-light">
                                     <li>
-                                       <a href=""><i class="fab fa-facebook"></i></a>
+                                       <a href="{{ getConfiguration('facebook_link') }}"><i class="fab fa-facebook"></i></a>
                                     </li>
                                     <li>
-                                       <a href=""><i class="fab fa-instagram"></i></a>
+                                       <a href="{{ getConfiguration('instagram_link') }}"><i class="fab fa-instagram"></i></a>
                                     </li>
                                     <li>
                                        <a href=""><i class="fab fa-whatsapp"></i></a>
@@ -212,65 +205,37 @@
                               <a href="#" class="uk-active">Product
                               </a>
                               <ul class="uknavsub  " uk-nav="multiple: false">
-                                 <li>
-                                    <a href="shop-list.php">Cashmere Product</a>
-                                 </li>
-                                 <li>
-                                    <a href="shop-list.php">Cashmere Shawl</a>
-                                 </li>
-                                 <li>
-                                    <a href="shop-list.php">Yak Wool Product</a>
-                                 </li>
-                                 <li>
-                                    <a href="shop-list.php">Prayer Beads</a>
-                                 </li>
-                                 <li>
-                                    <a href="shop-list.php">Singing bowl</a>
-                                 </li>
-                                 <li>
-                                    <a href="shop-list.php">Cotton Product</a>
-                                 </li>
-                                 <li>
-                                    <a href="shop-list.php">Jewellery</a>
-                                 </li>
-                                 <li>
-                                    <a href="shop-list.php">Hemp Product</a>
-                                 </li>
-                                 <li>
-                                    <a href="shop-list.php">Cotton Bag</a>
-                                 </li>
-                                 <li>
-                                    <a href="shop-list.php">Felt Product</a>
-                                 </li>
-                                 <li>
-                                    <a href="shop-list.php">Ritual Product</a>
-                                 </li>
-                                 <li>
-                                    <a href="shop-list.php">Woolen Products</a>
-                                 </li>
+                                 @foreach ($cat as $value)
+                                    <li>
+
+                                       <a href="{{route('product-list', $value->slug)}}">{{$value->name}}
+                                       <span
+                                          class="uk-margin-remove uk-align-right "></span></a>
+                                    </li>
+                                 @endforeach
                               </ul>
                            </li>
                            <!-- -->
                            <li>
-                              <a href="blog.php">Blog</a>
+                              <a href="{{route('blog-all')}}">Blog</a>
                            </li>
                            <li>
-                              <a href="about.php">About Us</a>
+                              <a href="{{route('about')}}">About Us</a>
                            </li>
                            <li>
-                              <a href="contact.php">Contact Us</a>
+                              <a href="{{route('contact')}}">Contact Us</a>
                            </li>
                            <li>
-                              <a href="login.php">Login</a>
+                              <a href="{{route('login')}}">Login</a>
                            </li>
                         </ul>
                      </nav>
                      <ul uk-grid="uk-grid" class="uk-grid-small uk-social-media uk-light uk-flex-center">
                         <li>
-                           <a href=""><i class="fab fa-facebook"></i></a>
+                           <a href="{{ getConfiguration('facebook_link') }}"><i class="fab fa-facebook"></i></a>
                         </li>
                         <li>
-                           <a href=""><i class="fab fa-instagram"></i></a>
+                           <a href="{{ getConfiguration('instagram_link') }}"><i class="fab fa-instagram"></i></a>
                         </li>
                         <li>
                            <a href=""><i class="fab fa-whatsapp"></i></a>
@@ -336,7 +301,7 @@
                               </div>
                            </li>
                            <li>
-                              <a href="blog.php">Blog</a>
+                              <a href="{{route('blog-all')}}">Blog</a>
                            </li>
                            <li>
                               <a href="{{route('about')}}">About Us</a>
@@ -352,10 +317,10 @@
                         <ul class="uk-navbar-nav uk-position-relative">
                           
                            <li>
-                              <a href="contact.php">Contact Us</a>
+                              <a href="{{route('contact')}}">Contact Us</a>
                            </li>
                            <li>
-                              <a href="#search" uk-toggle="#search" uk-tooltip="Search">
+                              <a href="#" uk-toggle="#search" uk-tooltip="Search">
                               <i uk-icon="icon:search;"></i>
                               </a>
                          </li>

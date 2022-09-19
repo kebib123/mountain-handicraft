@@ -83,10 +83,37 @@ class Product extends Model
         return Stock::where('product_id', $this->id)->select('color_id')->distinct()->get();
     }
 
-    public function totalStock(){
+    public function uniqueStockSize(){
+        return Stock::where('product_id', $this->id)->select('size_id')->distinct()->get();
+    }
+
+    public function totalStock($color=null, $size=null){
         if($this->size_variation==1){
+
+            if($color && $size){
+                return $this->stocks()
+                            ->where([['color_id', $color],
+                                    ['size_id', $size]])->sum('stock');
+            }
+
+            // When color is passed
+            if($color){
+                return $this->stocks()->where('color_id', $color)->sum('stock');
+            }
+
+            if($size){
+                return $this->stocks()->where('size_id', $size)->sum('stock');
+            }
+
             return $this->stocks()->sum('stock');
+
         }else{
+
+            // When color is passed
+            if($color){
+                return $this->colorstocks()->where('color_id', $color)->sum('stock');
+            }
+
             return $this->colorstocks()->sum('stock');
         }
     }

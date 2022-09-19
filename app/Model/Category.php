@@ -18,7 +18,7 @@ class Category extends Model
             ->saveSlugsTo('slug');
     }
 
-    protected $fillable=['parent_id','name','slug','image','is_special'];
+    protected $fillable=['parent_id','name','slug','image','is_special', 'seo_keyword', 'seo_description'];
 
 
     public function products()

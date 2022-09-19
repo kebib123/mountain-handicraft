@@ -17,17 +17,22 @@
                                 <div class="uk-grid-medium uk-flex-middle" uk-grid="uk-grid">
                                     <div class="uk-width-auto@m">
                                         <div class="uk-cart-img-lg">
-                                            <a href="">
+                                            <a href="{{route('product-single', $data->options->slug)}}">
                                                 <img src="{{asset('images/products/'.$data->options->image)}}" alt="">
                                             </a>
                                         </div>
                                     </div>
                                     <div class="uk-width-expand">
                                         <div class="uk-margin-remove">
-                                            <a href="shop-single.php" class="text-black uk-h4 uk-oneline-text uk-margin-small">{{$data->name}}
+                                            <a href="{{route('product-single', $data->options->slug)}}" class="text-black uk-h4 uk-oneline-text uk-margin-small">{{$data->name}}
                                             </a>
                                         </div>
-                                        <div class="f-w-600 f-13">Color: {{$data->options->color}}</div>
+                                        <div class="f-w-600 f-13">
+                                            @if($data->options->size)
+                                            Size:{{$data->options->size}}
+                                            @endif
+                                            Color: {{$data->options->color}}
+                                        </div>
                                     </div>
                                     <div class="uk-width-1-1 uk-hidden@m"></div>
 
@@ -97,10 +102,12 @@
                             </div>
                         </li>
                      </ul>
-                    </div>   
+                    </div>
+                    @if(Gloudemans\Shoppingcart\Facades\Cart::count() > 0)
                     <div class="uk-summary-footer">  
                     <a href="{{route('checkout-address')}}" class="uk-button uk-btn-primary uk-width-1-1">Proceed to Checkout</a>
-                    </div>                                    
+                    </div>
+                    @endif                                    
                 </div>
             </div>
         </div>

@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Front;
 use App\Http\Controllers\Controller;
 use App\Model\Product;
 use App\Model\Stock;
+use App\Model\Color;
+use App\Model\Size;
 use App\Model\Wishlist;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Http\Request;
@@ -28,13 +30,47 @@ class CartController extends FrontController
         }
 
         $product = Product::where('id', $request->product_id)->first();
+        $color = Color::where('title', $request->color)->first();
 
-//        dd($product->colorstocks);
+        $quantity = $request->quantity;
+
+        // Check if demand exceeds available stock
+
+        foreach(Cart::content() as $item){
+
+            // For size and color field
+            if($product->size_variation==1){
+                $size = Size::where('title', $request->size)->first();
+                $totalStock = $product->totalStock($color->id, $size->id);
+                // Match credential on current cart
+                if($item->id==$product->id && $item->options->color==$color->title && $item->options->size==$size->title){
+                    if(($item->qty + $quantity) > $totalStock){
+                        $quantity = $totalStock - $item->qty;
+                    }
+                }
+
+            }else{
+                //For color only field
+                $totalStock = $product->totalStock($color->id);
+                // Match credential on current cart
+                if($item->id==$product->id && $item->options->color==$color->title){
+                    if(($item->qty + $quantity) > $totalStock){
+                        $quantity = $totalStock - $item->qty;
+                    }
+                }
+            }
+            // If quantity is 0, avoid invalid data entry in cart
+            if($quantity==0){
+                return response()->json([
+                    'errors' => ["Stock not available"]
+                ]);
+            }
+        }
 
         $cartItem = Cart::add([
             'id' => $request->product_id,
             'name' => $product->product_name,
-            'qty' => (int)$request->quantity,
+            'qty' => $quantity,
             'price' => Auth::check() && Auth::user()->roles=='wholeseller' ? $product->wholesale_price : $product->discount_price,
             'options' =>
                 [
@@ -43,13 +79,10 @@ class CartController extends FrontController
                     'size' => $request->size,
                      'slug'=>$product->slug,
                     'stock'=> $product->stocks ? $product->stocks->where('size',$request->size)->first() : $product->colorstocks
-//                        $product->stocks ? $product->stocks->first()->stock : '' ||
-//                    $product->colorstocks ? $product->colorstocks->pivot->stock : '',
                 ],
         ]);
         return view($this->frontendPagePath . 'filter/cart_mini');
 
-       // return response()->json(['status' => 'success', 'message' => 'Successfully added to Cart ', 'cart' => Cart::content()]);
     }
     private function cartCheck($request){
         dd($request);
