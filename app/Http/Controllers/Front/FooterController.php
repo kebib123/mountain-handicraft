@@ -13,9 +13,18 @@ class FooterController extends FrontController
         return view('frontend.about');
     }
 
+    public function contact()
+    {
+        return view('frontend.contact');
+    }
+
     public function refund()
     {
         return view('frontend.refund');
+    }
+    public function terms()
+    {
+        return view('frontend.terms');
     }
     public function privacy()
     {

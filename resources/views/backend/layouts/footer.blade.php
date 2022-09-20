@@ -1,10 +1,8 @@
 <!-- Main Footer -->
 <footer class="main-footer">
-    <strong>Copyright &copy; 2020 <a href="#">Cyberlink Pvt. Ltd</a>.</strong>
+    <strong>Copyright &copy; 2022 <a target="_blank" href="https://cyberlink.com.np/">Cyberlink Pvt. Ltd</a>.</strong>
     All rights reserved.
-    <div class="float-right d-none d-sm-inline-block">
-        <b>Version</b> 3.0.5
-    </div>
+ 
 </footer>
 </div>
 <!-- ./wrapper -->
@@ -50,6 +48,11 @@
             console.log( editor );
         } ),
         ClassicEditor
+        .create( document.querySelector( '#content' ) )
+        .then( editor => {
+            console.log( editor );
+        } ),
+        ClassicEditor
     .create( document.querySelector( '#desc' ) )
         .then( editor => {
             console.log( editor );
@@ -76,6 +79,11 @@
             }),
         ClassicEditor
             .create( document.querySelector( '#privacy' ) )
+            .then( editor => {
+                console.log( editor );
+            }),
+        ClassicEditor
+            .create( document.querySelector( '#terms_and_conditions' ) )
             .then( editor => {
                 console.log( editor );
             }),

@@ -460,11 +460,11 @@
                     <div class="smart-wizard-form-inner">
                         <div class="form-group">
                             <label>SEO Keyword</label>
-                            <textarea name="seo_keyword" id="keyword" class="form-control"></textarea>
+                            <textarea name="seo_keyword" id="keyword" class="form-control">@if($product->seo){{$product->seo->seo_keyword}}@endif</textarea>
                         </div>
                         <div class="form-group">
                             <label>SEO Description</label>
-                            <textarea name="seo_description" id="desc" rows="3" class="form-control"></textarea>
+                            <textarea name="seo_description" id="desc" rows="3" class="form-control">@if($product->seo){{$product->seo->seo_description}}@endif</textarea>
                         </div>
                     </div>
 

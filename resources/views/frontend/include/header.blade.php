@@ -1,18 +1,21 @@
 <!DOCTYPE html>
 <html lang="en-US">
    <head>
-      <title>Mountain Handicraft</title>
+      <title>{{getConfiguration('site_title')}}</title>
       <meta charset="utf-8">
+      <meta name="keywords" content="@yield('meta-keywords')">
+      <meta name="description" content="@yield('meta-description')">
       <meta property="og:title" content="Join the best company in the world!" />
       <meta property="og:url" content="https://cyberlinknepal.com/design/mountainhandicraft" />
       <meta property="og:image" content="{{ asset('images/products/p1.jpg') }}" />
       <meta property="og:description" content="woolen jackets are made by 100% New Zealand wool with super cool pixie normal hood ." />
       <meta property="og:site_name" content="Ocean Blue Cashmere Color shawl (MHCS10)" />
       <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="csrf-token" content="{{ csrf_token() }}">
       <link rel="stylesheet" type="text/css" href="{{ asset('css/app.css') }}"/>
       <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
-      <meta name="google-translate-customization" content="e6d13f48b4352bb5-f08d3373b31c17a6-g7407ad622769509b-12">
-      </meta>
+      <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.css">
+
    </head>
    <body>
       <header>
@@ -22,37 +25,21 @@
                <nav  uk-navbar>
                   <div class="uk-navbar-left text-white">
                      <div class="uk-flex uk-flex-middle" uk-grid>
-                        <div class="currency ">
-                           <select>
-                              <option value="select">Currency</option>
-                              <option>CAD</option>
-                              <option>Pound</option>
-                              <option>Euro</option>
-                              <option>USD</option>
-                              <option>Swiss</option>
-                              <option>AUD</option>
-                           </select>
-                        </div>
+                
                         <div class="uk-visible@m">
-                           <div id="google_translate_element" class="uk-light"></div>
-                           <script type="text/javascript">
-                              function googleTranslateElementInit() {
-                              new google.translate.TranslateElement({pageLanguage: 'en',}, 'google_translate_element');
-                              }
-                           </script>
-                           <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+                           <div id="" class="uk-light"></div>
                         </div>
                      </div>
                   </div>
                   <div class="uk-navbar-right">
                      <ul uk-grid="uk-grid" class="uk-grid-small uk-social-media uk-light">
                         <li>
-                           <a href=""><i class="fab fa-facebook"></i></a>
+                           <a target="_blank" href="{{ getConfiguration('facebook_link') }}"><i class="fab fa-facebook"></i></a>
                         </li>
                         <li>
-                           <a href=""><i class="fab fa-instagram"></i></a>
+                           <a target="_blank" href="{{ getConfiguration('instagram_link') }}"><i class="fab fa-instagram"></i></a>
                         </li>
-                        <li>
+                        {{-- <li>
                            <a href=""><i class="fab fa-whatsapp"></i></a>
                         </li>
                         <li>
@@ -60,7 +47,7 @@
                         </li>
                         <li>
                            <a href=""><i class="fab fa-tiktok"></i></a>
-                        </li>
+                        </li> --}}
                      </ul>
                   </div>
                </nav>
@@ -79,8 +66,8 @@
                            <a class="uk-navbar-toggle" uk-toggle="target: #mh-mobile" uk-icon="icon:menu;"></a>
                         </li>
                      </ul>
-                     <a href="index.php" class="uk-navbar-item uk-logo">
-                     <img alt="Mountain Handi Craft" src="assets/images/logo.png" width="110">
+                     <a href="{{route('index')}}" class="uk-navbar-item uk-logo">
+                     <img alt="Mountain Handi Craft" src="{{asset('images/logo.png')}}" width="110">
                      </a>
                   </div>
                   <div class="uk-navbar-right uk-margin-small-right">
@@ -91,16 +78,15 @@
                               </a>
                         </li>
                         <li>
-                           <a uk-tooltip="Login" href="login.php" uk-icon="icon:user;"></a>
+                           <a uk-tooltip="Login" href="{{route('login')}}" uk-icon="icon:user;"></a>
                         </li>
-                        <li>
+                        <li class="mini-cart">
                            <a
                               class="uk-position-relative"
-                              href="#"
+                              href="{{route('cart-item')}}"
                               uk-tooltip="Cart"
-                              uk-toggle="target: #cart"
                               uk-icon="icon:cart;">
-                              <div class="uk-cart-count">5</div>
+                              <div class="uk-cart-count">{{Gloudemans\Shoppingcart\Facades\Cart::count()}}</div>
                            </a>
                         </li>
                      </ul>
@@ -119,7 +105,7 @@
                            <nav  uk-navbar>
                               <div class="uk-navbar-left text-white">
                                  <div class="uk-flex uk-flex-middle" uk-grid>
-                                    <div class="currency ">
+                                    {{-- <div class="currency ">
                                        <select>
                                           <option value="select">Currency</option>
                                           <option>CAD</option>
@@ -129,7 +115,7 @@
                                           <option>Swiss</option>
                                           <option>AUD</option>
                                        </select>
-                                    </div>
+                                    </div> --}}
                                     <div class="uk-visible@m">
                                        <div id="google_translate_element" class="uk-light"></div>
                                        <script type="text/javascript">
@@ -144,12 +130,12 @@
                               <div class="uk-navbar-right">
                                  <ul uk-grid="uk-grid" class="uk-grid-small uk-social-media uk-light">
                                     <li>
-                                       <a href=""><i class="fab fa-facebook"></i></a>
+                                       <a href="{{ getConfiguration('facebook_link') }}"><i class="fab fa-facebook"></i></a>
                                     </li>
                                     <li>
-                                       <a href=""><i class="fab fa-instagram"></i></a>
+                                       <a href="{{ getConfiguration('instagram_link') }}"><i class="fab fa-instagram"></i></a>
                                     </li>
-                                    <li>
+                                    {{-- <li>
                                        <a href=""><i class="fab fa-whatsapp"></i></a>
                                     </li>
                                     <li>
@@ -157,7 +143,7 @@
                                     </li>
                                     <li>
                                        <a href=""><i class="fab fa-tiktok"></i></a>
-                                    </li>
+                                    </li> --}}
                                  </ul>
                               </div>
                            </nav>
@@ -171,8 +157,8 @@
                                  <a class="uk-navbar-toggle uk-modal-close text-black" uk-icon="icon:close;"></a>
                               </li>
                            </ul>
-                           <a class="uk-navbar-item uk-logo " href="index.php">
-                           <img alt="Mountain Handi Craft" src="assets/images/logo.png" width="110">
+                           <a class="uk-navbar-item uk-logo " href="{{route('index')}}">
+                           <img alt="Mountain Handi Craft" src="{{asset('images/logo.png')}}" width="110">
                            </a>
                         </div>
                         <div class="uk-navbar-right  uk-margin-small-right">
@@ -183,7 +169,7 @@
                               </a>
                         </li>
                            <li>
-                              <a uk-tooltip="Login" href="login.php" uk-icon="icon:user;"></a>
+                              <a uk-tooltip="Login" href="{{route('login')}}" uk-icon="icon:user;"></a>
                            </li>
                            <li>
                               <a
@@ -202,74 +188,46 @@
                            class="uk-navsidebar   uk-nav-parent-icon uk-nav-left uk-margin-auto-vertical"
                            uk-nav="multiple: false">
                            <li>
-                              <a href="index.php">Home</a>
+                              <a href="{{route('index')}}">Home</a>
                            </li>
                            <!-- -->
                            <li class="uk-parent">
                               <a href="#" class="uk-active">Product
                               </a>
                               <ul class="uknavsub  " uk-nav="multiple: false">
-                                 <li>
-                                    <a href="shop-list.php">Cashmere Product</a>
-                                 </li>
-                                 <li>
-                                    <a href="shop-list.php">Cashmere Shawl</a>
-                                 </li>
-                                 <li>
-                                    <a href="shop-list.php">Yak Wool Product</a>
-                                 </li>
-                                 <li>
-                                    <a href="shop-list.php">Prayer Beads</a>
-                                 </li>
-                                 <li>
-                                    <a href="shop-list.php">Singing bowl</a>
-                                 </li>
-                                 <li>
-                                    <a href="shop-list.php">Cotton Product</a>
-                                 </li>
-                                 <li>
-                                    <a href="shop-list.php">Jewellery</a>
-                                 </li>
-                                 <li>
-                                    <a href="shop-list.php">Hemp Product</a>
-                                 </li>
-                                 <li>
-                                    <a href="shop-list.php">Cotton Bag</a>
-                                 </li>
-                                 <li>
-                                    <a href="shop-list.php">Felt Product</a>
-                                 </li>
-                                 <li>
-                                    <a href="shop-list.php">Ritual Product</a>
-                                 </li>
-                                 <li>
-                                    <a href="shop-list.php">Woolen Products</a>
-                                 </li>
+                                 @foreach ($cat as $value)
+                                    <li>
+
+                                       <a href="{{route('product-list', $value->slug)}}">{{$value->name}}
+                                       <span
+                                          class="uk-margin-remove uk-align-right "></span></a>
+                                    </li>
+                                 @endforeach
                               </ul>
                            </li>
                            <!-- -->
                            <li>
-                              <a href="blog.php">Blog</a>
+                              <a href="{{route('blog-all')}}">Blog</a>
                            </li>
                            <li>
-                              <a href="about.php">About Us</a>
+                              <a href="{{route('about')}}">About Us</a>
                            </li>
                            <li>
-                              <a href="contact.php">Contact Us</a>
+                              <a href="{{route('contact')}}">Contact Us</a>
                            </li>
                            <li>
-                              <a href="login.php">Login</a>
+                              <a href="{{route('login')}}">Login</a>
                            </li>
                         </ul>
                      </nav>
                      <ul uk-grid="uk-grid" class="uk-grid-small uk-social-media uk-light uk-flex-center">
                         <li>
-                           <a href=""><i class="fab fa-facebook"></i></a>
+                           <a href="{{ getConfiguration('facebook_link') }}"><i class="fab fa-facebook"></i></a>
                         </li>
                         <li>
-                           <a href=""><i class="fab fa-instagram"></i></a>
+                           <a href="{{ getConfiguration('instagram_link') }}"><i class="fab fa-instagram"></i></a>
                         </li>
-                        <li>
+                        {{-- <li>
                            <a href=""><i class="fab fa-whatsapp"></i></a>
                         </li>
                         <li>
@@ -277,7 +235,7 @@
                         </li>
                         <li>
                            <a href=""><i class="fab fa-tiktok"></i></a>
-                        </li>
+                        </li> --}}
                      </ul>
                   </div>
                </div>
@@ -304,7 +262,8 @@
                                     <!-- -->
                                     @foreach ($cat as $value)
                                     <li>
-                                       <a href="{{route('product-list',$value->slug)}}">{{$value->name}}
+
+                                       <a href="{{route('product-list', $value->slug)}}">{{$value->name}}
                                        <span
                                           class="uk-margin-remove uk-align-right "
                                           uk-icon="icon: chevron-right; ratio: 1;"></span></a>
@@ -316,7 +275,7 @@
                                              @foreach($value->subCategory as $child)
                                                 <li>
                                                 <a href="{{route('product-list',$child->slug)}}">{{$child->name}}</a>
-                                             </li>
+                                              </li>
                                              @endforeach
                                             
                                        
@@ -332,42 +291,41 @@
                               </div>
                            </li>
                            <li>
-                              <a href="blog.php">Blog</a>
+                              <a href="{{route('blog-all')}}">Blog</a>
                            </li>
                            <li>
-                              <a href="about.php">About Us</a>
+                              <a href="{{route('about')}}">About Us</a>
                            </li>
                         </ul>
                      </div>
                      <div class="uk-navbar-center">
-                        <a href="index.php" class="uk-navbar-item uk-logo">
-                        <img alt="Mountain Handi Craft" src="assets/images/logo.png" width="240">
+                        <a href="{{route('index')}}" class="uk-navbar-item uk-logo">
+                        <img alt="Mountain Handi Craft" src="{{asset('images/logo.png')}}" width="240">
                         </a>
                      </div>
                      <div class="uk-navbar-right">
                         <ul class="uk-navbar-nav uk-position-relative">
                           
                            <li>
-                              <a href="contact.php">Contact Us</a>
+                              <a href="{{route('contact')}}">Contact Us</a>
                            </li>
                            <li>
-                              <a href="#search" uk-toggle="#search" uk-tooltip="Search">
+                              <a href="#" uk-toggle="#search" uk-tooltip="Search">
                               <i uk-icon="icon:search;"></i>
                               </a>
                          </li>
                            <li>
-                              <a href="login.php" uk-tooltip="Login">
+                              <a href="{{route('login')}}" uk-tooltip="Login">
                               <i uk-icon="icon:user;"></i>
                               </a>
                            </li>
-                           <li>
+                           <li class="mini-cart"> 
                               <a
                                  class="uk-position-relative"
-                                 href="#"
+                                 href="{{route('cart-item')}}"
                                  uk-tooltip="Cart"
-                                 uk-toggle="target: #cart"
                                  uk-icon="icon:cart;">
-                                 <div class="uk-cart-count">5</div>
+                                 <div class="uk-cart-count">{{Gloudemans\Shoppingcart\Facades\Cart::count()}}</div>
                               </a>
                            </li>
                         </ul>
@@ -377,5 +335,4 @@
             </div>
          </div>
          <!-- end main nav -->
-         @include('frontend.include.cart-offcanvas')
       </header>

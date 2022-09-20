@@ -51,6 +51,16 @@
                         </div>
                         <!-- /.col -->
                     </div>
+                    @if($order->order_note)
+                    <div class="row invoice-info">
+                        <div class="col-sm-4 invoice-col">
+                            <h4><i class="fa fa-sticky-note" aria-hidden="true"></i> Order Note:</h4>
+                            <address>
+                                {{$order->order_note}}
+                            </address>
+                        </div>
+                    </div>
+                    @endif
                     <hr>
                     <!-- /.row -->
                     <!-- Table row -->

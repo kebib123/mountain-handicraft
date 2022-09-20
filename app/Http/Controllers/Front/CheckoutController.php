@@ -12,6 +12,8 @@ use App\Model\PaymentMethod;
 use App\Model\Shipping;
 use App\Model\Size;
 use App\Model\Stock;
+use App\Model\Color;
+use App\Model\Product;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -27,8 +29,26 @@ class CheckoutController extends Controller
         $this->middleware('auth');
     }
 
+    // Function to get cities using ajax, when country field changes
+    public function get_city($slug){
+        $country = Country::where('slug', $slug)
+                   ->first();
+        return $country->city;
+    }
+
+    public function get_shipping_price($city){
+
+        return Shipping::where('shipping_location', $city)
+                        ->first();
+    }
+
     public function checkout_address(Request $request)
     {
+        if(Cart::count()<1){
+            return redirect()->back()->withErrors(['msg' => 'Cart is empty']);  
+        }
+
+        //dd($request->all);
         if ($request->isMethod('get')) {
             $cartItem = Cart::content();
             $countries = Country::all();
@@ -36,13 +56,15 @@ class CheckoutController extends Controller
             $sub = Cart::subtotal();
             $total = preg_replace("/[^0-9.]/", "", $sub);
             $final = (int)$total;
-            return view('frontend/pages/checkout/checkout-details', compact('cartItem', 'countries', 'shipping', 'final'));
+            $user = Auth::user();
+
+            return view('frontend/pages/checkout/checkout-details', compact('user', 'cartItem', 'countries', 'shipping', 'final'));
         }
         if ($request->isMethod('post')) {
 //            dd((new \Gloudemans\Shoppingcart\Cart)->instance(Auth::user()->id));
 //            dd(Cart::content());
-//            dd($request->all());
-            $validator = Validator::make($request->all(), [
+              //dd($request->all());
+            $request->validate([
                 'first_name' => 'required',
                 'last_name' => 'required',
                 'email' => 'required',
@@ -53,19 +75,16 @@ class CheckoutController extends Controller
                 'address_1' => 'required',
                 'address_2' => 'required',
             ]);
-            if ($validator->fails()) {
-                return response()->json([
-                    'errors' => $validator->errors()->all()
-                ], 406);
-            }
+
             $data['subtotal'] = $request->subtotal;
-            $data['tax'] = $request->tax;
-            $data['grand_total'] = $request->subtotal + $request->tax + $request->shipping;
+            $data['tax'] = 0;
+            $data['grand_total'] = $request->subtotal + $request->shipping;
 //            $data['discount'] = 0;
             $data['user_id'] = $request->user_id;
             $data['shipping_id'] = $request->shipping_id;
             $data['order_track'] = 'OT' . $request->user_id . '-' . time();
             $data['status']=0;
+            $data['order_note'] = $request->order_note;
             $order = Order::create($data);
 
             $order_id = $order->id;
@@ -96,6 +115,31 @@ class CheckoutController extends Controller
                 $detail->save();
             }
 
+            foreach($order->details as $orderDetail){
+                $color_id = Color::where('title', $orderDetail->color)->pluck('id')->first();
+                $product = Product::find($orderDetail->product_id);
+                $size_id = Size::where('title', $orderDetail->size)->pluck('id')->first();
+
+                if($orderDetail->size==null){
+                    $totalStock = $product->totalStock($color_id);
+                    $remaining = $totalStock - $orderDetail->quantity;
+
+                    DB::table('color_stocks')
+                        ->where('color_id', $color_id)
+                        ->where('product_id', $product->id)
+                        ->update(['stock' => $remaining]);
+                }else{
+                    $totalStock = $product->totalStock($color_id, $size_id);
+                    $remaining = $totalStock - $orderDetail->quantity;
+
+                    DB::table('stocks')
+                        ->where('color_id', $color_id)
+                        ->where('size_id', $size_id)
+                        ->where('product_id', $product->id)
+                        ->update(['stock' => $remaining]);
+                }
+            }
+
 //            foreach ($order->order_details as $orderDetail) {
 ////                dd($product->colorstocks->first()->pivot->stock);
 //                if ($orderDetail->products->size_variation == 0) {
@@ -124,7 +168,7 @@ class CheckoutController extends Controller
 
             if ($order && $save) {
                 Cart::destroy();
-                return response()->json(['status'=>'success','message'=>'Order placed successfully','order_id' => $order_id, 'route' => route('checkout-payment', ['order_id' => $order_id])], 200);
+                return view('frontend/pages/checkout/checkout-complete', compact('order'));
 
             }
 

@@ -13,6 +13,11 @@ class ProductController extends FrontController
      public function product_details(Request $request)
     {
         $product = Product::where('slug', $request->slug)->first();
+        $related_products = Product::join('product_categories', 'product_categories.product_id', '=', 'products.id')
+                                ->whereIn('product_categories.category_id', $product->categories->pluck('id'))
+                                ->select('products.*')->get();
+
+        $related_products = $related_products->except($product->id);
         // dd($product);
         $count = $product->reviews->count();
         $fivestar = Review::where('product_id', '=', $product->id)->where('rating', '=', 5)->get();
@@ -28,6 +33,77 @@ class ProductController extends FrontController
             $average=0;
         }
 
-        return view($this->frontendPagePath . 'product-single', compact('product',  'count', 'fivestar', 'fourstar', 'threestar', 'twostar', 'onestar', 'average'));
+        return view($this->frontendPagePath . 'product-single', compact('product', 'related_products', 'count', 'fivestar', 'fourstar', 'threestar', 'twostar', 'onestar', 'average'));
+    }
+
+    public function product_stock(){
+        $product = Product::find($_GET['id']);
+        return $product->totalStock($_GET['color_id'], $_GET['size_id']);
+    }
+
+    public function product_search(Request $request){
+
+        $key = $request->get('key');
+
+        $query = Product::query()
+        ->where('product_name', 'LIKE', "%{$key}%")
+        ->orWhere('short_description', 'LIKE', "%{$key}%")
+        ->orWhere('long_description', 'LIKE', "%{$key}%");
+
+        if ($request->has('value')) {
+            if ($request->value == 'recent') {
+                $query->orderby('products.updated_at', 'desc');
+            }
+            if ($request->value == 'low_to_high') {
+                $query->orderby('products.price', 'asc');
+            }
+            if ($request->value == 'high_to_low') {
+                $query->orderby('products.price', 'desc');
+            }
+            if ($request->value == 'a_to_z') {
+                $query->orderby('products.product_name', 'asc');
+            }
+            if ($request->value == 'z_to_a') {
+                $query->orderby('products.product_name', 'desc');
+            }
+            if ($request->value == 'older') {
+                $query->orderby('products.updated_at', 'asc');
+            }
+
+            /*switch($request->value){
+                case 'recent':
+                    $query->orderby('products.updated_at', 'desc');
+                    break;
+
+                case 'low_to_high':
+                    $query->orderby('products.price', 'asc');
+                    break;
+
+                case 'high_to_low':
+                    $query->orderby('products.price', 'desc');
+                    break;
+
+                case 'a_to_z':
+                    $query->orderby('products.product_name', 'asc');
+                    break;
+
+                case 'z_to_a':
+                    $query->orderby('products.product_name', 'desc');
+                    break;
+
+                case 'older':
+                    $query->orderby('products.updated_at', 'asc');
+                    break;
+            }*/
+
+            $products = $query->get();
+
+            return view($this->frontendPagePath . 'filter/search_filter', compact('products', 'key'));
+        }
+
+        //$products = $products->paginate(8);
+        $products = $query->get();
+
+        return view($this->frontendPagePath. 'search-list', compact('products', 'key'));
     }
 }

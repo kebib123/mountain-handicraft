@@ -24,8 +24,9 @@ class UserController extends Controller
             return view('frontend.pages.account-signin');
         }
         $wishlist = Wishlist::where('user_id',Auth::user()->id)->get();
+         $user=User::where('id',Auth::user()->id)->first();
 
-        return view('frontend/pages/account-orders', compact('order','wishlist'));
+        return view('frontend/pages/account-orders', compact('order','wishlist','user'));
     }
 
     public function order_details(Request $request)
@@ -34,6 +35,18 @@ class UserController extends Controller
         $order_details= OrderDetail::where('order_id',$order_id)->get();
         return view('frontend/order_details_modal', compact('order_details'));
 
+
+    }
+
+    public function user_dashboard(Request $request)
+    {
+      if ($request->isMethod('get')) {
+            $address = Address::all();
+            $wishlist = Wishlist::where('user_id',Auth::user()->id)->get();
+            $order = Auth::user()->orders;
+            $user=User::where('id',Auth::user()->id)->first();
+            return view('frontend/pages/account-dashboard', compact('address','wishlist','order','user'));
+        }
 
     }
 
@@ -86,9 +99,16 @@ class UserController extends Controller
         if ($request->isMethod('get')) {
             $wishlist = Wishlist::where('user_id',Auth::user()->id)->get();
             $order = Auth::user()->orders;
-            return view('frontend/pages/account-profile',compact('wishlist','order'));
+             $user=User::where('id',Auth::user()->id)->first();
+            return view('frontend/pages/account-profile',compact('wishlist','order','user'));
         }
         if ($request->isMethod('post')) {
+            $request->validate([
+                'first_name' => 'required',
+               'last_name' => 'required',
+               'email'=>'required|email',
+               'phone'=>'required'
+            ]);
             $id = $request->user_id;
             $find = User::find($id)->update([
                 'first_name' => $request->first_name,

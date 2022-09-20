@@ -112,6 +112,26 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        <div class="form-group">
+                                            <div class="row">
+                                                <label for="google_map" class="col-sm-2 control-label">Google Map</label>
+                                                <div class="col-sm-10">
+                                                    <input type="google_map" name="google_map" class="form-control"
+                                                           value="{{getConfiguration('google_map')}}"
+                                                           id="google_map">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="row">
+                                                <label for="opening_hours" class="col-sm-2 control-label">Opening Hours</label>
+                                                <div class="col-sm-10">
+                                                    <input type="opening_hours" name="opening_hours" class="form-control"
+                                                           value="{{getConfiguration('opening_hours')}}"
+                                                           id="opening_hours">
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                     <div class="tab-pane fade" id="home" name="home" role="tabpanel">
 
@@ -147,6 +167,16 @@
                                                     </div>
                                                     <div class="col-sm-8">
                                                         <textarea name="privacy" class="form-control" id="privacy">{{getConfiguration('privacy')}}</textarea>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="row">
+                                                    <div class="col-sm-2">
+                                                        <label for="our_vision">Terms & Conditions</label>
+                                                    </div>
+                                                    <div class="col-sm-8">
+                                                        <textarea name="terms_and_conditions" class="form-control" id="terms_and_conditions">{{getConfiguration('terms_and_conditions')}}</textarea>
                                                     </div>
                                                 </div>
                                             </div>

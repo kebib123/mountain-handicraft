@@ -48,6 +48,8 @@ class CategoryController extends BackendController
 //
 //            }
             $data['name'] = $request->name;
+            $data['seo_keyword'] = $request->seo_keyword;
+            $data['seo_description'] = $request->seo_description;
             $data['parent_id'] = $request->parent_id;
             $data['is_special'] = $request->is_special;
 //           dd($request->all());
@@ -96,6 +98,8 @@ class CategoryController extends BackendController
 
             $data['name'] = $request->name;
             $data['parent_id'] = $request->parent_id;
+            $data['seo_keyword'] = $request->seo_keyword;
+            $data['seo_description'] = $request->seo_description;
 //            if (isset($request->is_special) && $request->is_special == 1) {
 //                $special = Category::where('is_special', 1)->get();
 //                if (!empty($special)) {

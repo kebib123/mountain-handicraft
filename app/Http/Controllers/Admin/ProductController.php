@@ -257,13 +257,12 @@ class ProductController extends BackendController
                     }
                 }
 //            seos//
-//                if(($request->seo_keyword) && ( $request->seo_description)) {
-//                    dd('ok');
-//                    $product->seo()->update([
-//                        'seo_keyword' => $request->seo_keyword,
-//                        'seo_description' => $request->seo_description,
-//                    ]);
-//                }
+               if(($request->seo_keyword) && ( $request->seo_description)) {
+                   $product->seo()->update([
+                       'seo_keyword' => $request->seo_keyword,
+                       'seo_description' => $request->seo_description,
+                   ]);
+               }
 
                 //specifications table ma gayo from product controller
                 if (isset($request->title)) {

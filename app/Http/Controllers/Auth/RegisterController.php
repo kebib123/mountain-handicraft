@@ -85,6 +85,7 @@ class RegisterController extends Controller
 
     protected function store(Request $request)
     {
+
 //        dd($request->all());
         $request->validate([
             'first_name' => 'required',

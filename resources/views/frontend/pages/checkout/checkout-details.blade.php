@@ -1,236 +1,404 @@
 @extends('frontend.include.master')
 @section('content')
-    <!-- Page Title-->
-    <div class="page-title-overlap bg-dark pt-4">
-      <div class="container d-lg-flex justify-content-between py-2 py-lg-3">
-        <div class="order-lg-2 mb-3 mb-lg-0 pt-lg-2">
-          <nav aria-label="breadcrumb">
-            <ol class="breadcrumb breadcrumb-light flex-lg-nowrap justify-content-center justify-content-lg-start">
-              <li class="breadcrumb-item"><a class="text-nowrap" href="{{route('index')}}"><i class="czi-home"></i>Home</a></li>
-{{--              <li class="breadcrumb-item text-nowrap"><a href="shop-grid-ls.php">Shop</a>--}}
-              </li>
-              <li class="breadcrumb-item text-nowrap active" aria-current="page">Checkout</li>
-            </ol>
-          </nav>
-        </div>
-        <div class="order-lg-1 pr-lg-4 text-center text-lg-left">
-          <h1 class="h3 text-light mb-0">Checkout</h1>
-        </div>
-      </div>
-    </div>
-    <!-- Page Content-->
-    <div class="container pb-5 mb-2 mb-md-4">
-      <div class="row">
-        <section class="col-lg-8">
-          <!-- Steps-->
-          <div class="steps steps-light pt-2 pb-3 mb-5"><a class="step-item active" href="{{route('cart-item')}}">
-              <div class="step-progress"><span class="step-count">1</span></div>
-              <div class="step-label"><i class="czi-cart"></i>Cart</div></a><a class="step-item active current" href="{{route('checkout-address')}}">
-              <div class="step-progress"><span class="step-count">2</span></div>
-              <div class="step-label"><i class="czi-user-circle"></i>Your details</div></a><a class="step-item" href="{{'checkout-shipping'}}">
-{{--              <div class="step-progress"><span class="step-count">3</span></div>--}}
-{{--              <div class="step-label"><i class="czi-package"></i>Shipping</div></a><a class="step-item" href="{{route('checkout-payment')}}">--}}
-              <div class="step-progress"><span class="step-count">4</span></div>
-              <div class="step-label"><i class="czi-card"></i>Payment</div></a><a class="step-item" href="{{route('checkout-review')}}">
-              <div class="step-progress"><span class="step-count">5</span></div>
-              <div class="step-label"><i class="czi-check-circle"></i>Review</div></a></div>
-          <!-- Autor info-->
-          <div class="d-sm-flex justify-content-between align-items-center bg-secondary p-4 rounded-lg mb-grid-gutter">
-            <div class="media align-items-center">
-              <div class="img-thumbnail rounded-circle position-relative" style="width: 6.375rem;"> <img class="rounded-circle" src="{{asset('images/user.png')}}" alt="Susan Gardner"></div>
-                <div class="media-body pl-3">
-                    <h3 class="font-size-base mb-0">{{\Illuminate\Support\Facades\Auth::user()->first_name}} {{\Illuminate\Support\Facades\Auth::user()->last_name}}</h3><span class="text-accent font-size-sm">{{\Illuminate\Support\Facades\Auth::user()->email}}</span>
+
+   <!-- section -->
+<section class="uk-section-small bg-white">
+    <div class="uk-container">
+    <h3>Billing Details</h3>
+    <form action="{{route('checkout-address')}}" method="post">  
+    <div uk-grid="uk-grid" class="uk-grid">
+            <div class="uk-width-expand@m">     
+                @csrf        
+              
+                <div class="uk-grid-medium" uk-grid="uk-grid">
+                    <div class="uk-width-1-1@m">
+                        <label class="uk-margin-small-bottom uk-display-block" for="first_name">First Name
+                            <span class="uk-text-danger">*</span></label>
+                        <input
+                            class="uk-input"
+                            type="text"
+                            name="first_name"
+                            value="{{$user->first_name}}"
+                            placeholder="Enter your first name"
+                            id="first_name">
+                    </div>
+                    <div class="uk-width-1-1@m">
+                        <label class="uk-margin-small-bottom uk-display-block" for="last_name">Last Name
+                            <span class="uk-text-danger">*</span></label>
+                        <input
+                            class="uk-input"
+                            type="text"
+                            name="last_name"
+                            value="{{$user->last_name}}"
+                            placeholder="Enter your last name"
+                            id="last_name">
+                    </div>
+                    <div class="uk-width-1-1@m">
+                        <label class="uk-margin-small-bottom uk-display-block" for="Country">Country
+                            <span class="uk-text-danger">*</span></label>
+                        <select class="uk-select" name="country" id="country" required="required">
+                            <option value="value" style="display:none;">Please choose your country</option>
+                            @foreach($countries as $country)
+                            <option value="{{$country->slug}}">{{$country->name}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="uk-width-1-1@m">
+                        <label class="uk-margin-small-bottom uk-display-block" for="city">City
+                            <span class="uk-text-danger">*</span></label>
+                        <select class="uk-select" name="city" id="city" required="required">
+                            <option value="value">Please choose your city</option>
+                        </select>
+                    </div>
+                    <!-- <div class="uk-width-1-1@m">
+                        <label class="uk-margin-small-bottom uk-display-block" for="houseno">Building / House No / Floor / Street
+                        </label>
+                        <input class="uk-input" type="text" placeholder="" id="houseno">
+                    </div>
+                    <div class="uk-width-1-1@m">
+                        <label class="uk-margin-small-bottom uk-display-block" for="Area">Area
+                            <span class="uk-text-danger">*</span></label>
+                        <select class="uk-select" id="Area" required="required">
+                            <option value="value">Please choose your area</option>
+                            <option>Balkot Area</option>
+                            <option>Biruwa Buspark Area</option>
+                            <option>Bode</option>
+                            <option>Duwakot</option>
+                            <option>Gaththaghar Area</option>
+                            <option>Kamalbinayak Area</option>
+                        </select>
+                    </div>
+                    <div class="uk-width-1-1@m">
+                        <label class="uk-margin-small-bottom uk-display-block" for="Colony">Colony / Suburb / Locality / Landmark
+                            <span class="uk-text-danger">*</span></label>
+                        <input class="uk-input" type="text" placeholder="" id="Colony">
+                    </div> -->
+                    <div class="uk-width-1-1@m">
+                        <label class="uk-margin-small-bottom uk-display-block" for="Address">Address 1</label>
+                        <input
+                            class="uk-input"
+                            type="text"
+                            name="address_1"
+                            placeholder="For Example: House# 123, Street# 123, ABC Road"
+                            id="Address">
+                    </div>
+                    <div class="uk-width-1-1@m">
+                        <label class="uk-margin-small-bottom uk-display-block" for="Address">Address 2</label>
+                        <input
+                            class="uk-input"
+                            type="text"
+                            name="address_2"
+                            placeholder="For Example: House# 123, Street# 123, ABC Road"
+                            id="Address">
+                    </div>
+                    <div class="uk-width-1-1@m">
+                        <label class="uk-margin-small-bottom uk-display-block" for="zipcode">Zipcode</label>
+                        <input
+                            class="uk-input"
+                            type="number"
+                            name="zip_code"
+                            placeholder="For Example: 44600"
+                            id="zip_code">
+                    </div>
+                    <div class="uk-width-1-1@m">
+                        <label class="uk-margin-small-bottom uk-display-block" for="phone">Phone Number
+                            <span class="uk-text-danger">*</span></label>
+                        <input
+                            class="uk-input"
+                            type="number"
+                            name="phone"
+                            placeholder="Please enter your phone number"
+                            id="phone">
+                    </div>
+                    <div class="uk-width-1-1@m">
+                        <label class="uk-margin-small-bottom uk-display-block" for="Email">Email
+                            <span class="uk-text-danger">*</span></label>
+                        <input
+                            class="uk-input"
+                            type="email"
+                            name="email"
+                            value="{{$user->email}}"
+                            placeholder="Please enter your phone number"
+                            id="Email">
+                    </div>
+                    <!-- <div class="uk-width-1-1@m">
+                        <label for="password"><input type="checkbox" id="password" class="clicktoggle">
+                            Create an account?</label>
+                    </div> -->
+                    <!-- <div class="uk-width-1-1@m togglecontent"  style="display:none;">
+                        <label class="uk-margin-small-bottom uk-display-block" for="password">Create account password
+                            <span class="uk-text-danger">*</span></label>
+                        <input
+                            class="uk-input"
+                            type="password"
+                            placeholder="Please enter your phone number"
+                            id="password">
+                    </div> -->
+                    <div class="uk-width-1-1@m">
+                        <label class="uk-margin-small-bottom uk-display-block" for="note">Order notes (optional)
+                        </label>
+                        <textarea class="uk-textarea" name="order_note" id="note" rows="5"></textarea>
+                    </div>
+
+                    <!-- Required hidden files -->
+                    <input type="hidden" id="subtotal" value="{{$final}}" name="subtotal">
+                    <input type="hidden" id="shipping" name="shipping">
+                    <input type="hidden" id="shipping_id" name="shipping_id">
+                    <input type="hidden" name="user_id" id="user_id" value="{{$user->id}}">
+
+                </div>
+              
+                <div class="uk-payment-methods uk-margin-medium uk-border">
+                <div class="uk-width-1-1 uk-margin-medium-bottom"> 
+                    <h3 class="uk-margin-small">Payment</h3>
+                    <span>All transactions are secure and encrypted.</span>
+                </div>
+                    <ul uk-accordion="" class="uk-accordion-outline">
+                        <!-- <li>
+                            <div class="uk-accordion-title">
+                                <div class="uk-flex uk-flex-between">
+                                    <div>
+                                         Pay with Credit Card  
+                                    </div> 
+                                    <div>
+                                    <ul class="uk-flex uk-grid-small" uk-grid>
+                                        <li>
+                                            <img src="assets/images/payments/visa.svg" alt="">
+                                        </li>
+                                        <li>
+                                            <img src="assets/images/payments/master-card.svg" alt="">
+                                        </li>
+                                        <li>
+                                            <img src="assets/images/payments/american-express.svg" alt="">
+                                        </li>
+                                    </ul>
+                                    </div>   
+                                </div> 
+                            </div>
+                            <div class="uk-accordion-content uk-text-center uk-padding">
+                               <div class="uk-grid-small" uk-grid>
+                                     <div class="uk-inline-block uk-width-1-1">
+                                        <span class="uk-form-icon uk-form-icon-flip" uk-icon="icon: lock"></span>
+                                        <input class="uk-input" type="text" placeholder="Card Number">
+                                     </div>
+                                     <div class="uk-inline-block uk-width-1-1">
+                                        <span class="uk-form-icon uk-form-icon-flip" uk-icon="icon: user"></span>
+                                        <input class="uk-input" type="text" placeholder="Name on card">
+                                     </div>
+                                     <div class="uk-inline-block uk-width-1-2@m">
+                                        <span class="uk-form-icon uk-form-icon-flip" uk-icon="icon: calendar"></span>
+                                        <input class="uk-input" type="text" placeholder="Expiration Date (MM / YY)">
+                                     </div>
+                                     <div class="uk-inline-block uk-width-1-2@m">
+                                        <a class="uk-form-icon uk-form-icon-flip" uk-icon="icon: question" uk-tooltip="3-digit security code usually found on the back of your card. American Express cards have a 4-digit code located on the front."></a>
+                                        <input class="uk-input" type="text" placeholder="Security Code">
+                                     </div>
+                               </div>
+                            </div>
+                        </li> -->
+                        <!-- <li>
+                        <div class="uk-accordion-title">
+                                <div class="uk-flex uk-flex-between">
+                                    <div>
+                                    Esewa Payment
+                                    </div> 
+                                    <div>
+                                    <ul class="uk-flex uk-grid-small" uk-grid>
+                                        <li>
+                                            <img src="assets/images/payments/esewa.svg" alt="">
+                                        </li> 
+                                    </ul>
+                                    </div>   
+                                </div> 
+                            </div>
+
+
+                         
+                            <div class="uk-accordion-content uk-text-center uk-padding">
+                                <img src="assets/images/payments/blank-window.svg" alt="">
+                                <p>After clicking “Complete order”, you will be redirected to You will be asked to login with Esewa.</p>
+                                <p>Total <strong class="emphasis">$314.71</strong></p>
+                            </div>
+                        </li> -->
+                        <!-- <li>
+                            
+                            <div class="uk-accordion-title">
+                                <div class="uk-flex uk-flex-between">
+                                    <div>
+                                    Khalti - Digital Wallet
+                                    <small class="uk-display-block">Pay with Khalti Balance or 16+ eBanking Services</small>
+                                    </div> 
+                                    <div>
+                                    <ul class="uk-flex uk-grid-small" uk-grid>
+                                        <li>
+                                            <img src="assets/images/payments/khalti.svg" alt="">
+                                        </li> 
+                                    </ul>
+                                    </div>   
+                                </div> 
+                            </div>
+
+                            <div class="uk-accordion-content uk-text-center uk-padding">
+                                <img src="assets/images/payments/blank-window.svg" alt="">
+                                <p>After clicking “Complete order”, you will be redirected to You will be asked to login with Khalti.</p>
+                                <p>Total <strong class="emphasis">$314.71</strong></p>
+                            </div>
+                        </li> -->
+                        <li>
+                            <div class="uk-accordion-title">
+                                <div class="uk-flex uk-flex-between">
+                                    <div>
+                                        Cash On Delivery<small class="uk-display-block">Pay cash at the time of delivery</small>
+                                    </div> 
+                                    <div>
+                                    <ul class="uk-flex uk-grid-small" uk-grid>
+                                        <li>
+                                            <img src="assets/images/payments/cod.svg" alt="">
+                                        </li> 
+                                    </ul>
+                                    </div>   
+                                </div> 
+                            </div>
+
+                            <div class="uk-accordion-content uk-text-center uk-padding">
+                                <p>You can pay cash at the time of delivery. We accept Nepali currency within Nepal, and you can pay the invoice amount when our delivery staff arrives to your home/office.</p>
+                            </div>
+                        </li>
+                    </ul>
+                   <div class="uk-flex-between uk-flex uk-flex-middle uk-margin-top" uk-grid>
+                    <div>
+                        <a href="shop-list.php" class="uk-flex uk-flex-middle"><span class="material-icons-outlined f-14 uk-margin-small-right">arrow_back_ios</span>Return to shipping</a>
+                    </div>
+                    <div>
+                    <button class="uk-button uk-button-large uk-btn-primary uk-flex uk-flex-middle">Complete order <span class="material-icons-outlined uk-margin-small-left"> arrow_right_alt </span></button>
+                    </div>
+                   </div>
                 </div>
             </div>
-              <a class="btn btn-light btn-sm btn-shadow mt-3 mt-sm-0" href="{{route('user-profile')}}"><i class="czi-edit mr-2"></i>Edit profile</a>
-          </div>
-          <!-- Shipping address-->
-          <h2 class="h6 pt-1 pb-3 mb-3 border-bottom">Shipping address</h2>
-            <form id="address_form">
-          <div class="row">
-            <div class="col-sm-6">
-              <div class="form-group">
-                <label for="checkout-fn">First Name</label>
-                <input class="form-control" name="first_name" value="{{\Illuminate\Support\Facades\Auth::user()->first_name}}" type="text" id="checkout-fn">
-              </div>
-            </div>
-            <div class="col-sm-6">
-              <div class="form-group">
-                <label for="checkout-ln">Last Name</label>
-                <input class="form-control" name="last_name" value={{\Illuminate\Support\Facades\Auth::user()->last_name}}" type="text" id="checkout-ln">
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-sm-6">
-              <div class="form-group">
-                <label for="checkout-email">E-mail Address</label>
-                <input class="form-control" name="email" type="email" value="{{\Illuminate\Support\Facades\Auth::user()->email}}" id="checkout-email">
-              </div>
-            </div>
-            <div class="col-sm-6">
-              <div class="form-group">
-                <label for="checkout-phone">Phone Number</label>
-                <input class="form-control" name="phone" value="{{\Illuminate\Support\Facades\Auth::user()->phone}}" type="text" id="checkout-phone">
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-sm-6">
-              <div class="form-group">
-                  <label for="title">Select Country:</label>
-                  <select name="country" id="country" class="form-control" style="width:350px">
-                      <option value="" selected disabled>Select any country</option>
-                      @foreach($countries as $id=>$value)
-                          <option value="{{$id+=1}}">{{$value->name}}</option>
-                      @endforeach
-                  </select>
-              </div>
-            </div>
+            <div class="uk-width-2-5@m uk-flex-first uk-flex-last@m">
+                <div
+                    class="uk-summary bg-white uk-border-rounded uk-box-shadow-small"
+                    uk-sticky="media: 959; offset:100; bottom: .stickyend;">
+                    <div class="uk-summary-header">
+                        <h4 class="uk-margin-remove">Your Order</h4>
+                    </div>
+                    <div class="uk-summary-body">
+                        <ul class="uk-calculation uk-margin-small-top uk-margin-small-bottom">
+                            @foreach($cartItem as $data)
+                            <li class="uk-flex uk-flex-between uk-flex-middle">
+                                <div class="uk-flex uk-flex-between uk-flex-middle">
+                                    <div class="uk-cart-img uk-margin-small-right">
+                                        <a href="">
+                                            <img src="{{asset('images/products/'.$data->options->image)}}" alt="">
+                                        </a>
+                                    </div>
+                                    <div class="uk-margin-small-bottom">{{$data->name}}
+                                        <span class="uk-display-block  f-14">QTY : {{$data->qty}}
+                                            <br>{{$data->options->color}}</span>
+                                    </div>
+                                </div>
+                                <div class="f-18">
+                                    {{$data->price * $data->qty}}
+                                </div>
+                            </li>
+                            @endforeach
+                            
+                            <li class="uk-flex uk-flex-between">
+                                <div>
+                                    Subtotal
+                                </div>
+                                <div class="f-18">
+                                 {{$final}}
+                                </div>
+                            </li>
+                            <li class="uk-flex uk-flex-between">
+                                <div>
+                                Shipping Cost
+                                </div>
+                                <div class="f-18" id="shipping-cost">
 
-          </div>
-          <div class="row">
-            <div class="col-sm-6">
-              <div class="form-group">
-                <label for="checkout-city">City:</label>
-                  <select name="city" id="city" class="form-control" style="width:350px">
-                      <option value="" selected disabled>Select any city</option>
-                      @foreach($shipping as $id=>$value)
-                          <option id="{{$value->id}}" value="{{$value->shipping_price}}">{{$value->shipping_location}}</option>
-                      @endforeach
-                  </select>
-              </div>
-            </div>
-            <div class="col-sm-6">
-              <div class="form-group">
-                <label for="checkout-zip">ZIP Code</label>
-                  @if(\Illuminate\Support\Facades\Auth::user()->addresses!=null)
-                <input class="form-control" name="zip_code" value="{{\Illuminate\Support\Facades\Auth::user()->addresses->zip_code}}" type="text" id="checkout-zip">
-                 @else
-                  <input class="form-control" name="zip_code" type="text" id="checkout-zip">
-                  @endif
-
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-sm-6">
-              <div class="form-group">
-                <label for="checkout-address-1">Address 1</label>
-                  @if(\Illuminate\Support\Facades\Auth::user()->addresses!=null)
-                <input class="form-control" name="address_1" type="text" value="{{\Illuminate\Support\Facades\Auth::user()->addresses->address1}}" id="checkout-address-1">
-           @else
-                  <input class="form-control" name="address_1" type="text" id="checkout-address-1">
-                      @endif
-
-              </div>
-            </div>
-            <div class="col-sm-6">
-              <div class="form-group">
-                <label for="checkout-address-2">Address 2</label>
-                  @if(\Illuminate\Support\Facades\Auth::user()->addresses!=null)
-                <input class="form-control" name="address_2" type="text" value="{{\Illuminate\Support\Facades\Auth::user()->addresses->address2}}" id="checkout-address-2">
-                  @else
-                      <input class="form-control" name="address_2" type="text"  id="checkout-address-2">
-                  @endif
-
-              </div>
-            </div>
-          </div>
-{{--          <h6 class="mb-3 py-3 border-bottom">Billing address</h6>--}}
-{{--          <div class="custom-control custom-checkbox">--}}
-{{--            <input class="custom-control-input" type="checkbox" checked id="same-address">--}}
-{{--            <label class="custom-control-label" for="same-address">Same as shipping address</label>--}}
-{{--          </div>--}}
-          <!-- Navigation (desktop)-->
-          <div class="d-none d-lg-flex pt-4 mt-3">
-            <div class="w-50 pr-3"><a class="btn btn-secondary btn-block" href="{{route('cart-item')}}"><i class="czi-arrow-left mt-sm-0 mr-1"></i><span class="d-none d-sm-inline">Back to Cart</span><span class="d-inline d-sm-none">Back</span></a></div>
-            <div class="w-50 pl-2"><a class="btn btn-primary btn-block" id="payment_page" href="javascript:void(0)"><span class="d-none d-sm-inline">Proceed to Shipping</span><span class="d-inline d-sm-none">Next</span><i class="czi-arrow-right mt-sm-0 ml-1"></i></a></div>
-{{--            <div class="w-50 pl-2"><a class="btn btn-primary btn-block" id="shipping_page" href="{{route('checkout-payment')}}"><span class="d-none d-sm-inline">Proceed to Payment</span><span class="d-inline d-sm-none">Next</span><i class="czi-arrow-right mt-sm-0 ml-1"></i></a></div>--}}
-          </div>
-            </form>
-        </section>
-        <!-- Sidebar-->
-          @if(\Gloudemans\Shoppingcart\Facades\Cart::content()->isNotEmpty())
-
-          <aside class="col-lg-4 pt-4 pt-lg-0">
-          <div class="cz-sidebar-static rounded-lg box-shadow-lg ml-lg-auto">
-            <div class="widget mb-3">
-              <h2 class="widget-title text-center">Order summary</h2>
-
-                @foreach($cartItem as $value)
-              <div class="media align-items-center pb-2 border-bottom"><a class="d-block mr-2" href="{{'/product-details'}}"><img width="64" src="{{url('images/products/'.$value->options->image)}}" alt="Product"/></a>
-                <div class="media-body">
-                  <h6 class="widget-product-title"><a href="{{'/product-details'}}">{{$value->name}}</a></h6>
-                  <div class="widget-product-meta"><span class="text-accent mr-2">{{$value->price}}.<small>00</small></span><span class="text-muted">x {{$value->qty}}</span></div>
+                                </div>
+                            </li>
+                            <li class="uk-flex uk-flex-between uk-flex-middle text-primary">
+                                <div class="uk-h4 uk-margin-remove">
+                                    Total
+                                </div>
+                                <div class="uk-h4 uk-margin-remove" id="total" data-sub-total={{$final}}>
+                                {{$final}}
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- <div class="uk-summary-footer">
+                        <a href="checkout.php" class="uk-button uk-btn-primary uk-width-1-1">Place Order</a>
+                    </div> -->
                 </div>
-              </div>
-                @endforeach
-
             </div>
-            <ul class="list-unstyled font-size-sm pb-2 border-bottom">
-              <li class="d-flex justify-content-between align-items-center"><span class="mr-2">Subtotal:</span><span class="text-right subtotal">{{$final}}</span></li>
-              <li class="d-flex justify-content-between align-items-center "><span class="mr-2">Shipping:</span><span class="text-right shipping_price" id="shipping_cost">-</span>
-              </li>
-
-              <li class="d-flex justify-content-between align-items-center"><span class="mr-2">Taxes:</span><span class="text-right tax">{{0.13*$final}}</span></li>
-              <li class="d-flex justify-content-between align-items-center"><span class="mr-2">Discount:</span><span class="text-right">—</span></li>
-            </ul>
-            <h3 class="font-weight-normal text-center my-4 total">
-
-            </h3>
-            <form class="needs-validation" method="post" novalidate>
-              <div class="form-group">
-                <input class="form-control" type="text" placeholder="Promo code" required>
-                <div class="invalid-feedback">Please provide promo code.</div>
-              </div>
-              <button class="btn btn-outline-primary btn-block" type="submit">Apply promo code</button>
-            </form>
-          </div>
-        </aside>
-              @endif
-      </div>
-      <!-- Navigation (mobile)-->
-      <div class="row d-lg-none">
-        <div class="col-lg-8">
-          <div class="d-flex pt-4 mt-3">
-            <div class="w-50 pr-3"><a class="btn btn-secondary btn-block" href="{{route('cart-item')}}"><i class="czi-arrow-left mt-sm-0 mr-1"></i><span class="d-none d-sm-inline">Back to Cart</span><span class="d-inline d-sm-none">Back</span></a></div>
-            <div class="w-50 pl-2"><a class="btn btn-primary btn-block" href="{{route('shipping-page')}}"><span class="d-none d-sm-inline">Proceed to Shipping</span><span class="d-inline d-sm-none">Next</span><i class="czi-arrow-right mt-sm-0 ml-1"></i></a></div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- Toolbar for handheld devices-->
-    <div class="cz-handheld-toolbar">
-        <div class="d-table table-fixed w-100"><a class="d-table-cell cz-handheld-toolbar-item"
-                                                  href="{{route('wishlist')}}"><span class="cz-handheld-toolbar-icon"><i
-                        class="czi-heart"></i></span><span class="cz-handheld-toolbar-label">Wishlist</span></a><a
-                class="d-table-cell cz-handheld-toolbar-item" href="#navbarCollapse" data-toggle="collapse"
-                onclick="window.scrollTo(0, 0)"><span class="cz-handheld-toolbar-icon"><i
-                        class="czi-menu"></i></span><span class="cz-handheld-toolbar-label">Menu</span></a><a
-                class="d-table-cell cz-handheld-toolbar-item" href="{{route('cart-item')}}"><span
-                    class="cz-handheld-toolbar-icon"><i class="czi-cart"></i><span
-                        class="badge badge-primary badge-pill ml-1">{{\Gloudemans\Shoppingcart\Facades\Cart::count()}}</span></span><span
-                    class="cz-handheld-toolbar-label">{{\Gloudemans\Shoppingcart\Facades\Cart::subtotal()}}</span></a>
         </div>
     </div>
-
+    </form>
+</div>
+<div class="uk-display-block stickyend"></div>
+</section>
 
 @endsection
 @push('scripts')
     <script type="text/javascript">
 
+        $("#country").on('change', function(){
+           let slug = $(this).find(":selected").val();
+
+            $.ajax({
+                type: 'GET',
+                url: '/getcity/'+slug,
+                success: function (response) {
+
+                  $("#city").empty();
+                  $("#city").append(`<option style="display:none;">Please Choose Your City</option>`);
+
+                  response.map(function(obj){
+                    let htmlObj = `
+                      <option value="`+obj["name"]+`">`+obj["name"]+`</option>
+                    `;
+                    $("#city").append(htmlObj);
+                  });
+
+                },
+                error: function (data) {//if an error occurs
+                    toastr.error("There is something wrong");
+                }
+            });
+
+        });
+
         $('#city').on('change', function() {
             // alert( this.value );
 
-           let shipping= $('.shipping_price').html(this.value);
+            /*let shipping= $('.shipping_price').html(this.value);
             let shipping_cost=parseFloat(this.value);
             let tax=parseFloat($('.tax').html());
             let subtotal=parseFloat($('.subtotal').html());
 
             let total=(subtotal+tax +shipping_cost);
 
-            $('.total').html(total);
+            $('.total').html(total);*/
+
+            let city = $(this).find(":selected").html();
+
+            $.ajax({
+                type: 'GET',
+                url: '/getshippingprice/'+city,
+                success: function (response) {
+                  $("#shipping-cost").html(response.shipping_price);
+                  $("#shipping").val(response.shipping_price);
+                  $("#shipping_id").val(response.id);
+                  let total = parseFloat($("#total").attr("data-sub-total"))+parseFloat(response.shipping_price);
+                  $("#total").html(total);
+                },
+                error: function (data) {//if an error occurs
+                    toastr.error("There is something wrong");
+                }
+            });
 
         });
 

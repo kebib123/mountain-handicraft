@@ -1,4 +1,8 @@
 @extends('frontend.include.master')
+
+@section('meta-keywords') {!! strip_tags($category->first()->seo_keyword) !!} @endsection
+@section('meta-description') {!! strip_tags($category->first()->seo_description) !!} @endsection
+
 @section('content')
 <section class="uk-section-xsmall">
    <div class="uk-container">
@@ -12,7 +16,7 @@
 <!-- banner -->
 <div class="uk-container">
    <div class="uk-list-banner uk-cover-container uk-position-relative uk-flex uk-flex-middle uk-background-norepeat uk-background-cover 
-      uk-background-top-center" data-src="assets/images/products/list-banner.jpg" uk-img >
+      uk-background-top-center" data-src="{{asset('images/products/list-banner.jpg')}}" uk-img >
       <div class="uk-hero-banner-content uk-width-1-1 uk-position-z-index ">
          <div class="uk-position-relative  uk-flex-middle uk-flex uk-light">
             <div class="uk-padding">
@@ -109,9 +113,9 @@
  
        <div class="uk-margin-large-top">
          <ul class="uk-pagination uk-flex-center uk-margin-remove" uk-margin>
-            {!! $products->links() !!}
-         </ul>
+             {!! $products->links() !!}
       </div>
+
    </div>
 </section>
 <!-- end product list -->
