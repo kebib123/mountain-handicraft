@@ -10,9 +10,9 @@
                 <ul class="uk-cart-list-large bg-white uk-border-rounded uk-box-shadow-small">
                     <form id="update-form" method="POST">
                         @foreach($cartItem as $data)
-                        <input type="hidden" name="id[]" value="{{$data->rowId}}">
                         <!-- -->
                         <li id="{{$data->rowId}}">
+                        <input type="hidden" name="id[]" value="{{$data->rowId}}">
                             <div class="uk-width-1-1">
                                 <div class="uk-grid-medium uk-flex-middle" uk-grid="uk-grid">
                                     <div class="uk-width-auto@m">
@@ -148,7 +148,7 @@
                         toastr.success(data.message);
                         // alert({{Gloudemans\Shoppingcart\Facades\Cart::count();}});
                         $(".uk-cart-count").replaceWith($(".uk-cart-count")).html(data.count);
-                        $("#sub-total").replaceWith($("#sub-total")).html(data.subTotal);
+                        $("#sub-total").replaceWith($("#sub-total")).html("$"+data.subTotal);
 
                     }
                     jQuery.each(data.errors, function (key, value) {
@@ -176,7 +176,7 @@
             let quantity = $("#qt"+cartId).val();
             let price = $(this).attr("data-row-price");
 
-            $("#mintotal"+cartId).html(quantity*price);
+            $("#mintotal"+cartId).html("$"+quantity*price);
 
         });
 
@@ -200,7 +200,7 @@
                         $("#"+cartId).remove();
                         //$('.mini-cart').replaceWith($('.mini-cart')).html(data);
                         $('.uk-cart-count').replaceWith($('.uk-cart-count')).html(data.count);
-                        $("#sub-total").replaceWith($("#sub-total")).html(data.subTotal);
+                        $("#sub-total").replaceWith($("#sub-total")).html("$"+data.subTotal);
                         toastr.success(data.message);
                         if(data.count==0){
                             $("#update-button").remove();

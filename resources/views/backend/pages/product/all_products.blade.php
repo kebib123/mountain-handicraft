@@ -16,11 +16,11 @@
                     <th>Featured</th>
                     <th>Status</th>
                     <th>Category</th>
-                    <th>Brand</th>
                     <th>Image</th>
                     <th>Stock</th>
-                    <th>Hot Deals</th>
-                    <th>On Sale</th>
+                    <th>Reviews</th>
+                    <!-- <th>Hot Deals</th> -->
+                    <!-- <th>On Sale</th> -->
                     <th>Action</th>
                 </tr>
                 </thead>
@@ -54,8 +54,6 @@
                                 @endforeach
                         </td>
 
-                        <td>{{$product->brands ? $product->brands->brand_name : '-'}}</td>
-
 
                         <td>
                             <img src="{{asset('/images/products/'.$img->get_main_image($product->id))}}" width="100px" alt="product">
@@ -80,6 +78,9 @@
                             @endif
                         </td>
                         <td>
+                            <a href="{{route('all-review', $product->id)}}">{{$product->reviews->count()}}</a>
+                        </td>
+                        <!-- <td>
                             @if($product->is_special==1)
                                 <button class="btn btn-success btn btn-sm" name="active"><i
                                         class="fa fa-check"></i>
@@ -89,8 +90,8 @@
                                         class="fa fa-times"></i>
                                 </button>
                             @endif
-                        </td>
-                        <td>
+                        </td> -->
+                        <!-- <td>
                             @if($product->on_sale==1)
                                 <button class="btn btn-success btn btn-sm" name="active"><i
                                         class="fa fa-check"></i>
@@ -100,7 +101,7 @@
                                         class="fa fa-times"></i>
                                 </button>
                             @endif
-                        </td>
+                        </td> -->
                         <td>
                             <a class="btn btn-sm btn-outline-primary confirm"
                                href="{{route('edit-product',$product->id)}}"><i class="fa fa fa-edit"></i>

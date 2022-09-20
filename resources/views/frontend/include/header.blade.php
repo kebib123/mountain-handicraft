@@ -25,7 +25,6 @@
                <nav  uk-navbar>
                   <div class="uk-navbar-left text-white">
                      <div class="uk-flex uk-flex-middle" uk-grid>
-                
                         <div class="uk-visible@m">
                            <div id="" class="uk-light"></div>
                         </div>
@@ -105,26 +104,7 @@
                            <nav  uk-navbar>
                               <div class="uk-navbar-left text-white">
                                  <div class="uk-flex uk-flex-middle" uk-grid>
-                                    {{-- <div class="currency ">
-                                       <select>
-                                          <option value="select">Currency</option>
-                                          <option>CAD</option>
-                                          <option>Pound</option>
-                                          <option>Euro</option>
-                                          <option>USD</option>
-                                          <option>Swiss</option>
-                                          <option>AUD</option>
-                                       </select>
-                                    </div> --}}
-                                    <div class="uk-visible@m">
-                                       <div id="google_translate_element" class="uk-light"></div>
-                                       <script type="text/javascript">
-                                          function googleTranslateElementInit() {
-                                          new google.translate.TranslateElement({pageLanguage: 'en',}, 'google_translate_element');
-                                          }
-                                       </script>
-                                       <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
-                                    </div>
+
                                  </div>
                               </div>
                               <div class="uk-navbar-right">

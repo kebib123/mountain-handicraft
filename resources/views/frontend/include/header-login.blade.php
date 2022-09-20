@@ -24,10 +24,6 @@
                <nav  uk-navbar>
                   <div class="uk-navbar-left text-white">
                      <div class="uk-flex uk-flex-middle" uk-grid>
-                      
-                        <div class="uk-visible@m">
-                           <div id="" class="uk-light"></div>
-                        </div>
                      </div>
                   </div>
                   <div class="uk-navbar-right">

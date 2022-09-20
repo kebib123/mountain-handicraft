@@ -38,6 +38,7 @@ Route::group(['namespace' => 'Front'], function () {
     //cart details//
     Route::get('/product-{slug?}', 'ProductController@product_details')->name('product-single');
     Route::post('/product-search', 'ProductController@product_search')->name('product-search');
+    Route::post('/quotation-submit', 'ProductController@quotation_submit')->name('quotation-submit');
 
     Route::get('/product-details/{slug?}', 'CategoryController@product_details')->name('product-details');
     Route::get('/product-stock/{id}/{color_id}/{size_id}', 'ProductController@product_stock')->name('product-stock');
@@ -115,7 +116,9 @@ Route::group(['namespace' => 'Auth'], function () {
     Route::post('/login', 'LoginController@login')->name('login');
     Route::any('/logout', 'LoginController@logout')->name('logout');
     Route::get('/user/verify/{token}', 'RegisterController@verifyUser')->name('verify-user');
-
+    Route::get('/forgot-password', 'ForgotPasswordController@forgot_password_page')->name('forgot-password');
+    Route::post('/recovery-mail', 'ForgotPasswordController@recovery_mail')->name('recovery-mail');
+    Route::any('/reset-password/{token}', 'ForgotPasswordController@reset_password')->name('reset-password');
 });
  
 
@@ -207,12 +210,28 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => ['aut
         Route::post('faq', 'SettingController@faq')->name('faq');
     });
 
+    // Blog routes
     Route::group(['prefix' => 'blog'], function () {
         Route::get('/all-blogs', 'BlogController@all_blogs')->name('all-blogs');
         Route::get('/add-blog', 'BlogController@add_blog')->name('add-blog');
         Route::post('/add-blog', 'BlogController@add_blog')->name('add-blog');
         Route::get('/delete-blog/{id}', 'BlogController@delete_blog')->name('delete-blog');
         Route::any('edit-blog/{id?}', 'BlogController@edit_blog')->name('edit-blog');
+        //Route::post('/edit-blog', 'BlogController@edit_blog')->name('edit-blog');
+    });
+
+    // Quotation routes
+    Route::group(['prefix' => 'quotation'], function () {
+        Route::get('/quotaion-all', 'QuotationController@quotation_all')->name('quotation-all');
+        Route::get('/delete-quotation/{id}', 'QuotationController@delete_quotation')->name('delete-quotation');
+        Route::get('/view-quotation/{id}', 'QuotationController@view_quotation')->name('view-quotation');
+        //Route::post('/edit-blog', 'BlogController@edit_blog')->name('edit-blog');
+    });
+
+    // Review routes
+    Route::group(['prefix' => 'review'], function () {
+        Route::get('/all-review/{id}', 'ReviewController@all_review')->name('all-review');
+        Route::get('/delete-review/{id}', 'ReviewController@delete_review')->name('delete-review');
         //Route::post('/edit-blog', 'BlogController@edit_blog')->name('edit-blog');
     });
     //Subir Routes

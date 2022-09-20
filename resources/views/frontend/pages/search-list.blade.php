@@ -43,6 +43,8 @@
 </section>
 </div>
 <!-- end banner -->
+
+@if($products->isNotEmpty())
 <!-- product list -->
 <section class="uk-section-small bg-white">
    <div class="uk-container">
@@ -68,7 +70,7 @@
       </div>
       <ul class="product_filter_result uk-child-width-1-2 uk-child-width-1-4@m  uk-grid-small" uk-height-match="target: .uk-product-list" uk-grid="uk-grid">
    <!--  -->
-   @if($products->isNotEmpty())
+   
    @foreach($products as $value) 
    <li>
       <div class="uk-product-list">
@@ -103,7 +105,6 @@
       </div>
    </li>
    @endforeach
-   @endif
    <!--  -->
 </ul>  
  
@@ -111,6 +112,15 @@
    </div>
 </section>
 <!-- end product list -->
+@else
+<section class="uk-section-small bg-white">
+   <div class="uk-container">
+     <div class="uk-margin" >
+         <h4 class="text-center">'{{$key}}' not found</h4>
+      </div>
+   </div>
+</section>
+@endif
  
 @endsection
 @push('scripts')

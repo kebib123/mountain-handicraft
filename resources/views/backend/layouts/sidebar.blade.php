@@ -238,6 +238,13 @@
                 </li>
 
                 <li class="nav-item">
+                    <a href="{{route('quotation-all')}}" class="nav-link">
+                    <i class="fas fa-sticky-note"></i>
+                        <p>Quotations</p>
+                    </a>
+                </li>
+
+                <li class="nav-item">
                     <a href="{{route('faq')}}" class="nav-link">
                         <i class="fa fa-question"></i>
                         <p>FAQ'S</p>
