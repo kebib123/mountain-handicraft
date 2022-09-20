@@ -25,17 +25,7 @@
                <nav  uk-navbar>
                   <div class="uk-navbar-left text-white">
                      <div class="uk-flex uk-flex-middle" uk-grid>
-                        <div class="currency ">
-                           <select>
-                              <option value="select">Currency</option>
-                              <option>CAD</option>
-                              <option>Pound</option>
-                              <option>Euro</option>
-                              <option>USD</option>
-                              <option>Swiss</option>
-                              <option>AUD</option>
-                           </select>
-                        </div>
+                
                         <div class="uk-visible@m">
                            <div id="" class="uk-light"></div>
                         </div>
@@ -49,7 +39,7 @@
                         <li>
                            <a target="_blank" href="{{ getConfiguration('instagram_link') }}"><i class="fab fa-instagram"></i></a>
                         </li>
-                        <li>
+                        {{-- <li>
                            <a href=""><i class="fab fa-whatsapp"></i></a>
                         </li>
                         <li>
@@ -57,7 +47,7 @@
                         </li>
                         <li>
                            <a href=""><i class="fab fa-tiktok"></i></a>
-                        </li>
+                        </li> --}}
                      </ul>
                   </div>
                </nav>
@@ -115,7 +105,7 @@
                            <nav  uk-navbar>
                               <div class="uk-navbar-left text-white">
                                  <div class="uk-flex uk-flex-middle" uk-grid>
-                                    <div class="currency ">
+                                    {{-- <div class="currency ">
                                        <select>
                                           <option value="select">Currency</option>
                                           <option>CAD</option>
@@ -125,7 +115,7 @@
                                           <option>Swiss</option>
                                           <option>AUD</option>
                                        </select>
-                                    </div>
+                                    </div> --}}
                                     <div class="uk-visible@m">
                                        <div id="google_translate_element" class="uk-light"></div>
                                        <script type="text/javascript">
@@ -145,7 +135,7 @@
                                     <li>
                                        <a href="{{ getConfiguration('instagram_link') }}"><i class="fab fa-instagram"></i></a>
                                     </li>
-                                    <li>
+                                    {{-- <li>
                                        <a href=""><i class="fab fa-whatsapp"></i></a>
                                     </li>
                                     <li>
@@ -153,7 +143,7 @@
                                     </li>
                                     <li>
                                        <a href=""><i class="fab fa-tiktok"></i></a>
-                                    </li>
+                                    </li> --}}
                                  </ul>
                               </div>
                            </nav>
@@ -237,7 +227,7 @@
                         <li>
                            <a href="{{ getConfiguration('instagram_link') }}"><i class="fab fa-instagram"></i></a>
                         </li>
-                        <li>
+                        {{-- <li>
                            <a href=""><i class="fab fa-whatsapp"></i></a>
                         </li>
                         <li>
@@ -245,7 +235,7 @@
                         </li>
                         <li>
                            <a href=""><i class="fab fa-tiktok"></i></a>
-                        </li>
+                        </li> --}}
                      </ul>
                   </div>
                </div>

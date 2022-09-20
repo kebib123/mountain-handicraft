@@ -24,17 +24,7 @@
                <nav  uk-navbar>
                   <div class="uk-navbar-left text-white">
                      <div class="uk-flex uk-flex-middle" uk-grid>
-                        <div class="currency ">
-                           <select>
-                              <option value="select">Currency</option>
-                              <option>CAD</option>
-                              <option>Pound</option>
-                              <option>Euro</option>
-                              <option>USD</option>
-                              <option>Swiss</option>
-                              <option>AUD</option>
-                           </select>
-                        </div>
+                      
                         <div class="uk-visible@m">
                            <div id="" class="uk-light"></div>
                         </div>
@@ -48,7 +38,7 @@
                         <li>
                            <a target="_blank" href="{{ getConfiguration('instagram_link') }}"><i class="fab fa-instagram"></i></a>
                         </li>
-                        <li>
+                        {{-- <li>
                            <a href=""><i class="fab fa-whatsapp"></i></a>
                         </li>
                         <li>
@@ -56,7 +46,7 @@
                         </li>
                         <li>
                            <a href=""><i class="fab fa-tiktok"></i></a>
-                        </li>
+                        </li> --}}
                      </ul>
                   </div>
                </nav>
@@ -119,7 +109,7 @@
                            <nav  uk-navbar>
                               <div class="uk-navbar-left text-white">
                                  <div class="uk-flex uk-flex-middle" uk-grid>
-                                    <div class="currency ">
+                                    {{-- <div class="currency ">
                                        <select>
                                           <option value="select">Currency</option>
                                           <option>CAD</option>
@@ -129,7 +119,7 @@
                                           <option>Swiss</option>
                                           <option>AUD</option>
                                        </select>
-                                    </div>
+                                    </div> --}}
                                     <div class="uk-visible@m">
                                        <div id="google_translate_element" class="uk-light"></div>
                                        <script type="text/javascript">
@@ -144,12 +134,12 @@
                               <div class="uk-navbar-right">
                                  <ul uk-grid="uk-grid" class="uk-grid-small uk-social-media uk-light">
                                     <li>
-                                       <a href=""><i class="fab fa-facebook"></i></a>
+                                       <a href="{{ getConfiguration('facebook_link') }}"><i class="fab fa-facebook"></i></a>
                                     </li>
                                     <li>
-                                       <a href=""><i class="fab fa-instagram"></i></a>
+                                       <a href="{{ getConfiguration('instagram_link') }}"><i class="fab fa-instagram"></i></a>
                                     </li>
-                                    <li>
+                                    {{-- <li>
                                        <a href=""><i class="fab fa-whatsapp"></i></a>
                                     </li>
                                     <li>
@@ -157,7 +147,7 @@
                                     </li>
                                     <li>
                                        <a href=""><i class="fab fa-tiktok"></i></a>
-                                    </li>
+                                    </li> --}}
                                  </ul>
                               </div>
                            </nav>
@@ -183,7 +173,7 @@
                               </a>
                         </li>
                            <li>
-                              <a uk-tooltip="Login" href="login.php" uk-icon="icon:user;">{{Auth::user()->first_name}}</a>
+                              <a uk-tooltip="Login" href="{{ route('user-dashboard') }}" uk-icon="icon:user;">{{Auth::user()->first_name}}</a>
                            </li>
                            <li>
                               <a
@@ -238,7 +228,7 @@
                         <li>
                            <a href="{{ getConfiguration('instagram_link') }}"><i class="fab fa-instagram"></i></a>
                         </li>
-                        <li>
+                        {{-- <li>
                            <a href=""><i class="fab fa-whatsapp"></i></a>
                         </li>
                         <li>
@@ -246,7 +236,7 @@
                         </li>
                         <li>
                            <a href=""><i class="fab fa-tiktok"></i></a>
-                        </li>
+                        </li> --}}
                      </ul>
                   </div>
                </div>
@@ -326,11 +316,7 @@
                          </li>
                            <li>
                            <a href="{{ route('user-dashboard')}}" uk-tooltip="{{Auth::user()->first_name}}">{{Auth::user()->first_name}}<span class="" uk-icon="icon: chevron-down; ratio: 1;"></span></a>
-                              <div class="uk-navbar-dropdown uk-margin-remove">
-                                 <ul class="uk-nav uk-navbar-dropdown-nav uk-margin-remove">
-                                    <li><a href="{{route('logout')}}">Logout</li>
-                                 </ul>
-                              </div>
+  
                            </li>
                            <li class="mini-cart">
                               <a
