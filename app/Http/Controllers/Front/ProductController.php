@@ -6,6 +6,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Model\Product;
 use App\Model\Review;
+use App\Model\Quotation;
+use App\Model\Configuration;
+use Illuminate\Support\Facades\Validator;
 
 
 class ProductController extends FrontController
@@ -19,12 +22,13 @@ class ProductController extends FrontController
 
         $related_products = $related_products->except($product->id);
         // dd($product);
-        $count = $product->reviews->count();
-        $fivestar = Review::where('product_id', '=', $product->id)->where('rating', '=', 5)->get();
-        $fourstar = Review::where('product_id', '=', $product->id)->where('rating', '=', 4)->get();
-        $threestar = Review::where('product_id', '=', $product->id)->where('rating', '=', 3)->get();
-        $twostar = Review::where('product_id', '=', $product->id)->where('rating', '=', 2)->get();
-        $onestar = Review::where('product_id', '=', $product->id)->where('rating', '=', 1)->get();
+        $count = $product->reviews->where('show', 1)->count();
+        $fivestar = Review::where('product_id', '=', $product->id)->where('rating', '=', 5)->where('show', 1)->get();
+        $fourstar = Review::where('product_id', '=', $product->id)->where('rating', '=', 4)->where('show', 1)->get();
+        $threestar = Review::where('product_id', '=', $product->id)->where('rating', '=', 3)->where('show', 1)->get();
+        $twostar = Review::where('product_id', '=', $product->id)->where('rating', '=', 2)->where('show', 1)->get();
+        $onestar = Review::where('product_id', '=', $product->id)->where('rating', '=', 1)->where('show', 1)->get();
+        $allreviews = Review::where('product_id', $product->id)->where('show', 1)->orderBy('created_at', 'DESC')->get();
         if ($count != 0) {
             $total = 5 * count($fivestar) + 4 * count($fourstar) + 3 * count($threestar) + 2 * count($twostar) + 1 * count($onestar);
             $total_review = count($fivestar) + count($fourstar) + count($threestar) + count($twostar) + count($onestar);
@@ -32,8 +36,7 @@ class ProductController extends FrontController
         }else{
             $average=0;
         }
-
-        return view($this->frontendPagePath . 'product-single', compact('product', 'related_products', 'count', 'fivestar', 'fourstar', 'threestar', 'twostar', 'onestar', 'average'));
+        return view($this->frontendPagePath . 'product-single', compact('product', 'related_products', 'count', 'fivestar', 'fourstar', 'threestar', 'twostar', 'onestar', 'average', 'allreviews'));
     }
 
     public function product_stock(){
@@ -105,5 +108,34 @@ class ProductController extends FrontController
         $products = $query->get();
 
         return view($this->frontendPagePath. 'search-list', compact('products', 'key'));
+    }
+
+    public function quotation_submit(Request $request){
+        $validator = Validator::make($request->all(), [
+            "full_name"=>"required",
+            "email"=>"required|email",
+            "message"=>"required",
+            "country"=>"required"
+        ]);
+
+        if($validator->fails()){
+            return response()->json([
+                'errors' => $validator->errors()->all()
+            ]);
+        }
+
+        $email = Configuration::where('configuration_key', 'email')->pluck('configuration_value')->first();
+        // ToDo: Send email
+
+        // Add quotation to database
+        $data["full_name"] = $request->full_name;
+        $data["email"] = $request->email;
+        $data["message"] = $request->message;
+        $data["country"] = $request->country;
+        $data["phone"] = $request->phone;
+
+        $quotation = Quotation::create($data);
+
+        return response()->json(["success"=>"Quotation Successfully sent"]);
     }
 }

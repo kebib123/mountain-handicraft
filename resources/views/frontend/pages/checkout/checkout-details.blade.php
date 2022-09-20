@@ -298,7 +298,7 @@
                                     </div>
                                 </div>
                                 <div class="f-18">
-                                    {{$data->price * $data->qty}}
+                                    ${{$data->price * $data->qty}}
                                 </div>
                             </li>
                             @endforeach
@@ -308,7 +308,7 @@
                                     Subtotal
                                 </div>
                                 <div class="f-18">
-                                 {{$final}}
+                                 ${{$final}}
                                 </div>
                             </li>
                             <li class="uk-flex uk-flex-between">
@@ -324,7 +324,7 @@
                                     Total
                                 </div>
                                 <div class="uk-h4 uk-margin-remove" id="total" data-sub-total={{$final}}>
-                                {{$final}}
+                                ${{$final}}
                                 </div>
                             </li>
                         </ul>
@@ -389,11 +389,11 @@
                 type: 'GET',
                 url: '/getshippingprice/'+city,
                 success: function (response) {
-                  $("#shipping-cost").html(response.shipping_price);
+                  $("#shipping-cost").html("$"+response.shipping_price);
                   $("#shipping").val(response.shipping_price);
                   $("#shipping_id").val(response.id);
                   let total = parseFloat($("#total").attr("data-sub-total"))+parseFloat(response.shipping_price);
-                  $("#total").html(total);
+                  $("#total").html("$"+total);
                 },
                 error: function (data) {//if an error occurs
                     toastr.error("There is something wrong");

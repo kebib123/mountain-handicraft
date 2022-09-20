@@ -257,12 +257,7 @@ class ProductController extends BackendController
                     }
                 }
 //            seos//
-               if(($request->seo_keyword) && ( $request->seo_description)) {
-                   $product->seo()->update([
-                       'seo_keyword' => $request->seo_keyword,
-                       'seo_description' => $request->seo_description,
-                   ]);
-               }
+               
 
                 //specifications table ma gayo from product controller
                 if (isset($request->title)) {
@@ -299,6 +294,20 @@ class ProductController extends BackendController
                         $counter = $counter + 1;
 
                         $picture->save();
+                    }
+                }
+
+                if(($request->seo_keyword) || ( $request->seo_description)) {
+                    if($product->seo==null){
+                        $product->seo()->create([
+                            'seo_keyword' => $request->seo_keyword,
+                            'seo_description' => $request->seo_description,
+                        ]);
+                    }else{
+                        $product->seo()->update([
+                            'seo_keyword' => $request->seo_keyword,
+                            'seo_description' => $request->seo_description,
+                        ]);
                     }
                 }
 

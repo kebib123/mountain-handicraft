@@ -148,11 +148,11 @@
                         <span uk-icon="icon:cart;"></span> Add to Cart
                         </a>
                      </div>
-                     <div>
+                     <!-- <div>
                         <a class="uk-content uk-button uk-btn-black uk-width-1-1" href="checkout.php">
                         Order Now
                         </a>
-                     </div>
+                     </div> -->
                      <div>
                         <a class="uk-content uk-button uk-btn-secondary uk-width-1-1" href="#quotation" uk-toggle>
                         Get Quotation  
@@ -232,15 +232,16 @@
                            <div class="uk-flex uk-flex-middle uk-grid" uk-grid>
                               <!--  -->
                               <div class="uk-width-auto@m uk-text-center">
-                                 <h1 class="uk-margin-remove f-w-600">4.2</h1>
+                                 <h1 class="uk-margin-remove f-w-600">{{$average}}</h1>
                                  <div class="uk-star">
+                                    @for($i=0; $i<(int)$average; $i++)
                                     <span class="material-icons-outlined uk-active">star</span>
-                                    <span class="material-icons-outlined uk-active">star</span>
-                                    <span class="material-icons-outlined uk-active">star</span>
-                                    <span class="material-icons-outlined uk-active">star</span>
+                                    @endfor
+                                    @for($i=(int)$average; $i<5; $i++)
                                     <span class="material-icons-outlined">star</span>
+                                    @endfor
                                  </div>
-                                 <div class="f-12">168M reviews</div>
+                                 <div class="f-12">{{$allreviews->count()}} reviews</div>
                               </div>
                               <!--  -->
                               <!--  -->
@@ -249,7 +250,7 @@
                                  <div class="uk-flex uk-flex-middle uk-grid-collapse" uk-grid>
                                     <div class="uk-margin-small-right uk-width-auto">5</div>
                                     <div class="uk-width-expand">
-                                       <progress value="90" max="100" class="bg-primary"></progress>
+                                       <progress value="{{$fivestar->count()}}" max="{{$allreviews->count()}}" class="bg-primary"></progress>
                                     </div>
                                  </div>
                                  <!-- progress -->
@@ -257,7 +258,7 @@
                                  <div class="uk-flex uk-flex-middle uk-grid-collapse" uk-grid>
                                     <div class="uk-margin-small-right uk-width-auto">4</div>
                                     <div class="uk-width-expand">
-                                       <progress value="80" max="100" class="bg-primary"></progress>
+                                       <progress value="{{$fourstar->count()}}" max="{{$allreviews->count()}}" class="bg-primary"></progress>
                                     </div>
                                  </div>
                                  <!-- progress -->
@@ -265,7 +266,7 @@
                                  <div class="uk-flex uk-flex-middle uk-grid-collapse" uk-grid>
                                     <div class="uk-margin-small-right uk-width-auto">3</div>
                                     <div class="uk-width-expand">
-                                       <progress value="60" max="100" class="bg-primary"></progress>
+                                       <progress value="{{$threestar->count()}}" max="{{$allreviews->count()}}" class="bg-primary"></progress>
                                     </div>
                                  </div>
                                  <!-- progress -->
@@ -273,7 +274,7 @@
                                  <div class="uk-flex uk-flex-middle uk-grid-collapse" uk-grid>
                                     <div class="uk-margin-small-right uk-width-auto">2</div>
                                     <div class="uk-width-expand">
-                                       <progress value="40" max="100" class="bg-primary"></progress>
+                                       <progress value="{{$twostar->count()}}" max="{{$allreviews->count()}}" class="bg-primary"></progress>
                                     </div>
                                  </div>
                                  <!-- progress -->
@@ -281,7 +282,7 @@
                                  <div class="uk-flex uk-flex-middle uk-grid-collapse" uk-grid>
                                     <div class="uk-margin-small-right uk-width-auto">1</div>
                                     <div class="uk-width-expand">
-                                       <progress value="20" max="100" class="bg-primary"></progress>
+                                       <progress value="{{$onestar->count()}}" max="{{$allreviews->count()}}" class="bg-primary"></progress>
                                     </div>
                                  </div>
                                  <!-- progress -->
@@ -289,89 +290,33 @@
                               <!--  -->
                            </div>
                            <ul class="uk-list uk-review-list uk-margin-medium-top">
+                              @foreach($allreviews as $data)
                               <li>
                                  <div class="uk-flex uk-flex-middle">
-                                    <div class="uk-review-img uk-margin-small-right"> 
-                                       <img src="assets/images/avater/1.png" alt="">
-                                    </div>
                                     <div>
-                                       <p class="f-w-600 uk-margin-remove">Argelie Ann Mabansag</p>
+                                       <p class="f-w-600 uk-margin-remove">{{$data->name}}</p>
                                     </div>
                                  </div>
                                  <div class="uk-margin-top">
                                     <div class="uk-flex">
                                        <div>
                                           <div class="uk-star uk-margin-small-right">
+                                             @for($i=0; $i<(int)$data->rating; $i++)
                                              <span class="material-icons-outlined uk-active">star</span>
-                                             <span class="material-icons-outlined uk-active">star</span>
-                                             <span class="material-icons-outlined uk-active">star</span>
-                                             <span class="material-icons-outlined uk-active">star</span>
-                                             <span class="material-icons-outlined uk-active">star</span>
+                                             @endfor
+                                             @for($i=(int)$data->rating; $i<5; $i++)
+                                             <span class="material-icons-outlined">star</span>
+                                             @endfor
                                           </div>
                                        </div>
                                        <div>
-                                          <span>July 17, 2022</span>
+                                          <span>{{$data->created_at->format('M d Y')}}</span>
                                        </div>
                                     </div>
-                                    <p>This dress made me feel like a million bucks! It’s a tighter fit, but it made my confidence go up. And when you need to lose some lbs., it’s not easy trying on something that hugs your curves. My teenage daughter even loved how it looked, and we all know teenagers can be brutal!
-                                       But keep in mind: The dress is shorter, and the slit in the front could open too far if you aren’t careful.
-                                    </p>
+                                    <p>{{$data->review}}</p>
                                  </div>
                               </li>
-                              <li>
-                                 <div class="uk-flex uk-flex-middle">
-                                    <div class="uk-review-img uk-margin-small-right"> 
-                                       <img src="assets/images/avater/2.png" alt="">
-                                    </div>
-                                    <div>
-                                       <p class="f-w-600 uk-margin-remove">Maia</p>
-                                    </div>
-                                 </div>
-                                 <div class="uk-margin-top">
-                                    <div class="uk-flex">
-                                       <div>
-                                          <div class="uk-star uk-margin-small-right">
-                                             <span class="material-icons-outlined uk-active">star</span>
-                                             <span class="material-icons-outlined uk-active">star</span>
-                                             <span class="material-icons-outlined">star</span>
-                                             <span class="material-icons-outlined">star</span>
-                                             <span class="material-icons-outlined">star</span>
-                                          </div>
-                                       </div>
-                                       <div>
-                                          <span>Jan 08, 2022</span>
-                                       </div>
-                                    </div>
-                                    <p>I love this dress! I wore it to a wedding and received so many compliments! It’s comfortable and wasn’t too snug in me. I felt like it was very flattering for my body type. I will say with a small chest I didn’t fill out the top the best so I had fabric gaping especially when I sat down and was relaxed. Other than that amazing dress! I love it and can’t wait to wear it again!</p>
-                                 </div>
-                              </li>
-                              <li>
-                                 <div class="uk-flex uk-flex-middle">
-                                    <div class="uk-review-img uk-margin-small-right"> 
-                                       <img src="assets/images/avater/default.png" alt="">
-                                    </div>
-                                    <div>
-                                       <p class="f-w-600 uk-margin-remove">Danielle Parsons</p>
-                                    </div>
-                                 </div>
-                                 <div class="uk-margin-top">
-                                    <div class="uk-flex">
-                                       <div>
-                                          <div class="uk-star uk-margin-small-right">
-                                             <span class="material-icons-outlined uk-active">star</span>
-                                             <span class="material-icons-outlined uk-active">star</span>
-                                             <span class="material-icons-outlined uk-active">star</span>
-                                             <span class="material-icons-outlined">star</span>
-                                             <span class="material-icons-outlined">star</span>
-                                          </div>
-                                       </div>
-                                       <div>
-                                          <span>June 3, 2022</span>
-                                       </div>
-                                    </div>
-                                    <p>Perfect for a night out/date night. I’m 5’5” 135 pounds and bought a small (in blue and red). You’ll definitely need to be cautious of the slit in the front. In the pictures I have spandex on underneath, but you can see how high up the slit goes. I’ll also be wearing some when out since you can very quickly have a wardrobe malfunction in this. Overall it does a great job of hiding imperfections, specifically bra fat because of where the straps fall and extra tummy fat since it has the draping across the stomach. Highly recommend!</p>
-                                 </div>
-                              </li>
+                              @endforeach
                            </ul>
                            <div class="uk-flex uk-flex-middle uk-flex-between" uk-grid>
                               <div>
@@ -384,42 +329,38 @@
                            </div>
 
                            <div class="togglecontent uk-margin-medium-top" id="togglecontent" hidden>
-                        <form class="uk-grid-small uk-grid" uk-grid="">
+                        <form id="review-form" class="uk-grid-small uk-grid" uk-grid="">
+                           <input type="hidden" value="{{$product->id}}" name="product_id">
                            <div class="uk-width-1-2@s">
                               <label>Full Name</label>
-                              <input class="uk-input" type="text" placeholder=" " spellcheck="false" data-ms-editor="true"> 
+                              <input class="uk-input" type="text" name="name" value="@if(Auth::user()){{Auth::user()->first_name}} {{Auth::user()->last_name}}@endif" placeholder=" " spellcheck="false" data-ms-editor="true"> 
                            </div>
                            <div class="uk-width-1-2@s  ">
                               <label>Email Address</label>
-                              <input class="uk-input" type="email" placeholder=" "> 
-                           </div>
-                            
-                           <div class="uk-width-1-1@s uk-margin-small uk-grid-margin">
-                              <label>Your Photo</label>
-                              <input type="file"class="uk-input">  
+                              <input class="uk-input" type="email" name="email" value="@if(Auth::user()){{Auth::user()->email}}@endif"  placeholder=" "> 
                            </div>
                            
                            <div class="uk-width-1-1@s uk-margin-small uk-grid-margin">
                               <label>Rating</label>
                               <div class="uk-rating">
-                                 <input id="radio1" type="radio" name="star" value="5" class="uk-star">
+                                 <input id="radio1" type="radio" name="rating" value="5" class="uk-star">
                                  <label for="radio1">★</label>
-                                 <input id="radio2" type="radio" name="star" value="4" class="uk-star">
+                                 <input id="radio2" type="radio" name="rating" value="4" class="uk-star">
                                  <label for="radio2">★</label>
-                                 <input id="radio3" type="radio" name="star" value="3" class="uk-star">
+                                 <input id="radio3" type="radio" name="rating" value="3" class="uk-star">
                                  <label for="radio3">★</label>
-                                 <input id="radio4" type="radio" name="star" value="2" class="uk-star">
+                                 <input id="radio4" type="radio" name="rating" value="2" class="uk-star">
                                  <label for="radio4">★</label>
-                                 <input id="radio5" type="radio" name="star" value="1" class="uk-star">
+                                 <input id="radio5" type="radio" name="rating" value="1" class="uk-star">
                                  <label for="radio5">★</label>
                               </div>
                            </div>
                            <div class="uk-width-1-1@s uk-margin-small uk-grid-margin">
                               <label>Review </label>
-                              <textarea name="" class="uk-textarea" rows="5" placeholder="Write Review" spellcheck="false" data-ms-editor="true"> </textarea>
+                              <textarea name="review" class="uk-textarea" rows="5" placeholder="Write Review" spellcheck="false" data-ms-editor="true"> </textarea>
                            </div>
                            <div class="uk-width-1-1@s uk-margin-top uk-grid-margin">
-                              <button class="uk-button uk-btn-black" type="button">Submit Review </button>
+                              <button class="uk-button uk-btn-black">Submit Review </button>
                            </div>
                         </form>
                        </div>
@@ -609,11 +550,11 @@
          <div class="uk-flex uk-grid-small" uk-grid>
             <div class="uk-width-auto">
                <div class="uk-product-img-review">
-                  <img src="assets/images/products/p1.jpg" alt="">
+                  <img src="{{asset('images/products/'.$product->images->where('is_main','=',1)->first()->image )}}" alt="">
                </div>
             </div>
             <div class="uk-width-expand">
-               <h4 class="uk-margin-remove">Ocean Blue Cashmere Color shawl (MHCS10)</h4>
+               <h4 class="uk-margin-remove">{{$product->product_name}}</h4>
                <span class="text-secondary">Ratings and reviews</span>
             </div>
             <div class="uk-width-auto">
@@ -623,172 +564,33 @@
       </div>
       <div class="uk-modal-body" uk-overflow-auto>
          <ul class="uk-list uk-review-list">
+            @foreach($allreviews as $data)
             <li>
                <div class="uk-flex uk-flex-middle">
-                  <div class="uk-review-img uk-margin-small-right"> 
-                     <img src="assets/images/avater/1.png" alt="">
-                  </div>
                   <div>
-                     <p class="f-w-600 uk-margin-remove">Argelie Ann Mabansag</p>
+                     <p class="f-w-600 uk-margin-remove">{{$data->name}}</p>
                   </div>
                </div>
                <div class="uk-margin-top">
                   <div class="uk-flex">
                      <div>
                         <div class="uk-star uk-margin-small-right">
+                           @for($i=0; $i<(int)$data->rating; $i++)
                            <span class="material-icons-outlined uk-active">star</span>
-                           <span class="material-icons-outlined uk-active">star</span>
-                           <span class="material-icons-outlined uk-active">star</span>
-                           <span class="material-icons-outlined uk-active">star</span>
-                           <span class="material-icons-outlined uk-active">star</span>
+                           @endfor
+                           @for($i=(int)$data->rating; $i<5; $i++)
+                           <span class="material-icons-outlined">star</span>
+                           @endfor
                         </div>
                      </div>
                      <div>
-                        <span>July 17, 2022</span>
+                        <span>{{$data->created_at->format('M d Y')}}</span>
                      </div>
                   </div>
-                  <p>This dress made me feel like a million bucks! It’s a tighter fit, but it made my confidence go up. And when you need to lose some lbs., it’s not easy trying on something that hugs your curves. My teenage daughter even loved how it looked, and we all know teenagers can be brutal!
-                     But keep in mind: The dress is shorter, and the slit in the front could open too far if you aren’t careful.
-                  </p>
+                  <p>{{$data->review}}</p>
                </div>
             </li>
-            <li>
-               <div class="uk-flex uk-flex-middle">
-                  <div class="uk-review-img uk-margin-small-right"> 
-                     <img src="assets/images/avater/2.png" alt="">
-                  </div>
-                  <div>
-                     <p class="f-w-600 uk-margin-remove">Maia</p>
-                  </div>
-               </div>
-               <div class="uk-margin-top">
-                  <div class="uk-flex">
-                     <div>
-                        <div class="uk-star uk-margin-small-right">
-                           <span class="material-icons-outlined uk-active">star</span>
-                           <span class="material-icons-outlined uk-active">star</span>
-                           <span class="material-icons-outlined">star</span>
-                           <span class="material-icons-outlined">star</span>
-                           <span class="material-icons-outlined">star</span>
-                        </div>
-                     </div>
-                     <div>
-                        <span>Jan 08, 2022</span>
-                     </div>
-                  </div>
-                  <p>I love this dress! I wore it to a wedding and received so many compliments! It’s comfortable and wasn’t too snug in me. I felt like it was very flattering for my body type. I will say with a small chest I didn’t fill out the top the best so I had fabric gaping especially when I sat down and was relaxed. Other than that amazing dress! I love it and can’t wait to wear it again!</p>
-               </div>
-            </li>
-            <li>
-               <div class="uk-flex uk-flex-middle">
-                  <div class="uk-review-img uk-margin-small-right"> 
-                     <img src="assets/images/avater/default.png" alt="">
-                  </div>
-                  <div>
-                     <p class="f-w-600 uk-margin-remove">Danielle Parsons</p>
-                  </div>
-               </div>
-               <div class="uk-margin-top">
-                  <div class="uk-flex">
-                     <div>
-                        <div class="uk-star uk-margin-small-right">
-                           <span class="material-icons-outlined uk-active">star</span>
-                           <span class="material-icons-outlined uk-active">star</span>
-                           <span class="material-icons-outlined uk-active">star</span>
-                           <span class="material-icons-outlined">star</span>
-                           <span class="material-icons-outlined">star</span>
-                        </div>
-                     </div>
-                     <div>
-                        <span>June 3, 2022</span>
-                     </div>
-                  </div>
-                  <p>Perfect for a night out/date night. I’m 5’5” 135 pounds and bought a small (in blue and red). You’ll definitely need to be cautious of the slit in the front. In the pictures I have spandex on underneath, but you can see how high up the slit goes. I’ll also be wearing some when out since you can very quickly have a wardrobe malfunction in this. Overall it does a great job of hiding imperfections, specifically bra fat because of where the straps fall and extra tummy fat since it has the draping across the stomach. Highly recommend!</p>
-               </div>
-            </li>
-            <li>
-               <div class="uk-flex uk-flex-middle">
-                  <div class="uk-review-img uk-margin-small-right"> 
-                     <img src="assets/images/avater/1.png" alt="">
-                  </div>
-                  <div>
-                     <p class="f-w-600 uk-margin-remove">Argelie Ann Mabansag</p>
-                  </div>
-               </div>
-               <div class="uk-margin-top">
-                  <div class="uk-flex">
-                     <div>
-                        <div class="uk-star uk-margin-small-right">
-                           <span class="material-icons-outlined uk-active">star</span>
-                           <span class="material-icons-outlined uk-active">star</span>
-                           <span class="material-icons-outlined uk-active">star</span>
-                           <span class="material-icons-outlined uk-active">star</span>
-                           <span class="material-icons-outlined uk-active">star</span>
-                        </div>
-                     </div>
-                     <div>
-                        <span>July 17, 2022</span>
-                     </div>
-                  </div>
-                  <p>This dress made me feel like a million bucks! It’s a tighter fit, but it made my confidence go up. And when you need to lose some lbs., it’s not easy trying on something that hugs your curves. My teenage daughter even loved how it looked, and we all know teenagers can be brutal!
-                     But keep in mind: The dress is shorter, and the slit in the front could open too far if you aren’t careful.
-                  </p>
-               </div>
-            </li>
-            <li>
-               <div class="uk-flex uk-flex-middle">
-                  <div class="uk-review-img uk-margin-small-right"> 
-                     <img src="assets/images/avater/2.png" alt="">
-                  </div>
-                  <div>
-                     <p class="f-w-600 uk-margin-remove">Maia</p>
-                  </div>
-               </div>
-               <div class="uk-margin-top">
-                  <div class="uk-flex">
-                     <div>
-                        <div class="uk-star uk-margin-small-right">
-                           <span class="material-icons-outlined uk-active">star</span>
-                           <span class="material-icons-outlined uk-active">star</span>
-                           <span class="material-icons-outlined">star</span>
-                           <span class="material-icons-outlined">star</span>
-                           <span class="material-icons-outlined">star</span>
-                        </div>
-                     </div>
-                     <div>
-                        <span>Jan 08, 2022</span>
-                     </div>
-                  </div>
-                  <p>I love this dress! I wore it to a wedding and received so many compliments! It’s comfortable and wasn’t too snug in me. I felt like it was very flattering for my body type. I will say with a small chest I didn’t fill out the top the best so I had fabric gaping especially when I sat down and was relaxed. Other than that amazing dress! I love it and can’t wait to wear it again!</p>
-               </div>
-            </li>
-            <li>
-               <div class="uk-flex uk-flex-middle">
-                  <div class="uk-review-img uk-margin-small-right"> 
-                     <img src="assets/images/avater/default.png" alt="">
-                  </div>
-                  <div>
-                     <p class="f-w-600 uk-margin-remove">Danielle Parsons</p>
-                  </div>
-               </div>
-               <div class="uk-margin-top">
-                  <div class="uk-flex">
-                     <div>
-                        <div class="uk-star uk-margin-small-right">
-                           <span class="material-icons-outlined uk-active">star</span>
-                           <span class="material-icons-outlined uk-active">star</span>
-                           <span class="material-icons-outlined uk-active">star</span>
-                           <span class="material-icons-outlined">star</span>
-                           <span class="material-icons-outlined">star</span>
-                        </div>
-                     </div>
-                     <div>
-                        <span>June 3, 2022</span>
-                     </div>
-                  </div>
-                  <p>Perfect for a night out/date night. I’m 5’5” 135 pounds and bought a small (in blue and red). You’ll definitely need to be cautious of the slit in the front. In the pictures I have spandex on underneath, but you can see how high up the slit goes. I’ll also be wearing some when out since you can very quickly have a wardrobe malfunction in this. Overall it does a great job of hiding imperfections, specifically bra fat because of where the straps fall and extra tummy fat since it has the draping across the stomach. Highly recommend!</p>
-               </div>
-            </li>
+            @endforeach
          </ul>
       </div>
       <div class="uk-padding">
@@ -803,33 +605,34 @@
       <button class="uk-modal-close-default" type="button" uk-close></button>
       <div class="uk-modal-header uk-background-muted uk-text-center uk-padding">
          <h3 class="uk-margin-remove">Get Quotation</h3>
-         <h5 class="uk-margin-remove text-primary">Ocean Blue Cashmere Color shawl (MHCS10)</h5>
+         <h5 class="uk-margin-remove text-primary">{{$product->product_name}}</h5>
       </div>
       <div class="uk-modal-body uk-padding">
-         <form class="" uk-grid>
+         <form id="quotation-form" action="POST" uk-grid>
+            <input type="hidden" name="id" value="{{$product->id}}">
              <div class="uk-width-1-2@s">
                <label>Full Name <span class="text-red">*</span></label>
-               <input class="uk-input" type="text" placeholder=" "> 
+               <input class="uk-input" type="text" name="full_name" placeholder="Full Name"> 
             </div>
             
             <div class="uk-width-1-2@s">
                <label>Email Address <span class="text-red">*</span></label>
-               <input class="uk-input" type="email" placeholder=" "> 
+               <input class="uk-input" type="email" placeholder="E-mail" name="email"> 
             </div>
             <div class="uk-width-1-2@s">
-               <label>Country</label>
-               <input class="uk-input" type="text" placeholder=" "> 
+               <label>Country <span class="text-red">*</span></label>
+               <input class="uk-input" name="country" type="text" placeholder="Country"> 
             </div>
             <div class="uk-width-1-2@s">
                <label>Contact Number</label>
-               <input class="uk-input" type="text" placeholder=""> 
+               <input class="uk-input" type="text" name="phone" placeholder="Contact Number"> 
             </div>
             <div class="uk-width-1-1@s">
-               <label>Your Message/Questions </label>
-               <textarea name="" class="uk-textarea" rows="5" placeholder="Let us know all your enquiries and we will get back to you shortly.."> </textarea>
+               <label>Your Message/Questions <span class="text-red">*</span></label>
+               <textarea name="message" class="uk-textarea" rows="5" placeholder="Let us know all your enquiries and we will get back to you shortly.."> </textarea>
             </div>
             <div class="uk-width-1-1@s uk-text-center">
-               <button class="uk-button uk-btn-primary" type="button">Submit </button>
+               <button class="uk-button uk-btn-primary">Submit </button>
             </div>
          </form>
       </div>
@@ -845,19 +648,87 @@
         let selectedColor = 0;
         let selectedSize = 0;
 
-        
+        // Quotation Form
+        $("#quotation-form").submit(function( event ) {
+            event.preventDefault();
+            let myform = document.getElementById('quotation-form');
+            let formData = new FormData(myform);
+
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+
+            $.ajax({
+                type: 'POST',
+                url: '{{route('quotation-submit')}}',
+                data: formData,
+                contentType: false,
+                cache: false,
+                processData: false,
+
+                success: function (data) {
+                    // console.log(data);
+                    if (!data.errors) {
+                        toastr.success(data.success);
+                        $('#quotation-form').trigger("reset");
+                    }
+                    jQuery.each(data.errors, function (key, value) {
+
+                        toastr.error(value);
+                        // hideLoading();
+                    })
+                },
+                error: function (a) {//if an error occurs
+                    // hideLoading();
+                    alert("An error occured while uploading data.\n error code : " + a.statusText);
+                }
+            });
+
+         });
+
+         // Review Form
+         $("#review-form").submit(function( event ) {
+            event.preventDefault();
+            let myform = document.getElementById('review-form');
+            let formData = new FormData(myform);
+
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+
+            $.ajax({
+                type: 'POST',
+                url: '{{route('add-review')}}',
+                data: formData,
+                contentType: false,
+                cache: false,
+                processData: false,
+
+                success: function (data) {
+                    // console.log(data);
+                    if (!data.errors) {
+                        toastr.success(data.message);
+                        $('#review-form').trigger("reset");
+                    }
+                    jQuery.each(data.errors, function (key, value) {
+
+                        toastr.error(value);
+                        // hideLoading();
+                    })
+                },
+                error: function (a) {//if an error occurs
+                    // hideLoading();
+                    alert("An error occured while uploading data.\n error code : " + a.statusText);
+                }
+            });
+
+         });
 
         $("#size").change(function() {
-            /*let stockSize = $(this).children(":selected").attr("data-size-stock");
-            alert(stockSize);
-
-            $("#quantity").attr("max",stockSize);
-            selectedSize = $(this).children(":selected").attr("data-size-id");
-
-            stockSize = "{{$product->totalStock("+selectedColor+")}}";
-            alert(stockSize);
-
-            adjustVal(stockSize);*/
 
             selectedSize = $(this).children(":selected").attr("data-size-id");
             ajaxCall();
@@ -866,15 +737,6 @@
 
          $(".color-item-variation a").click(function(event){
             
-            /*event.preventDefault();
-            $(this).addClass("uk-active");
-            let selectedColor = $(this).attr("uk-tooltip");
-            $("#hidden-color").val(selectedColor);
-            let maxStock = $(this).attr("data-color-stock");
-            selectedColor = $(this).attr("data-color-id");
-            alert(maxStock);
-            $("#quantity").attr("max",maxStock);
-            adjustVal(maxStock);*/
             event.preventDefault()
             $(this).addClass("uk-active");
             let colorName = $(this).attr("uk-tooltip");
@@ -899,6 +761,8 @@
                      $("#quantity").attr("max", data);
                      adjustVal(data);
 
+
+
                     }
                     jQuery.each(data.errors, function (key, value) {
 
@@ -918,6 +782,9 @@
          function adjustVal(stockSize){
             if($("#quantity").val() > parseInt(stockSize)){
                $("#quantity").val(stockSize);
+            }
+            if(parseInt(stockSize)>0 && $("#quantity").val()==0){
+               $("#quantity").val(1);
             }
          }
 

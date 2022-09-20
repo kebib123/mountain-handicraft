@@ -26,7 +26,7 @@
                               </label>
                         </div>
                         <div class="uk-width-1-2@m f-12 uk-text-left uk-text-right@m">
-                          <a href="forgot-password.php"  class="text-secondary">Forgot password?</a>
+                          <a href="{{route('forgot-password')}}"  class="text-secondary">Forgot password?</a>
                         </div>
                         <div class="uk-width-1-1">
                           <button type="submit" class="uk-button uk-btn-primary  uk-width-1-1">Login</button>

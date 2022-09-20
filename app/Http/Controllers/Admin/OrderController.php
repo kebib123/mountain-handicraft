@@ -56,8 +56,9 @@ class OrderController extends BackendController
             $order = Order::where('id', $request->id)->first();
             $detail = OrderDetail::where('order_id', $request->id)->get();
             $pdf = Facade::loadView('backend.pages.order.invoice', array('detail' => $detail, 'order' => $order));
-            $pdf->save(storage_path() . '_invoice.pdf');
-            return $pdf->download('invoice.pdf');
+            $pdf->stream();
+            // $pdf->save(storage_path() . '_invoice.pdf');
+            // return $pdf->download('invoice.pdf');
 
         }
 

@@ -26,8 +26,10 @@ class ReviewController extends Controller
             if (Auth::check()) {
                 $old_review = Review::where('product_id', $request->product_id)->where('user_id', Auth::user()->id)->first();
                 if ($old_review != null) {
-                    return response()->json(['status' => 'error', 'message' => 'You have already reviewed this product']);
-
+                    return response()->json([
+                        'status' => 'error',
+                        'errors' => ["You have already reviewed this product"]
+                    ]);
                 }
                 if ($request->ajax()) {
 
@@ -36,14 +38,15 @@ class ReviewController extends Controller
                     $review->email = Auth::user()->email;
                     $review->rating = $request->rating;
                     $review->review = $request->review;
-                    $review->pros = $request->pros;
-                    $review->cons = $request->cons;
                     $review->product_id = $request->product_id;
                     $review->user_id = Auth::user()->id;
                     $review->save();
                 }
             } else {
-                return response()->json(['status' => 'error', 'message' => 'Please login first']);
+                return response()->json([
+                    'status' => 'error',
+                    'errors' => ["Please Login First"]
+                ]);
             }
             return response()->json(['status' => 'success', 'message' => 'Review added successfully']);
         }

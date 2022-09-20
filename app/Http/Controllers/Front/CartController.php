@@ -21,7 +21,7 @@ class CartController extends FrontController
     {
         $validator = Validator::make($request->all(), [
             'color' => 'required',
-            'quantity' => 'required'
+            'quantity' => 'required|numeric|min:1'
         ]);
         if ($validator->fails()) {
             return response()->json([
@@ -60,11 +60,12 @@ class CartController extends FrontController
                 }
             }
             // If quantity is 0, avoid invalid data entry in cart
-            if($quantity==0){
-                return response()->json([
-                    'errors' => ["Stock not available"]
-                ]);
-            }
+        }
+
+        if($quantity==0){
+            return response()->json([
+                'errors' => ["Stock not available"]
+            ]);
         }
 
         $cartItem = Cart::add([
