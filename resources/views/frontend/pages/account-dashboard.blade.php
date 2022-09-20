@@ -43,9 +43,8 @@
                </p>
                <p class="mb-4">
                   From your account dashboard you can view your 
-                  <a href="orders.php" class="text-primary">recent orders</a>,
-                  <a href="profile.php" class="text-primary">profile</a>, 
-                  <a href="addresses.php" class="text-primary">addresses</a>,
+                  <a href="{{ route('user-orders') }}" class="text-primary">recent orders</a>,
+                  <a href="{{ route('user-profile') }}" class="text-primary">profile</a>, 
                   and edit your password and account details.
                </p>
             </div>
